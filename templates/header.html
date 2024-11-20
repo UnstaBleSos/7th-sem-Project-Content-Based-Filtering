@@ -1,0 +1,42 @@
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4//css/all.min.css">
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom:30px;">
+  <a class="navbar-brand" href="{{ url_for('index') }}">Hamro Pasal</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <!-- Left-aligned Home Button -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home</a>
+      </li>
+    </ul>
+    <!-- Search Bar -->
+    <form class="form-inline my-2 my-lg-0 mr-auto" action="/search" method="GET">
+      <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    <ul class="navbar-nav">
+      {% if session.get('logged_in') %}
+          <li class="nav-item">
+             <a class="nav-link btn btn-outline-danger" href="/logout">Logout</a>
+          </li>
+      {% else %}
+          <li class="nav-item">
+              <a class="nav-link btn btn-outline-primary mr-2" href="#" data-toggle="modal" data-target="#signupModal">Sign Up</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link btn btn-primary" href="#" data-toggle="modal" data-target="#signinModal">Sign In</a>
+          </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,0 +1,117 @@
+class DisplayProduct(db.Model):
+    __tablename__ = 'displayproduct'  # Table name is 'displayproduct'
+    pid = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Assuming 'pid' is the primary key
+    pname = db.Column(db.String(255), nullable=False)
+    reviewcount = db.Column(db.Float, nullable=False)
+    brand = db.Column(db.String(255), nullable=False)
+    imageurl = db.Column(db.Text, nullable=False)
+    rating = db.Column(db.Float, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+
+    def __init__(self, pname, reviewcount, brand, imageurl, rating, price):
+        self.pname = pname
+        self.reviewcount = reviewcount
+        self.brand = brand
+        self.imageurl = imageurl
+        self.rating = rating
+        self.price = price
+
+# Function to insert data from CSV into the 'displayproduct' table
+def insert_data_from_csv():
+    with open('models/trending_products.csv', newline='', encoding='utf-8') as csvfile:
+        reader = pd.read_csv(csvfile)
+
+        for index, row in reader.iterrows():
+            pname = row['Name']
+            reviewcount = float(row['ReviewCount']) if row['ReviewCount'] else 0
+            brand = row['Brand']
+            imageurl = row['ImageURL']
+            rating = float(row['Rating']) if row['Rating'] else 0
+            price = float(row['Price']) if row['Price'] else 0
+
+            # Create DisplayProduct object and add to session
+            product = DisplayProduct(pname=pname, reviewcount=reviewcount, brand=brand,
+                                     imageurl=imageurl, rating=rating, price=price)
+            db.session.add(product)
+
+        db.session.commit()
+
+# Route to insert data into the 'displayproduct' table
+@app.route("/insert_data")
+def insert_data():
+    insert_data_from_csv()
+    return "Data inserted into displayproduct table successfully!"
+
+
+// trending products
+
+<!--<div class="container mt-5">-->
+<!--  <h2 class="text-center mb-4">Trending Products</h2>-->
+<!--  <div class="row mt-4">-->
+<!--    {% for index, product in trending_products.iterrows() %}-->
+<!--    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">-->
+<!--      <div class="card">-->
+<!--         <img src="{{ product['ImageURL'].split('|')[0].strip() }}"-->
+<!--               class="card-img-top"-->
+<!--               alt="{{ product['Name'] }}"-->
+<!--               style="height: 200px;"-->
+<!--               onerror="this.src='{{ product['ImageURL'].split('|')[1].strip() if '|' in product['ImageURL'] else product['Name'] }}'">-->
+<!--        <div class="card-body">-->
+<!--          <h5 class="card-title">{{ truncate(product['Name'],12) }}</h5>-->
+<!--          <p class="card-text">Brand: {{ product['Brand'] }}</p>-->
+<!--          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModal{{ index }}">Buy Now</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash; Modal &ndash;&gt;-->
+<!--    <div class="modal fade" id="productModal{{ index }}" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">-->
+<!--      <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--          <div class="modal-header">-->
+<!--            <h5 class="modal-title" id="productModalLabel">{{ product['Name'] }}</h5>-->
+<!--            <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--              <span aria-hidden="true">&times;</span>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--          <div class="modal-body">-->
+<!--            <div class="row">-->
+<!--              <div class="col-md-4">-->
+<!--                  <img src="{{ random_product_image_urls[index] }}" class="img-fluid" alt="{{ product['Name'] }}" style="height: 200px;">-->
+<!--              </div>-->
+<!--              <div class="col-md-8">-->
+<!--&lt;!&ndash;                  <p><strong>Product Id:</strong> {{ product['ID'] }}</p>&ndash;&gt;-->
+<!--                <p><strong>Brand:</strong> {{ product['Brand'] }}</p>-->
+<!--                &lt;!&ndash; Add other product details here &ndash;&gt;-->
+<!--                &lt;!&ndash; Example: &ndash;&gt;-->
+<!--                <p><strong>Review Count:</strong> {{ product['ReviewCount'] }}</p>-->
+<!--                <p><strong>Rating:</strong> {{ product['Rating'] }}</p>-->
+<!--                <p><strong>Price:</strong> {{ product['Price'] }}</p>-->
+
+<!--                &lt;!&ndash; Add more details as needed &ndash;&gt;-->
+
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="modal-footer">-->
+<!--            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--            <button type="button" class="btn btn-primary">Add to Cart</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    {% endfor %}-->
+<!--  </div>-->
+<!--</div>-->
+
+
+ if result :
+        pname = result[1]
+        recommendations1 = content_based_recommendations(train_data,pname, top_n=5)
+        print(recommendations1['ID'])
+        if pname not in train_data['Name'].values:
+            message = f"No recommendations available for the product '{pname}' as it is not found in the dataset."
+        return render_template('product_detail.html', product=result, recommendations1=recommendations1.to_dict(orient='records'))
+    else:
+        return "Product not found", 404
+
+

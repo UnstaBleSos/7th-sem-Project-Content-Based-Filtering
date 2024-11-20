@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+{%include 'header.html' %}
+    <div class="container">
+        <div class="row">
+            {% for product in results %}
+                <div class="product">
+                    <img src="{{ product['imageurl'].split('|')[0].strip() }}"
+                       class="img-fluid"
+                       alt="{{ product['Name'] }}"
+                       style="height: 200px;"
+                       onerror="this.src='{{ product['ImageURL'].split('|')[1].strip() if '|' in product['ImageURL'] else 'path_to_default_image.jpg' }}'">
+
+                    <div class="product-info">
+                        <h5>{{ product.pname }}</h5>
+                        <p>{{ product.brand }} </p>
+                        <p>{{ product.rating }} stars</p>
+                        <p>Price: Rs {{ product.price }}</p>
+                        <a href="{{ url_for('product_detail', pid=product.pid) }}">View Details</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+<h4>Recommended Products</h4>
+<div class="row recommended-products">
+    {% for rec in recommendations1 %}
+    <div class="col-md-3">
+        <div class="card">
+            <img src="{{ rec.ImageURL.split('|')[0].strip() }}"
+                 class="img-fluid"
+                 alt="{{ rec.Name }}"
+                 style="height: 200px;"
+                 onerror="this.src='{{ rec.ImageURL.split('|')[1].strip() if '|' in rec.ImageURL else 'path_to_default_image.jpg' }}'">
+
+            <div class="card-body">
+                <h5 class="card-title">{{ rec.Name }}</h5>
+                <p><strong>Brand:</strong> {{ rec.Brand }}</p>
+                <p><strong>Rating:</strong> {{ rec.Rating }}</p>
+                <p><strong>Price:</strong> Rs {{ rec.Price }}</p>
+                <a href="{{ url_for('product_detail', pid=rec.ID) }}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+
+{% include 'footer.html' %}
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</html>

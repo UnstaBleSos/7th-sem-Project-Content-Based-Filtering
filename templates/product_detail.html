@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.pname }} - Product Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .product-detail {
+            display: flex;
+            margin-top: 20px;
+        }
+        .product-detail img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .product-info {
+            margin-left: 20px;
+            max-width: 600px;
+        }
+        .product-info h3 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .product-info p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .back-btn:hover {
+            background-color: #FEFEFE;
+        }
+        .recommended-products{
+            margin-left:50px;
+        }
+        .container .row{
+            padding-left:20px;
+        }
+    </style>
+</head>
+<body>
+   {% include 'header.html' %}
+    <div class="container">
+        <div class="product-detail">
+            <div class="product-img">
+                <img src="{{product['ImageURL'].split('|')[0].strip()}}" alt="">
+            </div>
+            <div class="product-info">
+                <h3>{{ product['Name'] }}</h3>
+                <h5>{{product['ID'] }}</h5>
+                <p><strong>Brand:</strong> {{ product['Brand'] }}</p>
+                <p><strong>Rating:</strong> {{ product['Rating'] }}</p>
+                <p><strong>Review Count:</strong> {{ product['ReviewCount'] }}</p>
+                <p><strong>Price:</strong> Rs {{ product['Price'] }}</p>
+                <p><strong>Description:</strong> {{ product['Description'].split('.')[0].strip() }}</p>
+                <a href="{{ url_for('index') }}" class="back-btn">Back to Products</a>
+            </div>
+        </div>
+    </div>
+
+
+<h4>Recommended Products</h4>
+<div class="row recommended-products">
+    {% for rec in recommendations1 %}
+    <div class="col-md-3">
+        <div class="card">
+<!--            <img src="{{ rec.ImageURL }}" class="card-img-top" alt="{{ rec.Name }}">-->
+            <img src="{{ rec.ImageURL.split('|')[0].strip() }}"
+                       class="img-fluid"
+                       alt="{{ product['Name'] }}"
+                       style="height: 200px;"
+                       onerror="this.src='{{ product['ImageURL'].split('|')[1].strip() if '|' in product['ImageURL'] else 'path_to_default_image.jpg' }}'">
+
+            <div class="card-body">
+                <h5 class="card-title">{{ rec.Name }}</h5>
+                <p><strong>Brand:</strong> {{ rec.Brand }}</p>
+                <p><strong>Rating:</strong> {{ rec.Rating }}</p>
+                <p><strong>Price:</strong> {{ rec.Price }}</p>
+                <a href="{{ url_for('product_detail', pid=rec.ID) }}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+    {% include 'signup.html' %}
+{% include 'signin.html' %}
+{% include 'footer.html' %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

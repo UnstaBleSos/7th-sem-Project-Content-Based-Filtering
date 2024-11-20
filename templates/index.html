@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4//css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .nav-link:hover {
+            color: red !important;
+        }
+        .nav-link.btn {
+            border-radius: 5px;
+        }
+
+
+ </style>
+</head>
+
+<body>
+
+{% include 'header.html' %}
+
+<div class="text-center mt-5" style="margin-bottom:20px;">
+  <a  href="main" class="btn btn-primary btn-lg">Go To Main Page</a>
+</div>
+
+
+{% if signup_message %}
+<p>{{signup_message}}</p>
+{% endif%}
+
+
+{% include 'signup.html' %}
+
+{% include 'signin.html' %}
+
+{% include 'fetch.html' %}
+
+
+
+{% include 'footer.html' %}
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</html>
