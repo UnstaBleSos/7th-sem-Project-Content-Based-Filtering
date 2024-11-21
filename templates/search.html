@@ -3,25 +3,62 @@
 <head>
     <title>Search Results</title>
 </head>
+<style>
+    .product{
+        display:flex;
+    }
+    .product-info{
+        margin-left:20px;
+    }
+     .back-btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .back-btn:hover {
+            background-color: #FEFEFE;
+        }
+        .product-img{
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+</style>
 <body>
 {%include 'header.html' %}
     <div class="container">
         <div class="row">
             {% for product in results %}
                 <div class="product">
-                    <img src="{{ product['imageurl'].split('|')[0].strip() }}"
-                       class="img-fluid"
-                       alt="{{ product['Name'] }}"
-                       style="height: 200px;"
-                       onerror="this.src='{{ product['ImageURL'].split('|')[1].strip() if '|' in product['ImageURL'] else 'path_to_default_image.jpg' }}'">
+                    <div class="product-img">
+                        <img src="{{ product['imageurl'].split('|')[0].strip() }}"
+                           class="img-fluid"
+                           alt="{{ product['Name'] }}"
+                           style="height: 200px;"
+                           onerror="this.src='{{ product['ImageURL'].split('|')[1].strip() if '|' in product['ImageURL'] else 'path_to_default_image.jpg' }}'">
+                    </div>
 
                     <div class="product-info">
-                        <h5>{{ product.pname }}</h5>
-                        <p>{{ product.brand }} </p>
-                        <p>{{ product.rating }} stars</p>
-                        <p>Price: Rs {{ product.price }}</p>
-                        <a href="{{ url_for('product_detail', pid=product.pid) }}">View Details</a>
+                        <form action="/cart" method="post">
+                        <h5>{{ product.productname }}</h5>
+                        <p><strong>Brand</strong> {{ product.productbrand }} </p>
+                        <p> <strong>Rating: </strong> {{ product.rating }} stars</p>
+                        <p><strong>Description:</strong> {{product.description.split('.')[0].strip()}}</p>
+                        <p><strong>Price</strong>: Rs {{ product.price }}</p>
+                        <a href="{{ url_for('index', pid=product.pid) }} " class="back-btn">Back to Products</a>
+                            <input type="hidden" name="pid" value="{{product.productid}}">
+                            <input type="hidden" name="pname" value="{{product.productname}}">
+                            <input type="hidden" name="image" value="{{ product['imageurl'].split('|')[0].strip() }}">
+                            <input type="hidden" name="price" value="{{product.price}}">
+                        <button type="submit">Add to cart</button>
+                        </form>
+
                     </div>
+
                 </div>
             {% endfor %}
         </div>

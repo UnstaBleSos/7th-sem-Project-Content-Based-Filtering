@@ -1,3 +1,4 @@
+
 from os import truncate
 from xmlrpc.client import METHOD_NOT_FOUND
 
@@ -34,12 +35,29 @@ class DisplayProduct(db.Model):
     brand = db.Column(db.String(255), nullable=False)  # Brand name (varchar)
     imageurl = db.Column(db.Text, nullable=False)  # Image URL (text)
     rating = db.Column(db.Float, nullable=False)  # Rating (float)
+    description=db.Column(db.Text,nullable=False)
     price = db.Column(db.Integer, nullable=False)  # Price (integer)
 
     def __repr__(self):
         return f'<DisplayProduct {self.pname}>'
 
 
+
+class Products(db.Model):
+    __tablename__ = 'products'  # This should match the table name in your MySQL database
+    # Define the columns based on your schema
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Primary key with auto increment
+    productid = db.Column(db.String(255), nullable=False)  # Primary key with auto increment
+    productname = db.Column(db.String(255), nullable=False)  # Product name (varchar)
+    reviewcount = db.Column(db.Float, nullable=False)  # Review count (float)
+    productbrand = db.Column(db.String(255), nullable=False)  # Brand name (varchar)
+    imageurl = db.Column(db.Text, nullable=False)  # Image URL (text)
+    rating = db.Column(db.Float, nullable=False)  # Rating (float)
+    description = db.Column(db.Text, nullable=False)
+    price = db.Column(db.Integer, nullable=False)  # Price (integer)
+
+    def __repr__(self):
+        return f'<Products {self.pname}>'
 
 class Signup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -160,7 +178,7 @@ def indexredirect():
 def fetch():
     # Query all data from the displayproduct table
     products = DisplayProduct.query.all()
-
+    print(products)
     # Render the fetch.html template and pass the fetched data
     return render_template('fetch.html', data=products)
 
@@ -181,8 +199,8 @@ def product_detail(pid):
             'Brand': result[3],
             'ImageURL': result[4],
             'Rating': result[5],
-            'Price': result[6] if len(result) > 6 else None,  # Adjust if Price column exists
-            'Description': result[7] if len(result) > 7 else "No description available."
+            'Description': result[6] if len(result) > 7 else "No description available.",
+            'Price': result[7] if len(result) > 6 else None,  # Adjust if Price column exists
         }
         print(product_info['Description'])
     else:
@@ -198,8 +216,8 @@ def product_detail(pid):
                 'Brand': result['Brand'],
                 'ImageURL': result['ImageURL'],
                 'Rating': result['Rating'],
-                'Price': result['Price'] if 'Price' in result else None,
-                'Description': result['Description']  # Default description
+                'Description': result['Description'],  # Default description
+                'Price': result['Price'] if 'Price' in result else None
             }
             print(product_info['Description'])
         else:
@@ -246,16 +264,13 @@ def signup():
                                )
 
 
-@app.route("/signin", methods=['POST'])
+@app.route("/signin", methods=['GET','POST'])
 def signin():
     if request.method == 'POST':
         username = request.form['signinUsername']
         password = request.form['signinPassword']
 
         user = Signup.query.filter_by(username=username, password=password).first()
-        # new_signup = Signin(username=username, password=password)
-        # db.session.add(new_signup)
-        # db.session.commit()
         if user:
             session['logged_in']=True
             signin_message="user signed in successfully"
@@ -266,7 +281,7 @@ def signin():
         return render_template('index.html',
                                data=products,messages=signin_message
                                )
-
+    return render_template('index.html',message="Please log in")
 
 @app.route("/logout")
 def logout():
@@ -314,12 +329,26 @@ def search():
     query = request.args.get('query')  # Get the query from the search bar
     if query:
         # Query the database for products matching the search term
-        results = DisplayProduct.query.filter(DisplayProduct.pname.ilike(f"%{query}%")).all()
+        results = Products.query.filter(Products.productname.ilike(f"%{query}%")).all()
         recommendations1 = content_based_recommendations(train_data, query, top_n=5)
         # Render the search results page
         return render_template('search.html', results=results,  recommendations1=recommendations1.to_dict(orient='records'),)
     else:
         return "No search query provided.", 400
+
+
+@app.route("/cart",methods=['POST'])
+def cart():
+    pid = request.form.get("pid")
+    pname = request.form.get("pname")
+    price = request.form.get("price")
+    image = request.form.get("image")
+
+    if 'logged_in' not in session:
+        return redirect(url_for('signin'))
+    else:
+        return render_template('cart.html')
+
 
 
 @app.route("/about")

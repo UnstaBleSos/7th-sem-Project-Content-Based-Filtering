@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .cart-item-details {
+            flex: 1;
+            margin-left: 20px;
+        }
+        .cart-item-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .cart-item-actions input {
+            width: 50px;
+            text-align: center;
+        }
+        .cart-summary {
+            margin-top: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <h1>Your Cart</h1>
+        {% if cart_items %}
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <img src="{{ item['imageurl'].split('|')[0] }}" alt="Product Image">
+                <div class="cart-item-details">
+                    <h4>{{ item['pname'] }}</h4>
+                    <p>Price: Rs {{ item['price'] }}</p>
+                    <p>Total: Rs {{ item['price'] * item['quantity'] }}</p>
+                </div>
+                <div class="cart-item-actions">
+                    <input type="number" value="{{ item['quantity'] }}" min="1" onchange="updateQuantity('{{ item['pid'] }}', this.value)">
+                    <button onclick="removeFromCart('{{ item['pid'] }}')">Remove</button>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="cart-summary">
+                <h3>Total: Rs {{ total_price }}</h3>
+                <button onclick="checkout()">Checkout</button>
+            </div>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+    {% include 'footer.html' %}
+    <script>
+        function updateQuantity(pid, quantity) {
+            // Implement AJAX to update the quantity in the cart
+            console.log(`Update ${pid} to ${quantity}`);
+        }
+        function removeFromCart(pid) {
+            // Implement AJAX to remove the product from the cart
+            console.log(`Remove ${pid}`);
+        }
+        function checkout() {
+            // Redirect to checkout or initiate the checkout process
+            alert('Proceeding to checkout!');
+        }
+    </script>
+</body>
+</html>

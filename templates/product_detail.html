@@ -65,13 +65,13 @@
             </div>
             <div class="product-info">
                 <h3>{{ product['Name'] }}</h3>
-                <h5>{{product['ID'] }}</h5>
                 <p><strong>Brand:</strong> {{ product['Brand'] }}</p>
                 <p><strong>Rating:</strong> {{ product['Rating'] }}</p>
                 <p><strong>Review Count:</strong> {{ product['ReviewCount'] }}</p>
+                <p><strong>Description:</strong>  {{ product['Description'].split('.')[0].strip() }}</p>
                 <p><strong>Price:</strong> Rs {{ product['Price'] }}</p>
-                <p><strong>Description:</strong> {{ product['Description'].split('.')[0].strip() }}</p>
                 <a href="{{ url_for('index') }}" class="back-btn">Back to Products</a>
+                <button>Add to Cart</button>
             </div>
         </div>
     </div>

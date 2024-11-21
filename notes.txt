@@ -6,6 +6,5 @@ category
 add to cart
 
 voli ko lagi
-ahilekai database use garera search garna milne ra recommend garne
-add to cart ra purchasing sakkinxa
+add to cart ra purchasing
 tes paxi admin ra category baki hunxa

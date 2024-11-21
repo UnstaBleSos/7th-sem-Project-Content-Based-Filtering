@@ -22,10 +22,24 @@
 
     <ul class="navbar-nav">
       {% if session.get('logged_in') %}
+          <!-- Cart Icon -->
+          <li class="nav-item">
+            <a class="nav-link" href="/cart">
+              <i class="fas fa-shopping-cart"></i>
+              Cart <span id="cart-count" class="badge badge-pill badge-danger">0</span>
+            </a>
+          </li>
           <li class="nav-item">
              <a class="nav-link btn btn-outline-danger" href="/logout">Logout</a>
           </li>
       {% else %}
+          <!-- Cart Icon for non-logged-in users -->
+          <li class="nav-item">
+            <a class="nav-link" href="/cart">
+              <i class="fas fa-shopping-cart"></i>
+              Cart <span id="cart-count" class="badge badge-pill badge-danger">0</span>
+            </a>
+          </li>
           <li class="nav-item">
               <a class="nav-link btn btn-outline-primary mr-2" href="#" data-toggle="modal" data-target="#signupModal">Sign Up</a>
           </li>
