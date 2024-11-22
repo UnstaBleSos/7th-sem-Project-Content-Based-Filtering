@@ -64,14 +64,22 @@
                 <img src="{{product['ImageURL'].split('|')[0].strip()}}" alt="">
             </div>
             <div class="product-info">
-                <h3>{{ product['Name'] }}</h3>
-                <p><strong>Brand:</strong> {{ product['Brand'] }}</p>
-                <p><strong>Rating:</strong> {{ product['Rating'] }}</p>
-                <p><strong>Review Count:</strong> {{ product['ReviewCount'] }}</p>
-                <p><strong>Description:</strong>  {{ product['Description'].split('.')[0].strip() }}</p>
-                <p><strong>Price:</strong> Rs {{ product['Price'] }}</p>
-                <a href="{{ url_for('index') }}" class="back-btn">Back to Products</a>
-                <button>Add to Cart</button>
+                <form action="/cart" method="post">
+                    <h3>{{ product['Name'] }}</h3>
+                    <p><strong>Brand:</strong> {{ product['Brand'] }}</p>
+                    <p><strong>Rating:</strong> {{ product['Rating'] }}</p>
+                    <p><strong>Review Count:</strong> {{ product['ReviewCount'] }}</p>
+                    <p><strong>Description:</strong>  {{ product['Description'].split('.')[0].strip() }}</p>
+                    <p><strong>Price:</strong> Rs {{ product['Price'] }}</p>
+                    <a href="{{ url_for('index') }}" class="back-btn">Back to Products</a>
+                    <input type="hidden" name="pid" value="{{product.ID}}">
+                    <input type="hidden" name="pname" value="{{product.Name}}">
+                    <input type="hidden" name="image" value="{{ product['ImageURL'].split('|')[0].strip() }}">
+                    <input type="hidden" name="price" value="{{product.Price}}">
+                    <button type="submit" >Add to cart</button>
+
+                </form>
+
             </div>
         </div>
     </div>
@@ -94,6 +102,7 @@
                 <p><strong>Brand:</strong> {{ rec.Brand }}</p>
                 <p><strong>Rating:</strong> {{ rec.Rating }}</p>
                 <p><strong>Price:</strong> {{ rec.Price }}</p>
+
                 <a href="{{ url_for('product_detail', pid=rec.ID) }}" class="btn btn-primary">View Details</a>
             </div>
         </div>

@@ -95,3 +95,33 @@
     </script>
 </body>
 </html>
+
+
+<span id="cart-count" class="badge badge-pill badge-danger">0</span>
+
+
+
+@app.route("/cart",methods=['POST','GET'])
+def cart():
+    if 'logged_in' not in session:
+        return redirect(url_for('signin'))
+
+    pid = request.form.get("pid")
+    pname = request.form.get("pname")
+    price = request.form.get("price")
+    image = request.form.get("image")
+
+    if 'cart' not in session:
+        session['cart'] = []
+
+    if pid and pname and price and image:
+        product = {
+            'pid': pid,
+            'pname': pname,
+            'price': price,
+            'image': image,
+        }
+        session['cart'].append(product)
+
+    session.modified = True
+    return render_template('cart.html', carts=session['cart'])

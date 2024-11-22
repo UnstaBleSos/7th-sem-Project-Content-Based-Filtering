@@ -259,9 +259,11 @@ def signup():
             signup_message="Password donot match"
 
         products = DisplayProduct.query.all()
-        return render_template('index.html',data= products
+        return render_template('index.html',data= products,message=signup_message)
 
-                               )
+    products = DisplayProduct.query.all()
+    return render_template('index.html', data=products, message="Please sign in")
+
 
 
 @app.route("/signin", methods=['GET','POST'])
@@ -281,7 +283,8 @@ def signin():
         return render_template('index.html',
                                data=products,messages=signin_message
                                )
-    return render_template('index.html',message="Please log in")
+    products = DisplayProduct.query.all()
+    return render_template('index.html',data=products,message="Please log in")
 
 @app.route("/logout")
 def logout():
@@ -337,18 +340,71 @@ def search():
         return "No search query provided.", 400
 
 
-@app.route("/cart",methods=['POST'])
+@app.route("/cart", methods=['POST', 'GET'])
 def cart():
+    if 'logged_in' not in session:
+        return redirect(url_for('signin'))
+
+    # Initialize the cart session if it doesn't exist
+    if 'cart' not in session:
+        session['cart'] = []
+
     pid = request.form.get("pid")
     pname = request.form.get("pname")
     price = request.form.get("price")
     image = request.form.get("image")
 
-    if 'logged_in' not in session:
-        return redirect(url_for('signin'))
-    else:
-        return render_template('cart.html')
+    # Only process if all required fields are provided
+    if pid and pname and price and image:
+        product_exists = False
 
+        # Check if the product already exists in the cart
+        for item in session['cart']:
+            if item['pid'] == pid:  # Match by product ID
+                item['quantity'] += 1  # Increase the quantity
+                product_exists = True
+                break
+
+        # If product doesn't exist, add it with a default quantity of 1
+        if not product_exists:
+            product = {
+                'pid': pid,
+                'pname': pname,
+                'price': price,
+                'image': image,
+                'quantity': 1  # Initialize quantity
+            }
+            session['cart'].append(product)
+
+        session.modified = True  # Mark session as modified
+
+    # Render the cart page
+    return render_template('cart.html', carts=session['cart'])
+
+
+@app.route('/checkout',methods=['POST','GET'])
+def checkout():
+    pid = request.form.get('pid')
+    pname = request.form.get('pname')
+    price = request.form.get('price')
+
+    print(pid)
+    print(pname)
+    print(price)
+
+    return render_template('checkout.html')
+
+
+
+@app.route('/removeItem',methods=['POST'])
+def removeitem():
+    pid = request.form.get("pid")
+
+    if 'cart' in session:
+        session['cart'] = [item for item in session['cart'] if item['pid'] != pid and all(item.values())]
+
+    session.modified=True
+    return redirect(url_for('cart'))
 
 
 @app.route("/about")
