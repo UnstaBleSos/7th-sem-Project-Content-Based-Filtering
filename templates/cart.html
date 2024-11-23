@@ -12,35 +12,25 @@
 </head>
 <body>
     {% include 'header.html' %}
-    <div>
-      {% if not carts %}
-    <p>Your cart is empty.</p>
-{% else %}
-    {% for cart in carts %}
-        <div class="cart-item">
-            <div class="cart-img">
-                <img src="{{ cart.image }}" alt="{{ cart.pname }}" height="300px" width="300px">
-            </div>
-            <div class="product-details">
-                <p><strong>ID:</strong> {{ cart.pid }}</p>
-                <p><strong>Name:</strong> {{ cart.pname }}</p>
-                <p><strong>Price:</strong> ${{ cart.price }}</p>
-                <input type="number" name="number" value="{{cart.quantity}}" >
-                <form action="/removeItem" method="post">
-                    <input type="hidden" value="{{ cart.pid }}" id="pid" name="pid">
+
+{% for value in cartdata %}
+
+        {{value.pid}}
+        {{value.pname}}
+        {{value.image}}
+        {{value.price}}
+     <form action="/removeItem" method="post">
+                    <input type="hidden" value="{{ value.pid }}" id="pid" name="pid">
                     <button type="submit">Remove Item</button>
                 </form>
-                <form action="/checkout" method = "post">
-                    <input type="hidden" name="pid" value="{{cart.pid}}">
-                    <input type="hidden" name="name" value="{{cart.pname}}">
-                    <input type="hidden" name="price" value="{{cart.price}}">
+         <form action="/checkout" method = "post">
+                    <input type="hidden" name="pid" value="{{value.pid}}">
+                    <input type="hidden" name="name" value="{{value.pname}}">
+                    <input type="hidden" name="price" value="{{value.price}}">
                     <button type="submit">Checkout</button>
                 </form>
-            </div>
-        </div>
-    {% endfor %}
-{% endif %}
+        {% endfor %}
 
-    </div>
+
 </body>
 </html>

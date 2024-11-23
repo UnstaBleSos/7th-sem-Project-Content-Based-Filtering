@@ -2,7 +2,8 @@
 from os import truncate
 from xmlrpc.client import METHOD_NOT_FOUND
 
-from flask import Flask, request, render_template, session, url_for, redirect   
+from MySQLdb.constants.FLAG import UNSIGNED
+from flask import Flask, request, render_template, session, url_for, redirect
 import random
 from flask_sqlalchemy import SQLAlchemy
 from pyexpat.errors import messages
@@ -59,12 +60,30 @@ class Products(db.Model):
     def __repr__(self):
         return f'<Products {self.pname}>'
 
+
+class Cart(db.Model):
+    __tablename__ = 'cart'
+    cartid = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Primary key with auto increment
+    userid = db.Column(db.Integer, db.ForeignKey('signup.id'), nullable=False)  # Primary key with auto increment
+    productid = db.Column(db.String(255), nullable=False)  # Product name (varchar)
+    productname = db.Column(db.String(255), nullable=False)  # Product name (varchar)
+    quantity = db.Column(db.Integer, nullable=False)  # Review count (float)
+    image = db.Column(db.String(255), nullable=False)  # Image URL (text)
+    price = db.Column(db.Integer, nullable=False)  # Price (integer)
+    user = db.relationship('Signup', back_populates='carts')
+
+    def __repr__(self):
+        return f'<Products {self.pname}>'
+
+
+
 class Signup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     repassword= db.Column(db.String(100),nullable=False)
+    carts = db.relationship('Cart', back_populates='user')
 
 
 class Signin(db.Model):
@@ -273,7 +292,9 @@ def signin():
         password = request.form['signinPassword']
 
         user = Signup.query.filter_by(username=username, password=password).first()
+
         if user:
+            session['userid']=user.id
             session['logged_in']=True
             signin_message="user signed in successfully"
         else:
@@ -344,42 +365,51 @@ def search():
 def cart():
     if 'logged_in' not in session:
         return redirect(url_for('signin'))
+    else:
+        user= session['userid']
 
-    # Initialize the cart session if it doesn't exist
-    if 'cart' not in session:
-        session['cart'] = []
 
     pid = request.form.get("pid")
     pname = request.form.get("pname")
     price = request.form.get("price")
     image = request.form.get("image")
 
-    # Only process if all required fields are provided
+    query = text("Select * from cart where userid =  :userid")
+    result= db.session.execute(query,{'userid':user}).fetchall()
+
+
     if pid and pname and price and image:
         product_exists = False
+        check = text("Select * from cart where userid = :userid and productid = :productid ")
+        checkresult = db.session.execute(check,{'userid':user,'productid':pid}).fetchone()
 
-        # Check if the product already exists in the cart
-        for item in session['cart']:
-            if item['pid'] == pid:  # Match by product ID
-                item['quantity'] += 1  # Increase the quantity
-                product_exists = True
-                break
+        if checkresult:
+            updata = text("Update cart set quantity = quantity+1 where userid = :userid and productid = :productid")
+            db.session.execute(updata,{'userid':user,'productid':pid})
+            db.session.commit()
 
-        # If product doesn't exist, add it with a default quantity of 1
-        if not product_exists:
-            product = {
-                'pid': pid,
-                'pname': pname,
-                'price': price,
-                'image': image,
-                'quantity': 1  # Initialize quantity
-            }
-            session['cart'].append(product)
+        else:
+            adddata = text("""
+                INSERT INTO cart (userid, productid, productname, quantity, image, price) 
+                VALUES (:userid, :productid, :productname, 1, :image, :price)
+            """)
+            db.session.execute(adddata,{'userid':user,'productid':pid,'productname':pname,'image':image,'price':price})
+            db.session.commit()
 
-        session.modified = True  # Mark session as modified
 
+
+    cart_items = []
+    if result:
+        for item in result:
+            cart_items.append({
+                'pid': item[2],
+                'pname': item[3],
+                'quantity': item[4],
+                'image': item[5],
+                'price': item[6]
+            })
     # Render the cart page
-    return render_template('cart.html', carts=session['cart'])
+    return render_template('cart.html', cartdata= cart_items)
 
 
 @app.route('/checkout',methods=['POST','GET'])
@@ -399,11 +429,12 @@ def checkout():
 @app.route('/removeItem',methods=['POST'])
 def removeitem():
     pid = request.form.get("pid")
+    user = session['userid']
+    query= text("delete from cart where userid =:userid and productid=:productid ")
+    db.session.execute(query,{'userid':user,'productid':pid})
+    db.session.commit()
 
-    if 'cart' in session:
-        session['cart'] = [item for item in session['cart'] if item['pid'] != pid and all(item.values())]
-
-    session.modified=True
+    print("item removed")
     return redirect(url_for('cart'))
 
 
