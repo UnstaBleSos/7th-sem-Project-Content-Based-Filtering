@@ -246,6 +246,7 @@ def product_detail(pid):
     # Fetch recommendations
     recommendations1 = content_based_recommendations(train_data, pname, top_n=5)
 
+
     # Optional: If no recommendations are found, display a message
     if pname not in train_data['Name'].values:
         message = f"No recommendations available for the product '{pname}' as it is not found in the dataset."
@@ -374,12 +375,10 @@ def cart():
     price = request.form.get("price")
     image = request.form.get("image")
 
-    query = text("Select * from cart where userid =  :userid")
-    result= db.session.execute(query,{'userid':user}).fetchall()
+
 
 
     if pid and pname and price and image:
-        product_exists = False
         check = text("Select * from cart where userid = :userid and productid = :productid ")
         checkresult = db.session.execute(check,{'userid':user,'productid':pid}).fetchone()
 
@@ -396,7 +395,8 @@ def cart():
             db.session.execute(adddata,{'userid':user,'productid':pid,'productname':pname,'image':image,'price':price})
             db.session.commit()
 
-
+    query = text("Select * from cart where userid =  :userid")
+    result = db.session.execute(query, {'userid': user}).fetchall()
 
     cart_items = []
     if result:
@@ -417,12 +417,35 @@ def checkout():
     pid = request.form.get('pid')
     pname = request.form.get('pname')
     price = request.form.get('price')
+    quantity= request.form.get('quantity')
+    image = request.form.get('image')
+    user=session['userid']
 
-    print(pid)
-    print(pname)
-    print(price)
+    query = text("Update cart set quantity=:quantity where userid=:userid and productid=:productid  ")
+    db.session.execute(query,{'quantity':quantity, 'userid':user,'productid':pid})
+    db.session.commit()
+    totalprice = int(quantity)*float(price)
 
-    return render_template('checkout.html')
+    delquery = text("Delete from cart where userid=:userid and productid=:productid")
+    db.session.execute(delquery,{'userid':user,'productid':pid})
+    db.session.commit()
+
+    insertquery = text("""
+        INSERT INTO purchase (productid, productname, quantity, productprice, userid)
+        VALUES (:productid, :productname, :quantity, :productprice, :userid)
+    """)
+    db.session.execute(insertquery,{'productid':pid,'productname':pname,'quantity':quantity,'productprice':price,'userid':user})
+    db.session.commit()
+
+
+    info={
+        'pid':pid,
+        'pname':pname,
+        'price':totalprice,
+        'quantity':quantity,
+        'image':image
+    }
+    return render_template('checkout.html',info=info)
 
 
 
@@ -436,6 +459,12 @@ def removeitem():
 
     print("item removed")
     return redirect(url_for('cart'))
+
+@app.route('/detail')
+def detail():
+
+    return render_template('detail.html')
+
 
 
 @app.route("/about")

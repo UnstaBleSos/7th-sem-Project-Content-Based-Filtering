@@ -276,7 +276,7 @@
 function showSuggestions() {
     var query = document.getElementById('searchBar').value;
     console.log("Value is: " ,query);
-    if (query.length >= 2) {  // Only show suggestions if query length is greater than or equal to 2
+    if (query.length >= 1) {  // Only show suggestions if query length is greater than or equal to 2
         fetch(`/suggestions?query=${query}`)
             .then(response => response.json())
             .then(data => {

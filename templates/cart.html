@@ -8,29 +8,61 @@
         .cart-item{
             display:flex;
         }
+
+
     </style>
 </head>
 <body>
     {% include 'header.html' %}
+    {% if not cartdata %}
+        <p>Cart is empty</p>
+    {% else %}
+    {% for value in cartdata %}
+        <div class="cart-item">
+            <div class="cart-img">
+                <img src="{{ value.image }}" alt="{{ value.pname }}" height="300px" width="300px">
+            </div>
+            <div class="product-details">
+                <p><strong>ID:</strong> {{ value.pid }}</p>
+                <p><strong>Name:</strong> {{ value.pname }}</p>
+                <p><strong>Price:</strong> {{ value.price }}</p>
+            </div>
+        </div>
 
-{% for value in cartdata %}
+         <form action="/checkout" method="post">
+            <input type="hidden" name="pid" value="{{ value.pid }}">
+            <input type="hidden" name="pname" value="{{ value.pname }}">
+            <input type="hidden" name="price" value="{{ value.price }}">
+            <input type="hidden" name="quantity" value="{{ value.quantity }}" id="hidden-quantity-{{ value.pid }}">
+            <input type="hidden" name="image" value="{{ value.image }}" >
+            <strong>Quantity:</strong>
+            <input type="number" name="number" value="{{ value.quantity }}" min="1" onchange="updateHiddenQuantity(this, '{{ value.pid }}')">
+            <button type="submit">Checkout</button>
+        </form>
 
-        {{value.pid}}
-        {{value.pname}}
-        {{value.image}}
-        {{value.price}}
-     <form action="/removeItem" method="post">
-                    <input type="hidden" value="{{ value.pid }}" id="pid" name="pid">
-                    <button type="submit">Remove Item</button>
-                </form>
-         <form action="/checkout" method = "post">
-                    <input type="hidden" name="pid" value="{{value.pid}}">
-                    <input type="hidden" name="name" value="{{value.pname}}">
-                    <input type="hidden" name="price" value="{{value.price}}">
-                    <button type="submit">Checkout</button>
-                </form>
+        <form action="/removeItem" method="post">
+            <input type="hidden" value="{{ value.pid }}" id="pid" name="pid">
+            <button type="submit">Remove Item</button>
+        </form>
+
+
         {% endfor %}
+    {% endif %}
 
 
+    {% include 'footer.html' %}
 </body>
+<script>
+  function updateHiddenQuantity(inputField, pid) {
+
+    const hiddenQuantityInput = document.querySelector(`#hidden-quantity-${pid}`);
+
+    if (hiddenQuantityInput) {
+        hiddenQuantityInput.value = inputField.value;
+    } else {
+        console.error(`Hidden input for PID ${pid} not found.`);
+    }
+}
+
+</script>
 </html>

@@ -4,8 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
+    <style>
+        .purchase{
+            margin-left:30%;
+            display:flex;
+        }
+          a{
+            text-decoration:none
+        }
+    </style>
 </head>
 <body>
-    <h1>eyaiihhh</h1>
+    {% include 'header.html' %}
+        {% if info  %}
+          <div class="purchase">
+              <div class="purchase-img">
+                  <img src="{{info.image}}" alt="{{info.pname}}" height="300px" width="200px">
+              </div>
+               <div class="purchase-info">
+                    <h1>Thank You For your purchase!!!</h1>
+                    <p><strong> Id:</strong>  {{info.pid}}</p>
+                    <p><strong> Name:</strong>  {{info.pname}}</p>
+                    <p><strong> Quantity:</strong>  {{info.quantity}}</p>
+                    <p><strong> Price:</strong>  {{info.price}}</p>
+               </div>
+
+          </div>
+            <div>
+                <a href="index" >Back to Products</a>
+                <a href="cart" >Cart</a>
+                <a href="detail" >View Details</a>
+            </div>
+        {% else %}
+            <p>No purchase information available. Please try again.</p>
+        {%endif%}
+    {% include 'footer.html' %}
 </body>
 </html>

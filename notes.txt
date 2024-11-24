@@ -1,10 +1,14 @@
-sign in garesi matra purchase garna paune 
-item haru lai pani purchase garna milaune 
-recommended products purchase garna milaune
-admin bata crud
-category
-add to cart
 
+admin bata crud
 voli ko lagi
-add to cart ra purchasing
+
+
 tes paxi admin ra category baki hunxa
+
+glow.ktmbees.com ko herera banaune
+
+brand ra category many to many
+product ra category many to one
+
+
+
