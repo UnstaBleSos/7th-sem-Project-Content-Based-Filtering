@@ -62,7 +62,7 @@ class Products(db.Model):
 
 
 class Cart(db.Model):
-    __tablename__ = 'cart'
+    __tablename__ = 'carts'
     cartid = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Primary key with auto increment
     userid = db.Column(db.Integer, db.ForeignKey('signup.id'), nullable=False)  # Primary key with auto increment
     productid = db.Column(db.String(255), nullable=False)  # Product name (varchar)
@@ -356,8 +356,12 @@ def search():
         # Query the database for products matching the search term
         results = Products.query.filter(Products.productname.ilike(f"%{query}%")).all()
         recommendations1 = content_based_recommendations(train_data, query, top_n=5)
+
+        message=None
+        if recommendations1.empty:
+            message=f"No recommendations found for '{query}'. Item not in the training data."
         # Render the search results page
-        return render_template('search.html', results=results,  recommendations1=recommendations1.to_dict(orient='records'),)
+        return render_template('search.html', results=results,  recommendations1=recommendations1.to_dict(orient='records'),message=message)
     else:
         return "No search query provided.", 400
 
@@ -369,33 +373,29 @@ def cart():
     else:
         user= session['userid']
 
-
     pid = request.form.get("pid")
     pname = request.form.get("pname")
     price = request.form.get("price")
     image = request.form.get("image")
 
-
-
-
     if pid and pname and price and image:
-        check = text("Select * from cart where userid = :userid and productid = :productid ")
+        check = text("Select * from carts where userid = :userid and productid = :productid ")
         checkresult = db.session.execute(check,{'userid':user,'productid':pid}).fetchone()
 
         if checkresult:
-            updata = text("Update cart set quantity = quantity+1 where userid = :userid and productid = :productid")
+            updata = text("Update carts set quantity = quantity+1 where userid = :userid and productid = :productid")
             db.session.execute(updata,{'userid':user,'productid':pid})
             db.session.commit()
 
         else:
             adddata = text("""
-                INSERT INTO cart (userid, productid, productname, quantity, image, price) 
+                INSERT INTO carts (userid, productid, productname, quantity, image, price) 
                 VALUES (:userid, :productid, :productname, 1, :image, :price)
             """)
             db.session.execute(adddata,{'userid':user,'productid':pid,'productname':pname,'image':image,'price':price})
             db.session.commit()
 
-    query = text("Select * from cart where userid =  :userid")
+    query = text("Select * from carts where userid =  :userid")
     result = db.session.execute(query, {'userid': user}).fetchall()
 
     cart_items = []
@@ -421,12 +421,12 @@ def checkout():
     image = request.form.get('image')
     user=session['userid']
 
-    query = text("Update cart set quantity=:quantity where userid=:userid and productid=:productid  ")
+    query = text("Update carts set quantity=:quantity where userid=:userid and productid=:productid  ")
     db.session.execute(query,{'quantity':quantity, 'userid':user,'productid':pid})
     db.session.commit()
     totalprice = int(quantity)*float(price)
 
-    delquery = text("Delete from cart where userid=:userid and productid=:productid")
+    delquery = text("Delete from carts where userid=:userid and productid=:productid")
     db.session.execute(delquery,{'userid':user,'productid':pid})
     db.session.commit()
 
@@ -453,7 +453,7 @@ def checkout():
 def removeitem():
     pid = request.form.get("pid")
     user = session['userid']
-    query= text("delete from cart where userid =:userid and productid=:productid ")
+    query= text("delete from carts where userid =:userid and productid=:productid ")
     db.session.execute(query,{'userid':user,'productid':pid})
     db.session.commit()
 
@@ -462,9 +462,104 @@ def removeitem():
 
 @app.route('/detail')
 def detail():
+    if 'logged_in' not in session:
+        return render_template('signin.html')
 
-    return render_template('detail.html')
+    user=session['userid']
 
+    query= text("select * from purchase where userid=:userid")
+    result=db.session.execute(query,{'userid':user}).fetchall()
+    db.session.commit()
+
+    if result:
+        print("hello")
+
+    return render_template('detail.html',result=result)
+
+
+@app.route("/admin")
+def admin():
+
+    session['adminlogin'] = True
+
+    selectcount = text("select count(purchaseid) from purchase ")
+    count = db.session.execute(selectcount).fetchone()
+    db.session.commit()
+
+    selectproduct = text("select count(ID) from products ")
+    prodcount = db.session.execute(selectproduct).scalar()
+    db.session.commit()
+
+    selectproduct1 = text("select count(pid) from displayproduct ")
+    prodcount1 = db.session.execute(selectproduct1).scalar()
+    db.session.commit()
+
+    value=prodcount1+prodcount
+
+    price= text("select sum(productprice) from purchase")
+    pricecount = db.session.execute(price).scalar()
+    db.session.commit()
+
+    selectuser = text("select count(id) from signup ")
+    user = db.session.execute(selectuser).fetchone()
+    db.session.commit()
+
+    return render_template('./admin/admin.html',totalcount=count,user=user,product=value,price= pricecount)
+
+
+@app.route("/adminusers")
+def adminusers():
+
+    query = text("Select * from signup")
+    user= db.session.execute(query).fetchall()
+    db.session.commit()
+
+    return render_template('./admin/adminusers.html',users=user)
+
+
+@app.route("/adminlogout")
+def adminlogout():
+    session.pop('adminlogin',None)
+
+    return  redirect(url_for('index'))
+
+
+@app.route("/removeuser",methods=['POST','GET'])
+def removeuser():
+    userid = request.form.get('userid')
+    username=request.form.get('username')
+    query= text("Delete from signup where id=:userid and username=:username")
+    db.session.execute(query,{'userid':userid,'username':username})
+    db.session.commit()
+
+    return render_template('admin/removeuser.html')
+
+
+@app.route("/products")
+def products():
+
+    return render_template('admin/products.html')
+
+
+@app.route("/purchase")
+def purchase():
+    query = text("Select * from purchase")
+    result = db.session.execute(query)
+    db.session.commit()
+
+    for value in result:
+        userid = value.userid
+
+    # name= text("Select username from signup where id=:userid")
+    # nameresult=db.session.execute(name,{'userid':userid})
+    # db.session.commit()
+    #
+    # for value in nameresult:
+    #     username = value.username
+    #     print(username)
+    # ,name=nameresult
+
+    return render_template('admin/purchase.html',result=result)
 
 
 @app.route("/about")

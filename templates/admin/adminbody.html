@@ -1,0 +1,65 @@
+<style>
+        *{
+            margin:0px
+         }
+        .nav{
+
+            height:80px;
+            font-size:2rem;
+        }
+        .body{
+            display:flex;
+        }
+        .sidebar{
+
+              width:15%;
+              font-size:1.8rem;
+              padding-left:30px;
+        }
+        .sidebar a{
+             text-decoration:none;
+             color:black
+        }
+        .information{
+
+            width:85%;
+            font-size:1.8rem;
+        }
+    </style>
+
+<div class="body">
+        <div class="sidebar">
+            <div><a href="/products">Products</a></div>
+            <div><a href="/purchase">Purchase History</a></div>
+            <div><a href="/adminusers">Users</a></div>
+            <div><a href=""></a></div>
+            <div><a href="/adminlogout">Logout</a></div>
+
+        </div>
+        <div class="information">
+            <div>
+                Total Users
+                 {% for x in user %}
+                    {{x}}
+                {% endfor %}
+            </div>
+            <div>
+                Total Products
+                {% if product %}
+                    {{product}}
+                {% endif %}
+            </div>
+            <div>
+                Total Purchases
+                {% for x in totalcount %}
+                    {{x}}
+                {% endfor %}
+            </div>
+            <div>
+                Total MoneySpent
+                    {% if price %}
+                        {{price}}
+                    {% endif %}
+            </div>
+        </div>
+    </div>

@@ -15,7 +15,9 @@
 <body>
     {% include 'header.html' %}
     {% if not cartdata %}
-        <p>Cart is empty</p>
+        <div class="empty" style="margin-left:40%">
+            <h5>Cart is empty</h5>
+        </div>
     {% else %}
     {% for value in cartdata %}
         <div class="cart-item">

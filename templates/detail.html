@@ -4,8 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
+    <style>
+        .main{
+
+
+            width:400px;
+            border:1px solid red;
+            display:flex;
+            flex-direction:column;
+            margin-left:34%;
+            padding:20px;
+            margin-bottom:10px;
+        }
+        h4{
+            margin-left:40%;
+        }
+    </style>
 </head>
 <body>
-    eyiiiihhh
+{% include 'header.html' %}
+    <div class="links">
+        <a href="index">Buy More</a>
+
+    </div>
+        <h4>Your purchases</h4>
+    {% if result %}
+        {%for value in result %}
+    <div class="main">
+        <div class="bodyone">
+            <p><strong>Id:</strong> {{value.productid}}</p>
+            <p><strong>
+               Product:
+            </strong> {{value.productname}}</p>
+        </div>
+        <div class="bodytwo">
+            <p><strong>Quantity:</strong> {{value.quantity}}</p>
+            <p><strong>Price:</strong>  {{value.productprice}}</p>
+            <p><strong>Purchased On:</strong> {{value.purchaseTime}}</p>
+        </div>
+    </div>
+   {% endfor %}
+    {% else %}
+        <p>No Purchase Done</p>
+    {% endif %}
+
+{% include 'footer.html' %}
 </body>
 </html>

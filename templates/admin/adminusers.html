@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <style>
+         .nav{
+
+            height:80px;
+            font-size:2rem;
+        }
+         .sidebar{
+
+              width:15%;
+              font-size:1.8rem;
+              padding-left:30px;
+        }
+        .sidebar a{
+             text-decoration:none;
+             color:black
+        }
+        .information{
+
+            width:85%;
+            font-size:1.8rem;
+        }
+    </style>
+</head>
+<body>
+   {% include './admin/adminheader.html' %}
+   <div style="display:flex;">
+        {%include './admin/adminsidebar.html' %}
+
+
+         {% if users %}
+            {% for user in users %}
+              <div>
+                  <form action="/removeuser" method="post">
+                      <input type="hidden" name="userid" value="{{user.id}}">
+                      <input type="hidden" name="username" value="{{user.username}}">
+                      <div>
+                            {{user.username}}
+                            <button type="submit">Remove</button>
+                      </div>
+                  </form>
+
+              </div>
+
+            {% endfor %}
+        {% else %}
+            <p>User not present</p>
+
+       {% endif %}
+
+   </div>
+
+</body>
+</html>
