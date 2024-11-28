@@ -4,21 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
+    <style>
+        .history{
+            margin-left:5%;
+            margin-top:5%;
+            margin-bottom:5%;
+        }
+        .link a{
+            margin-left:45%;
+            text-decoration:none;
+            color:black;
+            font-size:1.2rem;
+        }
+        table{
+            text-align:center;
+            font-size:1.02rem
+        }
+    </style>
 </head>
 <body>
-   {% for value in result %}
-   <div>
-hello
+   {% if results %}
 
-       {{value.purchaseid}}
-        {{value.productid}}
-        {{value.productname}}
-        {{value.quantity}}
-        {{value.productprice}}
-        {{value.purchaseTime}}
-        {{value.userid}}
+<div class="history">
+   <table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Purchase ID</th>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>User ID</th>
+            <th>Purchased On</th>
+        </tr>
+    </thead>
+    {% for datas in results%}
+        {% for values in names %}
+            {% if datas.userid == values.id %}
+       <tr>
+           <td>{{values.username}}</td>
+            <td>{{datas.purchaseid }}</td>
+            <td>{{datas.productid }}</td>
+            <td>{{datas.productname }}</td>
+            <td>{{datas.quantity }}</td>
+            <td>{{datas.userid }}</td>
+           <td>{{datas.purchaseTime}}</td>
+        </tr>
+            {%endif%}
+        {% endfor %}
+   {% endfor %}
+   {%else%}
+   <h2>data not here</h2>
+{%endif%}
+   </table>
+
+
+</div>
+   <div class="link">
+       <a href="/admin">Go Back</a>
    </div>
-
-{%endfor %}
 </body>
 </html>

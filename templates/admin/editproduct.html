@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    {% if result %}
+    {% for values in result %}
+        <form action="/changedata" method="post">
+   <div>
+        ProductName
+        <input type="text" value="{{values.pname}}" style="  height:20px;
+            width:500px;" >
+   </div>
+    <div>
+        ReviewCount
+        <input type="number" value="{{values.reviewcount}}">
+    </div>
+    <div>
+        Brand
+        <input type="text" value="{{values.brand}}">
+    </div>
+    <div>
+        Image
+        <input type="text" value="{{values.imageurl}}">
+    </div>
+    <div>
+        Rating
+        <input type="text" value="{{values.rating}}">
+    </div>
+    <div>
+        Description
+        <textarea  rows="7" cols="80">{{values.description}}</textarea>
+    </div>
+    <div>
+        Price
+        <input type="number" value="{{values.price}}">
+    </div>
+    <button type="submit">Change </button>
+</form>
+    {% endfor %}
+    {% elif  datas %}
+    {% for product in datas %}
+
+    {%endfor %}
+
+    {% else %}
+        <p>Noo</p>
+    {% endif %}
+
+    <a href="/products">Go Back</a>
+</body>
+</html>

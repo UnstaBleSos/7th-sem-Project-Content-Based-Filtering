@@ -21,7 +21,6 @@
              color:black
         }
         .information{
-
             width:85%;
             font-size:1.8rem;
         }
@@ -50,10 +49,11 @@
             {% endfor %}
         {% else %}
             <p>User not present</p>
-
+ </div>
        {% endif %}
+ {% include './admin/backlink.html' %}
 
-   </div>
+
 
 </body>
 </html>

@@ -6,6 +6,7 @@ from MySQLdb.constants.FLAG import UNSIGNED
 from flask import Flask, request, render_template, session, url_for, redirect
 import random
 from flask_sqlalchemy import SQLAlchemy
+from joblib.parallel import method
 from pyexpat.errors import messages
 from sqlalchemy import text
 import pandas as pd
@@ -28,8 +29,8 @@ db = SQLAlchemy(app)
 
 
 class DisplayProduct(db.Model):
-    __tablename__ = 'displayproduct'  # This should match the table name in your MySQL database
-    # Define the columns based on your schema
+    __tablename__ = 'displayproduct'
+
     pid = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Primary key with auto increment
     pname = db.Column(db.String(255), nullable=False)  # Product name (varchar)
     reviewcount = db.Column(db.Float, nullable=False)  # Review count (float)
@@ -45,9 +46,9 @@ class DisplayProduct(db.Model):
 
 
 class Products(db.Model):
-    __tablename__ = 'products'  # This should match the table name in your MySQL database
-    # Define the columns based on your schema
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Primary key with auto increment
+    __tablename__ = 'products'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     productid = db.Column(db.String(255), nullable=False)  # Primary key with auto increment
     productname = db.Column(db.String(255), nullable=False)  # Product name (varchar)
     reviewcount = db.Column(db.Float, nullable=False)  # Review count (float)
@@ -134,7 +135,7 @@ def compute_tf_idf(train_data):
 
 
 def cosine_similarity(vector1, vector2):
-    # Compute cosine similarity between two TF-IDF vectors
+
     dot_product = sum(vector1.get(term, 0) * vector2.get(term, 0) for term in vector1)
     norm1 = math.sqrt(sum(v ** 2 for v in vector1.values()))
     norm2 = math.sqrt(sum(v ** 2 for v in vector2.values()))
@@ -175,7 +176,6 @@ def content_based_recommendations(train_data, item_name, top_n=10):
 #create route
 @app.route("/")
 def index():
-    # random_productImage = [random.choice(random_image_urls) for _ in range(len(trending_products))]
     products = DisplayProduct.query.all()
     return render_template('index.html', data=products)
 
@@ -195,21 +195,17 @@ def indexredirect():
 
 @app.route("/fetch")
 def fetch():
-    # Query all data from the displayproduct table
     products = DisplayProduct.query.all()
     print(products)
-    # Render the fetch.html template and pass the fetched data
     return render_template('fetch.html', data=products)
 
 
 @app.route('/product/<string:pid>')
 def product_detail(pid):
-    # Check if the product exists in the database
     query = text("SELECT * FROM displayproduct WHERE pid = :pid")
     result = db.session.execute(query, {'pid': pid}).fetchone()
 
     if result:
-        # If the product is found in the database
         pname = result[1]
         product_info = {
             'ID': result[0],
@@ -223,10 +219,9 @@ def product_detail(pid):
         }
         print(product_info['Description'])
     else:
-        # If the product is not found in the database, check the dataset
         result_db = train_data[train_data['ID'] == pid]
         if not result_db.empty:
-            result = result_db.iloc[0]  # Use the first (and only) result
+            result = result_db.iloc[0]
             pname = result['Name']
             product_info = {
                 'ID': result['ID'],
@@ -240,14 +235,12 @@ def product_detail(pid):
             }
             print(product_info['Description'])
         else:
-            # If the product is not found anywhere
             return "Product not found", 404
 
-    # Fetch recommendations
+
     recommendations1 = content_based_recommendations(train_data, pname, top_n=5)
 
 
-    # Optional: If no recommendations are found, display a message
     if pname not in train_data['Name'].values:
         message = f"No recommendations available for the product '{pname}' as it is not found in the dataset."
     else:
@@ -351,16 +344,16 @@ def suggestions():
 
 @app.route("/search", methods=['GET'])
 def search():
-    query = request.args.get('query')  # Get the query from the search bar
+    query = request.args.get('query')
     if query:
-        # Query the database for products matching the search term
+
         results = Products.query.filter(Products.productname.ilike(f"%{query}%")).all()
         recommendations1 = content_based_recommendations(train_data, query, top_n=5)
 
         message=None
         if recommendations1.empty:
             message=f"No recommendations found for '{query}'. Item not in the training data."
-        # Render the search results page
+
         return render_template('search.html', results=results,  recommendations1=recommendations1.to_dict(orient='records'),message=message)
     else:
         return "No search query provided.", 400
@@ -408,7 +401,7 @@ def cart():
                 'image': item[5],
                 'price': item[6]
             })
-    # Render the cart page
+
     return render_template('cart.html', cartdata= cart_items)
 
 
@@ -472,7 +465,7 @@ def detail():
     db.session.commit()
 
     if result:
-        print("hello")
+        print("hello detail")
 
     return render_template('detail.html',result=result)
 
@@ -538,28 +531,60 @@ def removeuser():
 @app.route("/products")
 def products():
 
-    return render_template('admin/products.html')
+    query = text("Select * from displayproduct")
+    result = db.session.execute(query).fetchall()
+    db.session.commit()
 
+    query2= text("Select * from products")
+    result2= db.session.execute(query2).fetchall()
+    db.session.commit()
+
+    for x in result2:
+        print(x.productname)
+
+    return render_template('admin/products.html',result=result,result2=result2)
+
+
+@app.route("/editproduct",methods=['Post'])
+def editproduct():
+
+    productid = request.form.get("productid")
+    productname  = request.form.get("productname")
+
+    query = text("Select * from displayproduct where pid=:productid and pname=:productname")
+    result= db.session.execute(query,{'productid':productid,'productname':productname})
+    db.session.commit()
+
+    query1 = text("Select * from products where productId=:pid and productname=:pname")
+    result2 = db.session.execute(query1, {'pid': productid, 'pname': productname})
+    db.session.commit()
+
+    if result2:
+        print("eyyaihhhh")
+
+    return render_template('admin/editproduct.html',result=result,datas= result2)
 
 @app.route("/purchase")
 def purchase():
     query = text("Select * from purchase")
-    result = db.session.execute(query)
+    result = db.session.execute(query).fetchall()
     db.session.commit()
 
-    for value in result:
-        userid = value.userid
+    if result:
+        print("Hello purchase,")
 
-    # name= text("Select username from signup where id=:userid")
-    # nameresult=db.session.execute(name,{'userid':userid})
-    # db.session.commit()
-    #
-    # for value in nameresult:
-    #     username = value.username
-    #     print(username)
-    # ,name=nameresult
+    namelist=[]
+    for name in result:
+        userid=name.userid
+        namelist.append(userid)
+        print(userid)
 
-    return render_template('admin/purchase.html',result=result)
+    if namelist:
+        namequery = text("Select id, username from signup where id in :id")
+        nameresult=db.session.execute(namequery,{'id':tuple(namelist)}).fetchall()
+        db.session.commit()
+
+    return render_template('admin/purchase.html',results=result,names=nameresult)
 
 
 @app.route("/about")

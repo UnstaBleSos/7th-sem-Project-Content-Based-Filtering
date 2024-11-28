@@ -6,6 +6,39 @@
     <title>Document</title>
 </head>
 <body>
+    <div>
 
+        {% if result  %}
+            {% for data in result %}
+                    {{data.pname}}
+
+        <form action="editproduct" method="post">
+            <input type="hidden" name="productname" value="{{data.pname}}">
+            <input type="hidden" name="productid" value="{{data.pid}}">
+            <button type="submit">Edit</button>
+        </form>
+         <form action="delete" method="post">
+            <input type="hidden" name="" value="{{data.pname}}">
+            <button type="submit">Delete</button>
+        </form>
+            {% endfor %}
+        {% endif %}
+        {% if result2 %}
+           {% for value in result2 %}
+                    {{value.productname}}
+
+        <form action="editproduct" method="post">
+            <input type="hidden" name="productname" value="{{value.productname}}">
+            <input type="hidden" name="productid" value="{{value.productid}}">
+            <button type="submit">Edit</button>
+        </form>
+         <form action="delete" method="post">
+            <input type="hidden" name="" value="{{value.pname}}">
+            <button type="submit">Deactivate</button>
+        </form>
+            {% endfor %}
+        {%endif %}
+    </div>
+ {% include './admin/backlink.html' %}
 </body>
 </html>
