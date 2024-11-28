@@ -12,42 +12,81 @@
     {% if result %}
     {% for values in result %}
         <form action="/changedata" method="post">
+              <input type="hidden" name="id" value="{{values.pid}}">
    <div>
         ProductName
-        <input type="text" value="{{values.pname}}" style="  height:20px;
-            width:500px;" >
+        <input type="text" value="{{values.pname}}" style="  height:20px;width:500px;" name="pname" >
    </div>
     <div>
         ReviewCount
-        <input type="number" value="{{values.reviewcount}}">
+        <input type="number" value="{{values.reviewcount}}" name="reviewcount">
     </div>
     <div>
         Brand
-        <input type="text" value="{{values.brand}}">
+        <input type="text" value="{{values.brand}}" name="brand">
     </div>
     <div>
         Image
-        <input type="text" value="{{values.imageurl}}">
+        <input type="text" value="{{values.imageurl}}" name="imageurl">
     </div>
     <div>
         Rating
-        <input type="text" value="{{values.rating}}">
+        <input type="number" value="{{values.rating}}" name="rating">
     </div>
     <div>
         Description
-        <textarea  rows="7" cols="80">{{values.description}}</textarea>
+        <textarea  rows="7" cols="80" name="description">{{values.description}}</textarea>
     </div>
     <div>
         Price
-        <input type="number" value="{{values.price}}">
+        <input type="number" value="{{values.price}}" name="price">
     </div>
     <button type="submit">Change </button>
 </form>
     {% endfor %}
-    {% elif  datas %}
-    {% for product in datas %}
+    {% endif %}
+    {% if  datas %}
+        {% for product in datas %}
 
-    {%endfor %}
+
+             <form action="/changedata" method="post">
+                 <input type="hidden" name="id" value="{{product.productId}}">
+   <div>
+        ProductName
+        <input type="text" value="{{product.productname}}" style="  height:20px;
+            width:500px;" name="pname">
+   </div>
+    <div>
+        ReviewCount
+        <input type="number" value="{{product.reviewcount}}" name="reviewcount">
+    </div>
+    <div>
+        Brand
+        <input type="text" value="{{product.productbrand}}" name="brand">
+    </div>
+    <div>
+        Image
+        <input type="text" value="{{product.imageurl}}" name="imageurl">
+    </div>
+    <div>
+        Rating
+        <input type="number" value="{{product.rating}}" name="rating">
+    </div>
+    <div>
+        Description
+        <textarea  rows="7" cols="80" name="description">{{product.description}}</textarea>
+    </div>
+    <div>
+        Category
+          <textarea  rows="4" cols="50" name="category">{{product.category}}</textarea>
+    </div>
+    <div>
+        Price
+        <input type="number" value="{{product.price}}" name="price">
+    </div>
+    <button type="submit">Change </button>
+</form>
+        {%endfor %}
 
     {% else %}
         <p>Noo</p>

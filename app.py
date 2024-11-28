@@ -1,13 +1,7 @@
-
 from os import truncate
-from xmlrpc.client import METHOD_NOT_FOUND
-
-from MySQLdb.constants.FLAG import UNSIGNED
 from flask import Flask, request, render_template, session, url_for, redirect
 import random
 from flask_sqlalchemy import SQLAlchemy
-from joblib.parallel import method
-from pyexpat.errors import messages
 from sqlalchemy import text
 import pandas as pd
 import math
@@ -84,6 +78,7 @@ class Signup(db.Model):
     email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     repassword= db.Column(db.String(100),nullable=False)
+    status=db.Column(db.Integer,nullable=False)
     carts = db.relationship('Cart', back_populates='user')
 
 
@@ -91,7 +86,7 @@ class Signin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
-
+    status=db.Column(db.Integer,nullable=False)
 
 trending_products = pd.read_csv("models/trending_products.csv")
 train_data = pd.read_csv("models/clean_dataset.csv")
@@ -215,9 +210,9 @@ def product_detail(pid):
             'ImageURL': result[4],
             'Rating': result[5],
             'Description': result[6] if len(result) > 7 else "No description available.",
-            'Price': result[7] if len(result) > 6 else None,  # Adjust if Price column exists
+            'Price': result[8] if len(result) > 6 else None,  # Adjust if Price column exists
         }
-        print(product_info['Description'])
+        print(product_info['Price'])
     else:
         result_db = train_data[train_data['ID'] == pid]
         if not result_db.empty:
@@ -233,7 +228,7 @@ def product_detail(pid):
                 'Description': result['Description'],  # Default description
                 'Price': result['Price'] if 'Price' in result else None
             }
-            print(product_info['Description'])
+            print(product_info['Price'])
         else:
             return "Product not found", 404
 
@@ -285,14 +280,14 @@ def signin():
         username = request.form['signinUsername']
         password = request.form['signinPassword']
 
-        user = Signup.query.filter_by(username=username, password=password).first()
+        user = Signup.query.filter_by(username=username, password=password,status=1).first()
 
         if user:
             session['userid']=user.id
             session['logged_in']=True
             signin_message="user signed in successfully"
         else:
-            signin_message = "invalid username or password"
+            signin_message = "invalid username or password or you are no longer able to login"
 
         products = DisplayProduct.query.all()
         return render_template('index.html',
@@ -370,7 +365,8 @@ def cart():
     pname = request.form.get("pname")
     price = request.form.get("price")
     image = request.form.get("image")
-
+    print(price)
+    print("Hello")
     if pid and pname and price and image:
         check = text("Select * from carts where userid = :userid and productid = :productid ")
         checkresult = db.session.execute(check,{'userid':user,'productid':pid}).fetchone()
@@ -503,7 +499,7 @@ def admin():
 @app.route("/adminusers")
 def adminusers():
 
-    query = text("Select * from signup")
+    query = text("Select * from signup where status =1")
     user= db.session.execute(query).fetchall()
     db.session.commit()
 
@@ -516,12 +512,31 @@ def adminlogout():
 
     return  redirect(url_for('index'))
 
+@app.route("/adminusersdeactive")
+def adminusersdeactive():
+    query = text("Select * from signup where status =0")
+    user = db.session.execute(query).fetchall()
+    db.session.commit()
+    return render_template('./admin/adminusersdeactive.html',users=user)
+
+
+@app.route("/activateuser",methods=['Post'])
+def activateuser():
+    userid = request.form.get('userid')
+    username = request.form.get('username')
+    query = text("update signup set status = 1 where id=:userid and username=:username")
+    db.session.execute(query, {'userid': userid, 'username': username})
+    db.session.commit()
+
+    return render_template('admin/activateuser.html')
+
 
 @app.route("/removeuser",methods=['POST','GET'])
 def removeuser():
     userid = request.form.get('userid')
     username=request.form.get('username')
-    query= text("Delete from signup where id=:userid and username=:username")
+    # query= text("Delete from signup where id=:userid and username=:username")
+    query= text("update signup set status = 0 where id=:userid and username=:username")
     db.session.execute(query,{'userid':userid,'username':username})
     db.session.commit()
 
@@ -538,9 +553,6 @@ def products():
     query2= text("Select * from products")
     result2= db.session.execute(query2).fetchall()
     db.session.commit()
-
-    for x in result2:
-        print(x.productname)
 
     return render_template('admin/products.html',result=result,result2=result2)
 
@@ -559,10 +571,68 @@ def editproduct():
     result2 = db.session.execute(query1, {'pid': productid, 'pname': productname})
     db.session.commit()
 
-    if result2:
-        print("eyyaihhhh")
-
     return render_template('admin/editproduct.html',result=result,datas= result2)
+
+
+@app.route("/changedata",methods=['Post'])
+def changedata():
+
+    pid= request.form.get('id')
+    pname=request.form.get('pname')
+    reviewcount=request.form.get('reviewcount')
+    brand=request.form.get('brand')
+    imageurl=request.form.get('imageurl')
+    rating=request.form.get('rating')
+    description=request.form.get('description')
+    category=request.form.get('category')
+    price=request.form.get('price')
+
+    query= text("Select * from displayproduct where pid=:pid and pname=:pname")
+    result = db.session.execute(query,{'pid':pid,'pname':pname})
+    db.session.commit()
+
+    query1 = text("Select * from products where productId=:pid and productname=:pname")
+    result1 = db.session.execute(query1, {'pid': pid, 'pname': pname})
+    db.session.commit()
+
+    if result:
+        print("Hello")
+        upquery = text(
+            "Update displayproduct set pname=:pname, reviewcount=:reviewcount, brand=:brand, imageurl=:imageurl,"
+            "rating=:rating, description=:description, category=:category, price=:price where pid=:pid")
+        db.session.execute(upquery,
+                                    {'pid': pid,
+                                    'pname': pname,
+                                     'reviewcount': reviewcount,
+                                     'brand': brand,
+                                     'imageurl': imageurl,
+                                    'rating': rating,
+                                     'description': description,
+                                     'category': category,
+                                    'price': price }
+                           )
+        db.session.commit()
+        print("Success")
+
+
+    if result1:
+        print("Hellowww")
+        upquery2 = text(
+            "Update products set productname=:pname, reviewcount=:reviewcount, productbrand=:brand, imageurl=:imageurl,"
+            "rating=:rating, description=:description, category=:category, price=:price where productId=:productId ")
+        db.session.execute(upquery2,
+                                       {'productId': pid,'pname': pname, 'reviewcount': reviewcount, 'brand': brand,
+                                        'imageurl': imageurl,
+                                        'rating': rating, 'description': description, 'category': category,
+                                        'price': price })
+        db.session.commit()
+        print("Successw")
+
+
+
+
+    return render_template('admin/changedata.html')
+
 
 @app.route("/purchase")
 def purchase():
@@ -585,6 +655,11 @@ def purchase():
         db.session.commit()
 
     return render_template('admin/purchase.html',results=result,names=nameresult)
+
+@app.route("/addproduct")
+def addproduct():
+
+    return render_template('admin/addproduct.html')
 
 
 @app.route("/about")

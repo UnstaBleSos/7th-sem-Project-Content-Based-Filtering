@@ -1,14 +1,19 @@
 
-admin bata crud
-voli ko lagi
 
 
-tes paxi admin ra category baki hunxa
+
+
+
 
 glow.ktmbees.com ko herera banaune
 
 brand ra category many to many
 product ra category many to one
+
+
+admin bata add
+category halna
+ani banner
 
 
 

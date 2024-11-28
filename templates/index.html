@@ -30,13 +30,12 @@
 <body>
 
 {% include 'header.html' %}
-{% if signup_message %}
-<p>{{signup_message}}</p>
-{% endif%}
 
-{% if signin_message %}
-<p>{{signin_message}}</p>
-{% endif%}
+
+
+{% if messages %}
+<h1 id="messages" style="color:red; margin-left:15%; margin-bottom:10px;" >{{messages}}</h1>
+{% endif %}
 <!--<div class="text-center mt-5" style="margin-bottom:20px;">-->
 <!--  <a  href="main" class="btn btn-primary btn-lg">Go To Main Page</a>-->
 <!--</div>-->
@@ -55,7 +54,24 @@
 
 {% include 'footer.html' %}
 </body>
-
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+             setTimeout(function() {
+            const messageElement = document.getElementById("message");
+            if (messageElement) {
+                messageElement.style.display = "none";
+            }
+        }, 2000);
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+             setTimeout(function() {
+            const messageElement = document.getElementById("messages");
+            if (messageElement) {
+                messageElement.style.display = "none";
+            }
+        }, 2000);
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

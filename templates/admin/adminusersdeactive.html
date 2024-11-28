@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+ {% if users %}
+            {% for user in users %}
+ {{user.username}}
+    <form action="/activateuser" method="post">
+                      <input type="hidden" name="userid" value="{{user.id}}">
+                      <input type="hidden" name="username" value="{{user.username}}">
+                      <div>
+
+                            <button type="submit">Activate</button>
+                      </div>
+                  </form>
+   {% endfor %}
+        {% else %}
+            <p>User not present</p>
+ </div>
+       {% endif %}
+ {% include './admin/backlink.html' %}
+</body>
+</html>

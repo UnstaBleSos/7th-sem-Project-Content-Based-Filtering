@@ -29,12 +29,12 @@
 
         <form action="editproduct" method="post">
             <input type="hidden" name="productname" value="{{value.productname}}">
-            <input type="hidden" name="productid" value="{{value.productid}}">
+            <input type="hidden" name="productid" value="{{value.productId}}">
             <button type="submit">Edit</button>
         </form>
          <form action="delete" method="post">
             <input type="hidden" name="" value="{{value.pname}}">
-            <button type="submit">Deactivate</button>
+            <button type="submit">Delete</button>
         </form>
             {% endfor %}
         {%endif %}
