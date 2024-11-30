@@ -728,6 +728,31 @@ def insert():
     return  render_template('admin/insert.html')
 
 
+
+@app.route("/categories")
+def categories():
+
+    return render_template('categories.html')
+
+
+@app.route("/showinfo",methods=['Post'])
+def showinfo():
+
+    vall=request.form.get('category')
+    print(vall)
+    query=text("select * from products where category=:category")
+    result=db.session.execute(query,{'category':vall})
+    db.session.commit()
+    if result:
+        print("hello")
+        for value in result:
+           if(value.category[0] == vall):
+                print(value.productId)
+                print("Helkdfkjdfkjdfk")
+
+
+    return render_template('showinfo.html')
+
 @app.route("/about")
 def about():
     return render_template('about.html')

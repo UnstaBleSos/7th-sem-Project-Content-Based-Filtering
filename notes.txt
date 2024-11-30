@@ -7,11 +7,6 @@
 
 glow.ktmbees.com ko herera banaune
 
-brand ra category many to many
-product ra category many to one
-
-
-admin bata add
 category halna
 ani banner
 
