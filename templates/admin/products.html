@@ -18,7 +18,8 @@
             <button type="submit">Edit</button>
         </form>
          <form action="delete" method="post">
-            <input type="hidden" name="" value="{{data.pname}}">
+            <input type="hidden" name="productname" value="{{data.pname}}">
+              <input type="hidden" name="productid" value="{{data.pid}}">
             <button type="submit">Delete</button>
         </form>
             {% endfor %}
@@ -33,7 +34,8 @@
             <button type="submit">Edit</button>
         </form>
          <form action="delete" method="post">
-            <input type="hidden" name="" value="{{value.pname}}">
+            <input type="hidden" name="productid" value="{{value.productId}}">
+            <input type="hidden" name="productname" value="{{value.productname}}">
             <button type="submit">Delete</button>
         </form>
             {% endfor %}

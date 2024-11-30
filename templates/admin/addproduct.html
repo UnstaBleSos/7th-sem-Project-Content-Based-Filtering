@@ -7,16 +7,29 @@
 </head>
 <body>
     <h1>eyaihhh</h1>
-    <form action="">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-        <input type="text">
+    <div>
+        <form action="/insert" method="post">
+             Product ID
+                <input type="text" name="id">
+            Product Name
+                <input type="text" name="name">
+            Review Count
+                <input type="number"name="reviewcount" min="0"  >
+             Product Brand
+                <input type="text" name="brand">
+             ImageUrl
+                <input type="text" name="imageurl">
+             Rating
+                <input type="number" name="rating" min="0" step="0.5">
+             Description
+                <input type="text" name="description">
+             Category
+                <input type="text" name="category">
+             Price
+                 <input type="number" name="price" min="100" step="0.5">
+            <button type="submit">ADD</button>
     </form>
+    </div>
     <a href="admin">Go Back</a>
 </body>
 </html>

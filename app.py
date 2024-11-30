@@ -2,6 +2,7 @@ from os import truncate
 from flask import Flask, request, render_template, session, url_for, redirect
 import random
 from flask_sqlalchemy import SQLAlchemy
+
 from sqlalchemy import text
 import pandas as pd
 import math
@@ -626,13 +627,32 @@ def changedata():
                                         'rating': rating, 'description': description, 'category': category,
                                         'price': price })
         db.session.commit()
-        print("Successw")
+        print("Great Successw")
 
 
 
 
     return render_template('admin/changedata.html')
 
+@app.route("/delete",methods=['post'])
+def delete():
+
+    id=request.form.get('productid')
+    name=request.form.get('productname')
+
+    if id.isdigit():
+        print("eyaiii")
+        query = text("Delete from displayproduct where pid=:id and pname=:name")
+        result = db.session.execute(query, {'id': id, 'name': name})
+        db.session.commit()
+    else:
+        query1 = text("Delete from products where productId=:id and productname=:name")
+        result1 = db.session.execute(query1, {'id': id, 'name': name})
+        print("eyaihhhhdfdfdf")
+        db.session.commit()
+
+
+    return render_template('admin/deleteproduct.html')
 
 @app.route("/purchase")
 def purchase():
@@ -660,6 +680,52 @@ def purchase():
 def addproduct():
 
     return render_template('admin/addproduct.html')
+
+@app.route("/insert",methods=['post'])
+def insert():
+
+    id=request.form.get('id')
+    name=request.form.get('name')
+    reviewcount=request.form.get('reviewcount')
+    brand=request.form.get('brand')
+    imageurl=request.form.get('imageurl')
+    rating=request.form.get('rating')
+    description=request.form.get('description')
+    category=request.form.get('category')
+    price=request.form.get('price')
+
+    print(id.isdigit())
+    print(len(id))
+
+    if (id).isdigit():
+        query=text("""
+                    INSERT INTO displayproduct 
+                    (pname, reviewcount, brand, imageurl, rating, description, category, price)
+                    VALUES (:name, :reviewcount, :brand, :imageurl, :rating, :description, :category, :price)
+                    """)
+        result=db.session.execute(query,{'name':name,'reviewcount':reviewcount,'brand':brand,'imageurl':imageurl,'rating':rating,'description':description,
+                                         'category':category,'price':price})
+        db.session.commit()
+        if result:
+            print("Hello")
+    else:
+        query = text("""
+                            INSERT INTO products 
+                            (productId,productname, reviewcount, productbrand, imageurl, rating, description, category, price)
+                            VALUES (:id,:name, :reviewcount, :brand, :imageurl, :rating, :description, :category, :price)
+                            """)
+        result = db.session.execute(query, {'id': id, 'name': name, 'reviewcount': reviewcount, 'brand': brand,
+                                            'imageurl': imageurl, 'rating': rating, 'description': description,
+                                            'category': category, 'price': price})
+        db.session.commit()
+        if result:
+            print("Hello333")
+        print("Hello else nice  ")
+
+
+
+
+    return  render_template('admin/insert.html')
 
 
 @app.route("/about")
