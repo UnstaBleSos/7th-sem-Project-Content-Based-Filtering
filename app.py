@@ -271,7 +271,7 @@ def signup():
         return render_template('index.html',data= products,message=signup_message)
 
     products = DisplayProduct.query.all()
-    return render_template('index.html', data=products, message="Please sign in")
+    return render_template('index.html', data=products, message="Please sign up")
 
 
 
@@ -728,6 +728,9 @@ def insert():
     return  render_template('admin/insert.html')
 
 
+@app.route("/heads")
+def heads():
+    return render_template('heads.html')
 
 @app.route("/categories")
 def categories():
