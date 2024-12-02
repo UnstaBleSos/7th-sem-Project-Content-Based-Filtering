@@ -94,7 +94,7 @@
                        class="img-fluid"
                        alt="{{ product['Name'] }}"
                        style="height: 200px;"
-                       onerror="this.src='{{ product['ImageURL'].split('|')[1].strip() if '|' in product['ImageURL'] else 'path_to_default_image.jpg' }}'">
+                       onerror="this.src='{{ product['ImageURL'].split('|')[1].strip() if '|' in product['ImageURL']  }}'">
 
             <div class="card-body">
                 <h5 class="card-title">{{ rec.Name }}</h5>

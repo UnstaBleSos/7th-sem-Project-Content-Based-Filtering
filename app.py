@@ -738,20 +738,19 @@ def categories():
 @app.route("/showinfo",methods=['Post'])
 def showinfo():
 
-    vall=request.form.get('category')
-    print(vall)
-    query=text("select * from products where category=:category")
-    result=db.session.execute(query,{'category':vall})
-    db.session.commit()
-    if result:
-        print("hello")
-        for value in result:
-           if(value.category[0] == vall):
-                print(value.productId)
-                print("Helkdfkjdfkjdfk")
+    category=request.form.get('category')
+    print(category)
 
 
-    return render_template('showinfo.html')
+    if category=='all':
+        query=text("select * from products ")
+        result=db.session.execute(query)
+    else:
+        query = text("SELECT * FROM products WHERE category LIKE :category;")
+        result = db.session.execute(query, {'category': f'%{category}%'})
+
+    return render_template('categories.html',products=result)
+
 
 @app.route("/about")
 def about():
