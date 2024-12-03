@@ -57,7 +57,7 @@
 <!--    </nav>-->
 <!--</body>-->
 <!--</html>-->
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
     *{
         margin:0;
@@ -70,6 +70,10 @@
         font-size:1.3rem;
         color:black;
         text-decoration:none;
+
+    }
+    .logo:hover{
+        color:black;
     }
     .search-bar{
         margin-top:5px;
@@ -86,11 +90,16 @@
         padding:5px;
     }
     .search-bar button:hover{
-        background-color:grey;
-        transition:0.5s
+        background-color:#EDE7F6;
+        transition:0.5s;
+        color:#424242;
     }
     .cart {
         margin:10 20px;
+    }
+    .cart i:hover{
+        background-color:white;
+        color:#FF5722;
     }
     .nav-links{
         display:flex;
@@ -100,6 +109,19 @@
     .nav-links a{
         color:black;
         font-size:1.2rem;
+
+    }
+    .signin{
+        background-color: #EDE7F6;
+        color:#424242;
+    }
+    .signin:hover{
+        color:  #FF5722 ;
+    }
+    .signup:hover{
+        background-color:#6A1B9A;
+        color:#FDD835;
+        transition:0.5s;
     }
     .signup, .signin{
          color:black;
@@ -108,10 +130,16 @@
          padding:5px;
         border:1px solid black
     }
-     .nav-links a:hover{
-        background-color:beige;
-        transition:0.8s;
-        color:red;
+
+    .logout{
+        border-radius:5px;
+         padding:5px;
+        border:1px solid black
+    }
+    .logout:hover{
+        background-color:red;
+        color:white;
+        transition:0.5s;
     }
 </style>
 
@@ -119,12 +147,18 @@
 {% include'signup.html' %}
 
   <nav class="navbar">
-        <a class="logo" href="/index">HamroPasal</a>
+        <div>
+            <a href="/categories">
+                <i class="fa-solid fa-bars"></i>
+            </a>
+        </div>
+
+      <a class="logo" href="/index" style="text-decoration:none">HamroPasal</a>
 
         <div class="search-bar">
             <form action="/search" method="GET" style="display: flex; width: 100%;">
                 <input type="search" name="query" placeholder="Search" aria-label="Search">
-                <button type="submit">Search</button>
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
         </div>
 
@@ -134,10 +168,10 @@
                     <a href="/cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
                 </div>
                {% if session.get('logged_in') %}
-                     <a  href="/logout">Logout</a>
+                     <a class="logout" href="/logout" style="text-decoration:none;">Logout</a>
                 {% else %}
-                     <a class="signup"  href="#" data-toggle="modal" data-target="#signupModal" style="text-decoration:none">Sign Up</a>
-                     <a class="signin"  href="#" data-toggle="modal" data-target="#signinModal" style="text-decoration:none">Sign In</a>
+                     <a class="signup login"  href="#" data-toggle="modal" data-target="#signupModal" style="text-decoration:none">Sign Up</a>
+                     <a class="signin login"  href="#" data-toggle="modal" data-target="#signinModal" style="text-decoration:none">Sign In</a>
                 {% endif %}
         </div>
     </nav>

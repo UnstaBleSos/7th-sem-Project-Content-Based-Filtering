@@ -732,6 +732,11 @@ def insert():
 def heads():
     return render_template('heads.html')
 
+
+@app.route("/foots")
+def foots():
+    return render_template('foots.html')
+
 @app.route("/categories")
 def categories():
 
@@ -744,7 +749,6 @@ def showinfo():
     category=request.form.get('category')
     print(category)
 
-
     if category=='all':
         query=text("select * from products ")
         result=db.session.execute(query)
@@ -752,7 +756,7 @@ def showinfo():
         query = text("SELECT * FROM products WHERE category LIKE :category;")
         result = db.session.execute(query, {'category': f'%{category}%'})
 
-    return render_template('categories.html',products=result)
+    return render_template('categories.html',products1=result)
 
 
 @app.route("/about")

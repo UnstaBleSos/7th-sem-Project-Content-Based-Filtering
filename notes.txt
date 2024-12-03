@@ -1,10 +1,10 @@
 
 
 
-header ra footer design change
+
 products haru ko view pani change
 admin ko sabbai ma css xaina
-
+category lai front page ma integrate
 
 
 glow.ktmbees.com ko herera banaune
@@ -13,3 +13,16 @@ ani banner
 
 
 
+Palette 2: Modern and Bold
+Primary: #FF5722 (Orange)
+Accent: #2196F3 (Blue)
+Background: #FFFFFF (White)
+Text: #212121 (Black)
+
+
+Palette 3: Elegant and Minimal
+Primary: #6A1B9A (Purple)
+Accent: #FDD835 (Yellow)
+Background: #EDE7F6 (Soft Lavender)
+Text: #424242 (Gray)
+#FF5722
