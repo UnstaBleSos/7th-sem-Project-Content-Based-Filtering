@@ -9,7 +9,18 @@
         .categories{
             display:flex;
         }
-        .showinfo{
+        .buttons{
+            height:230px;
+            width:150px;
+            border-radius:8px;
+            border: 1px solid black;
+            margin:20px;
+            background-color: #f9f9f9;
+        }
+        .buttons button{
+              border-radius:5px;
+        }
+        .info{
              display: flex;
              flex-wrap:wrap;
              justify-content: space-evenly;
@@ -19,66 +30,50 @@
         }
         .products{
             display:flex;
+             border: 1px solid black;
+            height:500px;
+            width:400px;
+            margin-bottom:30px;
+        }
+        .product{
+
         }
     </style>
 </head>
 <body>
-{%include 'header.html' %}
+{%include 'heads.html' %}
 {%include 'signup.html' %}
 {%include 'signin.html' %}
 
-    <div class="categories">
-    <div class="buttons">
-        <form action="showinfo" method="Post">
-            <ul style="list-style-type:none;">
-                <li>
-                    <button type="submit"  name="category" value="all">All</button>
-                </li>
-                <li>
-                    <button type="submit"  name="category" value="personal">Personal</button>
-                </li>
-                <li>
-                    <button type="submit"  name="category" value="beauty">Beauty</button>
-                </li>
-                <li>
-                    <button type="submit"  name="category" value="care">Care</button>
-                </li>
-                <li>
-                    <button type="submit"  name="category" value="premium">Premium</button>
-                </li>
-            </ul>
-
-        </form>
-    </div>
-    <div class="showinfo">
+<div class="categories">
+    {% include 'categorybutton.html' %}
+    <div class="info">
         {% if products1 %}
             {% for product in products1 %}
-        <div class="products" style="height:300px; width:400px;margin-bottom:300px;">
-
-            <div>
-                <h3>{{ product['productname'] }}</h3>
-                 <div>
-                    <img src="{{product['imageurl'].split('|')[0].strip()}}" alt="{{ product['name'] }}" height="200px" width="200px">
+                <div class="products" style="">
+                     <div class="product">
+                        <h3>{{ product['productname'] }}</h3>
+                             <div>
+                                 <img src="{{product['imageurl'].split('|')[0].strip()}}" alt="{{ product['name'] }}" height="200px" width="200px">
+                            </div>
+                            <p>Rating: {{ product['rating'] }}</p>
+                            <p>Category: {{ product['category'] }}</p>
+                            <p>Price: {{ product['price'] }}</p>
+                            <form action="/cart" method="post" >
+                                <input type="hidden" name="pid" value="{{product['productId']}}">
+                                <input type="hidden" name="pname" value="{{product['productname']}}">
+                                <input type="hidden" name="image" value="{{ product['imageurl'].split('|')[0].strip() }}">
+                                <input type="hidden" name="price" value="{{product['price']}}">
+                                <button type="submit">Add to Cart</button>
+                                <a href="{{ url_for('product_detail', pid=product['productId']) }}" class="btn btn-primary">View Details</a>
+                             </form>
+                    </div>
                 </div>
-                <p>Rating: {{ product['rating'] }}</p>
-                <p>Category: {{ product['category'] }}</p>
-                <p>Price: {{ product['price'] }}</p>
-                <form action="/cart" method="post" >
-
-                    <input type="hidden" name="pid" value="{{product['productId']}}">
-                    <input type="hidden" name="pname" value="{{product['productname']}}">
-                    <input type="hidden" name="image" value="{{ product['imageurl'].split('|')[0].strip() }}">
-                    <input type="hidden" name="price" value="{{product['price']}}">
-                    <button type="submit">Add to Cart</button>
-                    <a href="{{ url_for('product_detail', pid=product['productId']) }}" class="btn btn-primary">View Details</a>
-                </form>
-            </div>
-
-        </div>
             {% endfor %}
         {% endif %}
     </div>
-    </div>
+</div>
+{%include 'foots.html' %}
 </body>
 <script>
 

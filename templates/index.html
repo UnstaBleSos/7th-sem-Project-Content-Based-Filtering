@@ -29,12 +29,12 @@
 
 <body>
 
-{% include 'header.html' %}
+{% include 'heads.html' %}
 
 
 
-{% if messages %}
-<h1 id="messages" style="color:red; margin-left:15%; margin-bottom:10px;" >{{messages}}</h1>
+{% if message %}
+<h1 id="messages" style="color:red; margin-left:15%; margin-bottom:10px;" >{{message}}</h1>
 {% endif %}
 <!--<div class="text-center mt-5" style="margin-bottom:20px;">-->
 <!--  <a  href="main" class="btn btn-primary btn-lg">Go To Main Page</a>-->
@@ -53,9 +53,9 @@
 
 
 
-<a href="./categories"><button>Category</button></a>
 
-{% include 'footer.html' %}
+
+{% include 'foots.html' %}
 </body>
 <script>
   document.addEventListener("DOMContentLoaded", function() {

@@ -259,8 +259,16 @@ def signup():
         password = request.form['password']
         repassword = request.form['repassword']
 
+        user = text("Select username from signup where username=:username")
+        result= db.session.execute(user,{'username':username}).scalar()
+
+        if result:
+            products = DisplayProduct.query.all()
+            return render_template('index.html', data=products, message="Username already exits try again")
+
+
         if(password == repassword):
-            new_signup = Signup(username=username, email=email, password=password,repassword= repassword)
+            new_signup = Signup(username=username, email=email, password=password,repassword= repassword,status=1,role='user')
             db.session.add(new_signup)
             db.session.commit()
             signup_message="User signed up successfully"
@@ -292,7 +300,7 @@ def signin():
 
         products = DisplayProduct.query.all()
         return render_template('index.html',
-                               data=products,messages=signin_message
+                               data=products,message=signin_message
                                )
     products = DisplayProduct.query.all()
     return render_template('index.html',data=products,message="Please log in")
@@ -758,6 +766,10 @@ def showinfo():
 
     return render_template('categories.html',products1=result)
 
+@app.route("/categorybutton")
+def categorybutton():
+
+    return render_template('categorybutton.html')
 
 @app.route("/about")
 def about():

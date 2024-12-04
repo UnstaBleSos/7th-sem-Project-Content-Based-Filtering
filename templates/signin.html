@@ -1,9 +1,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4//css/all.min.css">
 
-{% if message %}
-<h1 id="message" style="color:red; margin-left:45%; margin-bottom:10px;" >{{message}}</h1>
-{% endif %}
+
 
 
 
@@ -12,7 +10,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="signinModalLabel">Sign In</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="modal-body">
         <form action="/signin" method="post">
@@ -33,14 +31,6 @@
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-             setTimeout(function() {
-            const messageElement = document.getElementById("message");
-            if (messageElement) {
-                messageElement.style.display = "none";
-            }
-        }, 2000);
-    });
 
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -1,8 +1,26 @@
- <div class="sidebar">
-            <div><a href="products">Edit Products</a></div>
-            <div><a href="/purchase">Purchase History</a></div>
-            <div><a href="/adminusers">Deactivate Users</a></div>
-            <div><a href="/adminusersdeactive">Activate Users</a></div>
-            <div><a href="/addproduct">Add Products</a></div>
-            <div><a href="/adminlogout">Logout</a></div>
+<style>
+    .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+    padding: 10px;
+}
+
+.sidebar a {
+    color: black;
+    text-decoration: none;
+    font-size: 1.4rem;
+
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="sidebar">
+            <a href="products">Edit   <i class="fa-solid fa-pen"></i></a>
+            <a href="/purchase">Purchase </a>
+            <a href="/adminusers">Deactivate </a>
+            <a href="/adminusersdeactive">Activate </a>
+            <a href="/addproduct">Add Products</a>
+            <a href="/adminlogout">Logout</a>
 </div>

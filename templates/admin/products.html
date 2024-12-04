@@ -4,42 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
+
+
+<!--    <style>-->
+
+<!--        .products-container{-->
+<!--            display:flex;-->
+
+
+<!--        }-->
+<!--       .product-items {-->
+<!--            display: flex;-->
+<!--            flex-wrap:wrap;-->
+<!--            width:80%;-->
+<!--            margin-left:20px;-->
+<!--            text-align:center;-->
+<!--        }-->
+<!--        .image{-->
+<!--            margin:30px;-->
+<!--        }-->
+<!--        .card{-->
+<!--            height:300px;-->
+<!--            width:350px;-->
+<!--            margin:20px;-->
+<!--            border:1px solid black;-->
+<!--            border-radius:8px;-->
+
+<!--        }-->
+<!--        .buttons{-->
+<!--            display:flex;-->
+<!--            border:1px solid black;-->
+<!--            justify-content:space-around;-->
+<!--            width:200px;-->
+<!--            margin-left:80px;-->
+<!--        }-->
+<!--        .buttons button{-->
+<!--           border-radius:5px;-->
+<!--            padding:8px;-->
+<!--        }-->
+<!--    </style>-->
+    <style>
+        .products-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.card {
+    height: 280px;
+    width: 250px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.image {
+    margin: 10px 0;
+}
+
+.image img {
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.buttons {
+        display: flex;
+        justify-content: center;
+        gap: 80px;
+        margin-top: auto;
+    }
+
+.buttons button {
+    padding: 8px 12px;
+    border: 1px solid ;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+
+}
+.edit{
+        background-color:#77DD77;
+    }
+        .edit:hover{
+            background-color:  #98FB98;
+}
+.delete{
+        background-color:#E57373;
+    }
+        .delete:hover{
+            background-color:#FF7F7F;
+
+        }
+    </style>
 </head>
 <body>
-    <div>
+{% include 'admin/adminheader.html' %}
+    <div class="products-container">
+        {% include 'admin/adminsidebar.html' %}
+        <div class="product-items">
+            {% if result  %}
+                {% for data in result %}
+                    <div class="card">
+                       <p>
+                        {{data.pname}}
+                       </p>
 
-        {% if result  %}
-            {% for data in result %}
-                    {{data.pname}}
+                         <div class="image">
+                             <img src="{{data.imageurl.split('|')[0].strip()}}" alt="{{data.pname}}" height="150px" width="150px">
+                        </div>
+                        <div class="buttons">
+                            <form action="editproduct" method="post">
+                                <input type="hidden" name="productname" value="{{data.pname}}">
+                                <input type="hidden" name="productid" value="{{data.pid}}">
+                                <button type="submit" class="edit"><i class="fa-solid fa-pen"></i></button>
+                            </form>
+                            <form action="delete" method="post">
+                                <input type="hidden" name="productname" value="{{data.pname}}">
+                                <input type="hidden" name="productid" value="{{data.pid}}">
+                                <button type="submit" class="delete"> <i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </div>
+                    </div>
+             {% endfor %}
+            {% endif %}
 
-        <form action="editproduct" method="post">
-            <input type="hidden" name="productname" value="{{data.pname}}">
-            <input type="hidden" name="productid" value="{{data.pid}}">
-            <button type="submit">Edit</button>
-        </form>
-         <form action="delete" method="post">
-            <input type="hidden" name="productname" value="{{data.pname}}">
-              <input type="hidden" name="productid" value="{{data.pid}}">
-            <button type="submit">Delete</button>
-        </form>
-            {% endfor %}
-        {% endif %}
-        {% if result2 %}
-           {% for value in result2 %}
-                    {{value.productname}}
 
-        <form action="editproduct" method="post">
-            <input type="hidden" name="productname" value="{{value.productname}}">
-            <input type="hidden" name="productid" value="{{value.productId}}">
-            <button type="submit">Edit</button>
-        </form>
-         <form action="delete" method="post">
-            <input type="hidden" name="productid" value="{{value.productId}}">
-            <input type="hidden" name="productname" value="{{value.productname}}">
-            <button type="submit">Delete</button>
-        </form>
-            {% endfor %}
-        {%endif %}
+            {% if result2 %}
+                {% for value in result2 %}
+                     <div class="card">
+                            {{value.productname}}
+                         <div class="image">
+                            <img src="{{value.imageurl.split('|')[0].strip()}}" alt="{{value.pname}}" height="150px" width="150px">
+                         </div>
+                        <div class="buttons">
+                            <form action="editproduct" method="post">
+                                <input type="hidden" name="productname" value="{{value.productname}}">
+                                <input type="hidden" name="productid" value="{{value.productId}}">
+                                <button type="submit" class="edit"><i class="fa-solid fa-pen"></i></button>
+                            </form>
+                            <form action="delete" method="post">
+                                <input type="hidden" name="productid" value="{{value.productId}}">
+                                <input type="hidden" name="productname" value="{{value.productname}}">
+                                <button type="submit" class="delete"> <i class="fa-solid fa-trash"></i></button>
+
+                             </form>
+                         </div>
+                     </div>
+                {% endfor %}
+            {%endif %}
+        </div>
     </div>
  {% include './admin/backlink.html' %}
 </body>

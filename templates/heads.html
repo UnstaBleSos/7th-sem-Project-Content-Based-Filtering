@@ -58,6 +58,7 @@
 <!--</body>-->
 <!--</html>-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
     *{
         margin:0;
@@ -65,6 +66,7 @@
     }
     .navbar{
         border-bottom:1px solid grey;
+        margin-bottom:10vh;
     }
     .logo{
         font-size:1.3rem;
@@ -95,7 +97,7 @@
         color:#424242;
     }
     .cart {
-        margin:10 20px;
+        margin-right:1rem;
     }
     .cart i:hover{
         background-color:white;
@@ -103,8 +105,8 @@
     }
     .nav-links{
         display:flex;
-        justify-contents:space-evenly;
-        width:40vh;
+        align-items:center;
+
     }
     .nav-links a{
         color:black;
@@ -130,11 +132,12 @@
          padding:5px;
         border:1px solid black
     }
-
     .logout{
+
         border-radius:5px;
          padding:5px;
         border:1px solid black
+
     }
     .logout:hover{
         background-color:red;
@@ -143,15 +146,11 @@
     }
 </style>
 
-{% include'signin.html' %}
-{% include'signup.html' %}
+{% include 'signin.html' %}
+{% include 'signup.html' %}
 
   <nav class="navbar">
-        <div>
-            <a href="/categories">
-                <i class="fa-solid fa-bars"></i>
-            </a>
-        </div>
+
 
       <a class="logo" href="/index" style="text-decoration:none">HamroPasal</a>
 
@@ -163,15 +162,21 @@
         </div>
 
 
+               {% if session.get('logged_in') %}
         <div class="nav-links">
-                <div class="cart">
+
+            <div class="cart">
                     <a href="/cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
                 </div>
-               {% if session.get('logged_in') %}
                      <a class="logout" href="/logout" style="text-decoration:none;">Logout</a>
+               </div>
                 {% else %}
+       <div class="nav-links">
+            <div class="cart">
+                    <a href="/cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
+                </div>
                      <a class="signup login"  href="#" data-toggle="modal" data-target="#signupModal" style="text-decoration:none">Sign Up</a>
                      <a class="signin login"  href="#" data-toggle="modal" data-target="#signinModal" style="text-decoration:none">Sign In</a>
-                {% endif %}
         </div>
+                {% endif %}
     </nav>

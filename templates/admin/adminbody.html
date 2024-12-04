@@ -28,27 +28,27 @@
     </style>
 
 <div class="body">
-        {%include './admin/adminsidebar.html' %}
+
         <div class="information">
-            <div>
+            <div class="users">
                 Total Users
                  {% for x in user %}
                     {{x}}
                 {% endfor %}
             </div>
-            <div>
+            <div class="products">
                 Total Products
                 {% if product %}
                     {{product}}
                 {% endif %}
             </div>
-            <div>
+            <div class="purchases">
                 Total Purchases
                 {% for x in totalcount %}
                     {{x}}
                 {% endfor %}
             </div>
-            <div>
+            <div class="spent">
                 Total MoneySpent
                     {% if price %}
                         {{price}}
