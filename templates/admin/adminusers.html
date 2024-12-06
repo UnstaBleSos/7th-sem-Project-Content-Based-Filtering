@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
     <style>
-         .nav{
 
-            height:80px;
-            font-size:2rem;
-        }
          .sidebar{
 
               width:15%;
@@ -24,25 +20,59 @@
             width:85%;
             font-size:1.8rem;
         }
+        .form-item{
+        display:flex;
+        justify-content:space-around;
+        flex-direction:column;
+        margin-left:100px;
+        }
+
+
+        form  input{
+            margin: 20px;
+        }
+
+        .adminuser-container{
+        display:flex;
+        }
+        .each{
+        width:250px;
+        display:flex;
+        justify-content:space-between;
+        }
+        .deactivate{
+            padding:4px;
+            border-radius:4px;
+        }
+        .deactivate:hover{
+            background-color:#FF7F7F;
+            transition:0.2s;
+        }
     </style>
 </head>
 <body>
+
    {% include './admin/adminheader.html' %}
-   <div style="display:flex;">
+<div class="adminuser-container">
         {%include './admin/adminsidebar.html' %}
+    <div style="margin-left:300px;
+        border:1px solid black;
+        border-radius:8px;width:500px;text-align:center;margin-top:10px;">
 
-
+                  <h2>USERS</h2>
          {% if users %}
             {% for user in users %}
-              <div>
-                  <form action="/removeuser" method="post">
-                      <input type="hidden" name="userid" value="{{user.id}}">
-                      <input type="hidden" name="username" value="{{user.username}}">
-                      <div>
-                            {{user.username}}
-                            <button type="submit">Deactivate</button>
-                      </div>
+              <div class="form-item" >
+                  <form action="/removeuser" class="each" method="post">
+                      <input type="hidden" name="userid" value="{{user.id}}" style="margin-bottom:20px;">
+                      <input type="hidden" name="username" value="{{user.username}}" style="margin-bottom:20px;">
+                           <strong>
+                                {{user.username}}
+                           </strong>
+
+                            <button type="submit" class="deactivate">Deactivate</button>
                   </form>
+                  <br>
 
 
               </div>
@@ -50,10 +80,10 @@
             {% endfor %}
         {% else %}
             <p>User not present</p>
- </div>
        {% endif %}
- {% include './admin/backlink.html' %}
-
+    </div>
+<!-- {% include './admin/backlink.html' %}-->
+</div>
 
 
 </body>

@@ -5,43 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
     <style>
-
+        .form{
+            display:flex;
+            justify-content: center;
+            align-items:center;
+            border: 1px solid #000;
+            width: 800px;
+            border-radius: 8px;
+            padding: 50px;
+            margin-left: 100px;
+        }
+        .form-group{
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-group input{
+            border-radius:8px;
+            padding: 5px;
+            width: 500px;
+            margin-left:20px;
+        }
+        .from-group .description{
+            border-radius: 8px;
+            width: 200px !important;
+            background-color: red !important;
+            margin-left:20px !important;
+        }
+        .edit-container{
+            display: flex;
+            flex-direction: row;
+            margin-top: 50px;
+        }
+        .change{
+            border-radius:8px;
+            padding:8px;
+            margin-left:45%;
+            margin-top:10px;
+        }
+        .change:hover{
+            background-color:#98FB98;
+            transition:0.5s;
+        }
     </style>
 </head>
 <body>
-    {% if result %}
-    {% for values in result %}
-        <form action="/changedata" method="post">
-              <input type="hidden" name="id" value="{{values.pid}}">
-   <div>
-        ProductName
-        <input type="text" value="{{values.pname}}" style="  height:20px;width:500px;" name="pname" >
-   </div>
-    <div>
-        ReviewCount
+{% include './admin/adminheader.html' %}
+<div class="edit-container">
+    {% include './admin/adminsidebar.html' %}
+        <div class="form">
+            {% if result %}
+                {% for values in result %}
+                  <form action="/changedata" method="post">
+                    <input type="hidden" name="id" value="{{values.pid}}">
+                        <div class="form-group">
+                             Product Name
+                            <input type="text" value="{{values.pname}}" style="  height:20px;width:500px;" name="pname" >
+                        </div>
+    <div class="form-group">
+        Review Count
         <input type="number" value="{{values.reviewcount}}" name="reviewcount">
     </div>
-    <div>
+    <div class="form-group">
         Brand
         <input type="text" value="{{values.brand}}" name="brand">
     </div>
-    <div>
+    <div class="form-group">
         Image
         <input type="text" value="{{values.imageurl}}" name="imageurl">
     </div>
-    <div>
+    <div class="form-group">
         Rating
         <input type="number" value="{{values.rating}}" name="rating">
     </div>
-    <div>
+    <div class="form-group">
         Description
-        <textarea  rows="7" cols="80" name="description">{{values.description}}</textarea>
+        <textarea  class="description" rows="7" cols="80" name="description"  style="border-radius: 8px; width: 500px !important;">{{values.description}}</textarea>
     </div>
-    <div>
+    <div class="form-group">
         Price
         <input type="number" value="{{values.price}}" name="price">
     </div>
-    <button type="submit">Change </button>
+    <button type="submit" class="change">Change </button>
 </form>
     {% endfor %}
     {% endif %}
@@ -51,47 +96,49 @@
 
              <form action="/changedata" method="post">
                  <input type="hidden" name="id" value="{{product.productId}}">
-   <div>
+   <div class="form-group">
         ProductName
         <input type="text" value="{{product.productname}}" style="  height:20px;
             width:500px;" name="pname">
    </div>
-    <div>
+    <div class="form-group">
         ReviewCount
         <input type="number" value="{{product.reviewcount}}" name="reviewcount">
     </div>
-    <div>
+    <div class="form-group">
         Brand
         <input type="text" value="{{product.productbrand}}" name="brand">
     </div>
-    <div>
+    <div class="form-group">
         Image
         <input type="text" value="{{product.imageurl}}" name="imageurl">
     </div>
-    <div>
+    <div class="form-group">
         Rating
         <input type="number" value="{{product.rating}}" name="rating">
     </div>
-    <div>
+    <div class="form-group">
         Description
-        <textarea  rows="7" cols="80" name="description">{{product.description}}</textarea>
+        <textarea class="description" rows="7" cols="10" name="description"  style="border-radius: 8px; width: 500px !important;">{{product.description}}</textarea>
     </div>
-    <div>
+    <div class="form-group">
         Category
-          <textarea  rows="4" cols="50" name="category">{{product.category}}</textarea>
+          <textarea  rows="4" cols="50" name="category" style="border-radius: 8px; width: 500px !important;">{{product.category}}</textarea>
     </div>
-    <div>
+    <div class="form-group">
         Price
         <input type="number" value="{{product.price}}" name="price">
     </div>
-    <button type="submit">Change </button>
+    <button type="submit" class="change">Change </button>
 </form>
         {%endfor %}
 
     {% else %}
         <p>Noo</p>
     {% endif %}
+</div>
 
-    <a href="/products">Go Back</a>
+
+</div>
 </body>
 </html>

@@ -80,7 +80,9 @@ class Signup(db.Model):
     password = db.Column(db.String(100), nullable=False)
     repassword= db.Column(db.String(100),nullable=False)
     status=db.Column(db.Integer,nullable=False)
+    role= db.Column(db.String(255),nullable=False)
     carts = db.relationship('Cart', back_populates='user')
+
 
 
 class Signin(db.Model):
@@ -88,6 +90,12 @@ class Signin(db.Model):
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     status=db.Column(db.Integer,nullable=False)
+
+class Admin(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        adminName = db.Column(db.String(255), nullable=False)
+        adminPassword = db.Column(db.String(255), nullable=False)
+        role = db.Column(db.String(255), nullable=False)
 
 trending_products = pd.read_csv("models/trending_products.csv")
 train_data = pd.read_csv("models/clean_dataset.csv")
@@ -267,13 +275,13 @@ def signup():
             return render_template('index.html', data=products, message="Username already exits try again")
 
 
-        if(password == repassword):
+        if(password == repassword and len(password)>8):
             new_signup = Signup(username=username, email=email, password=password,repassword= repassword,status=1,role='user')
             db.session.add(new_signup)
             db.session.commit()
             signup_message="User signed up successfully"
         else:
-            signup_message="Password donot match"
+            signup_message="Password donot match or password length should be greater than 8"
 
         products = DisplayProduct.query.all()
         return render_template('index.html',data= products,message=signup_message)
@@ -289,12 +297,17 @@ def signin():
         username = request.form['signinUsername']
         password = request.form['signinPassword']
 
-        user = Signup.query.filter_by(username=username, password=password,status=1).first()
-
+        user = Signup.query.filter_by(username=username, password=password,status=1,role="user").first()
+        admins = Admin.query.filter_by(adminName=username,adminPassword=password,role="admin").first()
         if user:
             session['userid']=user.id
             session['logged_in']=True
             signin_message="user signed in successfully"
+        elif admins :
+            session['adminlogin'] = admins.id
+            session['adminlogin'] = True
+            signin_message="Welcome Admin"
+            return render_template('admin/admin.html',signin_message=signin_message)
         else:
             signin_message = "invalid username or password or you are no longer able to login"
 
@@ -478,7 +491,7 @@ def detail():
 @app.route("/admin")
 def admin():
 
-    session['adminlogin'] = True
+
 
     selectcount = text("select count(purchaseid) from purchase ")
     count = db.session.execute(selectcount).fetchone()
@@ -702,10 +715,12 @@ def insert():
     category=request.form.get('category')
     price=request.form.get('price')
 
-    print(id.isdigit())
-    print(len(id))
+    if not id.isspace() or not name.isspace() or not reviewcount.isspace() or not brand.isspace() or not imageurl.isspace() or not rating.isspace()or not description.isspace() or not category.isspace() or not price.isspace():
+        message="Value cannot be empty"
+        return render_template('admin/addproduct.html',message=message)
 
-    if (id).isdigit():
+
+    if (id).isdigit() :
         query=text("""
                     INSERT INTO displayproduct 
                     (pname, reviewcount, brand, imageurl, rating, description, category, price)

@@ -11,10 +11,24 @@
     }
 </style>
 <body>
+
    {% include './admin/adminheader.html' %}
+   {% if signin_message %}
+<h1 id="messages" style="color:red; margin-left:15%; margin-bottom:10px;" >{{signin_message}}</h1>
+{% endif %}
    <div class="admin">
        {% include './admin/adminsidebar.html' %}
         {%include './admin/adminbody.html' %}
    </div>
 </body>
+<script >
+    document.addEventListener("DOMContentLoaded", function() {
+             setTimeout(function() {
+            const messageElement = document.getElementById("messages");
+            if (messageElement) {
+                messageElement.style.display = "none";
+            }
+        }, 2000);
+    });
+</script>
 </html>

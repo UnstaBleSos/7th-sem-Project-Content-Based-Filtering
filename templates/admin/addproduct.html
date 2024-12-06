@@ -4,32 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
+    <style>
+        .addproduct{
+            display:flex;
+
+        }
+        .forms form{
+            display:flex;
+            flex-direction:column;
+            border:1px solid black;
+            width:300px;
+            padding:30px;
+            border-radius:8px;
+            margin-top:  20px ;
+            margin-left:300px;
+        }
+        .each{
+            margin-bottom:10px;
+            border-radius:8px;
+
+        }
+        .submit{
+            border-radius:8px;
+            padding:2px;
+            width: 80px !important;
+            margin-left:35%;
+        }
+        .submit:hover{
+            background-color:#77DD77;
+            transition:0.7s;
+        }
+    </style>
 </head>
 <body>
-    <h1>eyaihhh</h1>
-    <div>
-        <form action="/insert" method="post">
+   {% include 'admin/adminheader.html' %}
+    <div class="addproduct">
+        {% include 'admin/adminsidebar.html' %}
+        <div class="forms">
+             <form action="/insert"  class="each" method="post">
              Product ID
-                <input type="text" name="id">
+                <input type="text" class="each" name="id">
             Product Name
-                <input type="text" name="name">
+                <input type="text"  class="each" name="name">
             Review Count
-                <input type="number"name="reviewcount" min="0"  >
+                <input type="number" class="each" name="reviewcount" min="0"  >
              Product Brand
-                <input type="text" name="brand">
+                <input type="text" class="each" name="brand">
              ImageUrl
-                <input type="text" name="imageurl">
+                <input type="text" class="each" name="imageurl">
              Rating
-                <input type="number" name="rating" min="0" step="0.5">
+                <input type="number" class="each" name="rating" min="0" step="0.5">
              Description
-                <input type="text" name="description">
+                <input type="text"  class="each" name="description">
              Category
-                <input type="text" name="category">
+                <input type="text" class="each" name="category">
              Price
-                 <input type="number" name="price" min="100" step="0.5">
-            <button type="submit">ADD</button>
+                 <input type="number" class="each" name="price" min="100" step="0.5">
+            <button type="submit" class="submit">ADD</button>
     </form>
+        </div>
+
     </div>
-    <a href="admin">Go Back</a>
+
 </body>
 </html>

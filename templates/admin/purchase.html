@@ -6,62 +6,95 @@
     <title>Document</title>
     <style>
         .history{
-            margin-left:5%;
-            margin-top:5%;
-            margin-bottom:5%;
+            display:flex;
+            gap: 20px;
+            width: 100%;
+
         }
         .link a{
             margin-left:45%;
             text-decoration:none;
             color:black;
             font-size:1.2rem;
+
         }
         table{
             text-align:center;
             font-size:1.02rem
         }
+        .purchase{
+            margin-left:100px;
+            margin-top:10px;
+            display:flex;
+            flex-wrap:wrap;
+            gap:20px;
+            width:100%;
+        }
+        .purchase-info{
+            display:flex;
+            justify-content:center;
+            align-item:center;
+
+            flex-direction:column;
+            border:1px solid black;
+            margin-bottom:20px;
+            border-radius:8px;
+            width:450px;
+            padding:20px;
+        }
     </style>
 </head>
 <body>
+{% include 'admin/adminheader.html' %}
+
    {% if results %}
 
 <div class="history">
-   <table>
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Purchase ID</th>
-            <th>Product ID</th>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>User ID</th>
-            <th>Purchased On</th>
-        </tr>
-    </thead>
+    {% include 'admin/adminsidebar.html' %}
+   <div class="purchase">
+
     {% for datas in results%}
         {% for values in names %}
             {% if datas.userid == values.id %}
-       <tr>
-           <td>{{values.username}}</td>
-            <td>{{datas.purchaseid }}</td>
-            <td>{{datas.productid }}</td>
-            <td>{{datas.productname }}</td>
-            <td>{{datas.quantity }}</td>
-            <td>{{datas.userid }}</td>
-           <td>{{datas.purchaseTime}}</td>
-        </tr>
+       <div class="purchase-info">
+          <p>
+              <strong>Username: </strong>  {{values.username}}
+          </p>
+            <p>
+              <strong>User Id: </strong>  {{datas.userid }}
+          </p>
+            <p>
+              <strong>Purchase ID: </strong>  {{datas.purchaseid }}
+          </p>
+             <p>
+              <strong>Product Id: </strong>  {{datas.productid }}
+          </p>
+              <p>
+              <strong>Product Name: </strong>  {{datas.productname }}
+          </p>
+              <p>
+              <strong>Product Quantity: </strong>  {{datas.quantity }}
+              </p>
+           <p>
+                <strong>Total Price:  </strong>  {{datas.productprice }}
+           </p>
+
+             <p>
+              <strong>Purchased on:  </strong>  {{datas.purchaseTime }}
+          </p>
+
+
+        </div>
             {%endif%}
         {% endfor %}
    {% endfor %}
    {%else%}
    <h2>data not here</h2>
 {%endif%}
-   </table>
+   </div>
 
 
 </div>
-   <div class="link">
-       <a href="/admin">Go Back</a>
-   </div>
+
 </body>
 </html>
