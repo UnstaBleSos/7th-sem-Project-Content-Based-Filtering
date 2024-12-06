@@ -9,31 +9,38 @@
         .categories{
             display:flex;
         }
-        .buttons{
-            height:230px;
-            width:150px;
-            border-radius:8px;
-            border: 1px solid black;
-            margin:20px;
-            background-color: #f9f9f9;
-        }
-        .buttons button{
-              border-radius:5px;
-        }
-        .info{
-             display: flex;
-             flex-wrap:wrap;
-             justify-content: space-evenly;
-        }
+        .info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Fixed 4 products per row */
+    gap: 20px; /* Space between the cards */
+    padding: 20px;
+}
+
+.products {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    background: #fff;
+    border-radius:8px;
+}
+
+
+<!--        .info{-->
+<!--             display: flex;-->
+<!--             flex-wrap:wrap;-->
+<!--             justify-content: space-evenly;-->
+<!--             border:1px solid black;-->
+
+<!--        }-->
+<!--        .products{-->
+<!--            display:flex;-->
+<!--             border: 1px solid black;-->
+<!--            height:500px;-->
+<!--            width:400px;-->
+<!--            margin-bottom:30px;-->
+<!--        }-->
         li{
             margin-top:10px;
-        }
-        .products{
-            display:flex;
-             border: 1px solid black;
-            height:500px;
-            width:400px;
-            margin-bottom:30px;
         }
         .product{
 
@@ -65,7 +72,7 @@
                                 <input type="hidden" name="image" value="{{ product['imageurl'].split('|')[0].strip() }}">
                                 <input type="hidden" name="price" value="{{product['price']}}">
                                 <button type="submit">Add to Cart</button>
-                                <a href="{{ url_for('product_detail', pid=product['productId']) }}" class="btn btn-primary">View Details</a>
+                                <a href="{{ url_for('product_detail', pid=product['productId']) }}" >View Details</a>
                              </form>
                     </div>
                 </div>

@@ -7,9 +7,33 @@
     <style>
         .cart-item{
             display:flex;
+            margin-bottom:12px;
         }
+        .cart-img{
+            margin-left:20px;
+            padding:20px;
 
-
+        }
+        .form-button{
+            display:flex;
+            justify-content:space-evenly;
+            gap:20px;
+            margin-left:25px;
+        }
+        .form-button button{
+            border-radius:8px;
+            padding:3px;
+        }
+         #checkout:hover{
+            background-color:#77DD77;
+            transition:0.4s;
+            color:white;
+        }
+        #remove:hover{
+            background-color:#E57373;
+            transition:0.4s;
+            color:white;
+        }
     </style>
 </head>
 <body>
@@ -20,34 +44,33 @@
         </div>
     {% else %}
     {% for value in cartdata %}
-        <div class="cart-item">
+<div class="cart-item">
             <div class="cart-img">
-                <img src="{{ value.image }}" alt="{{ value.pname }}" height="300px" width="300px">
+                <img src="{{ value.image }}" alt="{{ value.pname }}" height="250px" width="300px">
             </div>
             <div class="product-details">
-                <p><strong>ID:</strong> {{ value.pid }}</p>
                 <p><strong>Name:</strong> {{ value.pname }}</p>
                 <p><strong>Price:</strong> {{ value.price }}</p>
             </div>
+
+        <div class="form-button">
+             <form action="/checkout" method="post">
+                <input type="hidden" name="pid" value="{{ value.pid }}">
+                <input type="hidden" name="pname" value="{{ value.pname }}">
+                <input type="hidden" name="price" value="{{ value.price }}">
+                <input type="hidden" name="quantity" value="{{ value.quantity }}" id="hidden-quantity-{{ value.pid }}">
+                <input type="hidden" name="image" value="{{ value.image }}" >
+                <strong>Quantity:</strong>
+                <input type="number" style="border-radius:8px;height:33px;padding:2px" name="number" value="{{ value.quantity }}" min="1" onchange="updateHiddenQuantity(this, '{{ value.pid }}')">
+                <button id="checkout" type="submit">Checkout</button>
+            </form>
+
+            <form action="/removeItem" method="post">
+                <input type="hidden" value="{{ value.pid }}" id="pid" name="pid">
+                <button id="remove" type="submit">Remove Item</button>
+            </form>
         </div>
-
-         <form action="/checkout" method="post">
-            <input type="hidden" name="pid" value="{{ value.pid }}">
-            <input type="hidden" name="pname" value="{{ value.pname }}">
-            <input type="hidden" name="price" value="{{ value.price }}">
-            <input type="hidden" name="quantity" value="{{ value.quantity }}" id="hidden-quantity-{{ value.pid }}">
-            <input type="hidden" name="image" value="{{ value.image }}" >
-            <strong>Quantity:</strong>
-            <input type="number" name="number" value="{{ value.quantity }}" min="1" onchange="updateHiddenQuantity(this, '{{ value.pid }}')">
-            <button type="submit">Checkout</button>
-        </form>
-
-        <form action="/removeItem" method="post">
-            <input type="hidden" value="{{ value.pid }}" id="pid" name="pid">
-            <button type="submit">Remove Item</button>
-        </form>
-
-
+ </div>
         {% endfor %}
     {% endif %}
 

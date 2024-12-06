@@ -25,6 +25,10 @@
             border-radius:8px;
             padding:5px;
         }
+        .submit:hover{
+            background-color:#77DD77;
+            transition:0.4s;    
+        }
     </style>
 </head>
 <body>
@@ -35,7 +39,7 @@
  {% if users %}
             {% for user in users %}
     <div class="form-item" >
-        <h2>USERS</h2>
+        <h2>USER</h2>
            <h3>
               ID:
             {{user.id}}

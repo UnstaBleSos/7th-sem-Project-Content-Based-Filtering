@@ -1,50 +1,103 @@
-<style>
-        *{
-            margin:0px
-         }
-        .body{
-            display:flex;
-            font-size:1.2rem;
-        }
-         .information{
-            border: 1px solid black;
-            display:flex;
-            flex-wrap:wrap;
-            justify-content:space-evenly;
-           flex-direction:row
-             margin: 0px 0px 0px 120px;
-        }
-    .users, .products,  .purchases,  .spent {
-        border:1px solid black;
-        border-radius:8px;
+
+<!--        *{-->
+<!--            margin:0px-->
+<!--         }-->
+<!--        .body{-->
+<!--            display:flex;-->
+<!--            font-size:1.2rem;-->
+
+<!--        }-->
+<!--         .information{-->
+<!--            border: 1px solid black;-->
+<!--            display:flex;-->
+<!--            flex-wrap:wrap;-->
+<!--            justify-content:space-evenly;-->
+<!--            flex-direction:row-->
+<!--        }-->
+<!--         .users, .products,  .purchases,  .spent {-->
+<!--            border:1px solid black;-->
+<!--            border-radius:8px;-->
+<!--         }-->
+
+    <style>
+    * {
+
     }
-    </style>
+
+    .body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+    }
+
+    .information {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Centers items in the row */
+        gap: 150px; /* Adds spacing between items */
+        max-width: 80%; /* Limits the total width of the content */
+        margin-top:20px ;
+        margin-right:300px;
+    }
+
+    .users, .products, .purchases, .spent {
+        border: 1px solid black;
+        border-radius: 8px;
+        padding: 20px; /* Adds spacing inside each card */
+        width: 30%; /* Ensures three items fit in one row */
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+        background-color: #f9f9f9; /* Light background for better visibility */
+    }
+        .font-info{
+            margin-top:20px;
+        }
+</style>
+
+
 
 <div class="body">
         <div class="information">
             <div class="users">
                 Total Users
+                <div class="font-info">
+                    <i class="fa-solid fa-user"></i> &nbsp:
                  {% for x in user %}
                     {{x}}
                 {% endfor %}
+                </div>
+
             </div>
             <div class="products">
                 Total Products
-                {% if product %}
+                <div class="font-info">
+                <i class="fas fa-boxes"></i>&nbsp:
+                     {% if product %}
                     {{product}}
                 {% endif %}
+                </div>
+
             </div>
             <div class="purchases">
                 Total Purchases
+                <div class="font-info">
+                    <i class="fa-solid fa-cart-shopping"></i> &nbsp:
                 {% for x in totalcount %}
                     {{x}}
                 {% endfor %}
+                </div>
+
             </div>
             <div class="spent">
                 Total MoneySpent
+                <div class="font-info" >
+                    <i class="fa-solid fa-money-bill"></i> &nbsp:
                     {% if price %}
                         {{price}}
                     {% endif %}
+                </div>
+
             </div>
         </div>
     </div>

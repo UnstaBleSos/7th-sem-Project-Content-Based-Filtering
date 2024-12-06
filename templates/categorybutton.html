@@ -5,22 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
     <style>
-        .buttons{
-            height:100%;
-            width:300px;
-            border-radius:8px;
-            border: 1px solid black;
-            margin:20px;
-            background-color: #f9f9f9;
-            position: fixed;
-        }
-        .buttons button{
-              border-radius:5px;
+<!--        .buttons{-->
+<!--            height:300px;-->
+<!--            border-radius:8px;-->
+<!--            margin:20px;-->
+<!--            display:flex;-->
+<!--            justify-content:center;-->
+<!--            align-item:center;-->
+<!--            position:fixed;-->
+<!--            top:10vh;-->
+<!--        }-->
+<!--        .buttons button{-->
+<!--              width:80px;-->
+<!--              border-radius:5px;-->
+<!--              margin-top:20px;-->
+<!--              text-align:left;-->
+<!--              padding:2px;-->
+<!--        }-->
+           .categories {
+    display: flex;
+    padding: 20px;
+}
+
+.buttons {
+    flex: 0.5; /* Occupy the left part */
+    height: auto;
+    border-radius: 8px;
+    margin-right: 20px; /* Add space between category and products */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align buttons to the top */
+    position: sticky;
+    top: 10vh;
+}
+
+.buttons button {
+    width: 120px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: left;
+    padding: 5px;
+}
+
+        form ul li{
+<!--            width:300px;-->
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
+
 <div class="buttons">
+
         <form action="showinfo" method="Post">
             <ul style="list-style-type:none;">
                 <li>
@@ -41,6 +77,6 @@
             </ul>
 
         </form>
-    </div>
+</div>
 </body>
 </html>

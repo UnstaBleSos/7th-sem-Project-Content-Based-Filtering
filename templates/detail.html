@@ -5,29 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
     <style>
-        .main{
-
-
-            width:400px;
-            border:1px solid red;
+        .container{
             display:flex;
-            flex-direction:column;
-            margin-left:34%;
+            flex-wrap:wrap;
+            justify-content:space-around;
+
+            gap:20px;
+        }
+        .main{
+            width:350px;
+            border:1px solid red;
+            border-radius:8px;
             padding:20px;
             margin-bottom:10px;
         }
         h4{
             margin-left:40%;
         }
+        .bodyone{
+
+        }
+        .button-link{
+            margin-left:20px;
+        }
+        .button-link button{
+            border-radius:8px;
+            padding:5px;
+        }
+        .button-link button:hover{
+            background-color:orange;
+            transition:0.2s;
+        }
+        button a{
+            color:black;
+        }
+        button a:hover{
+            text-decoration:none;
+            color:black;
+        }
     </style>
 </head>
 <body>
-{% include 'header.html' %}
-    <div class="links">
-        <a href="index">Buy More</a>
+{% include 'heads.html' %}
+    <div class="button-link">
+       <button>
+            <a href="index">Buy More</a>
+       </button>
 
     </div>
         <h4>Your purchases</h4>
+<div class="container">
     {% if result %}
         {%for value in result %}
     <div class="main">
@@ -36,18 +63,17 @@
             <p><strong>
                Product:
             </strong> {{value.productname}}</p>
-        </div>
-        <div class="bodytwo">
             <p><strong>Quantity:</strong> {{value.quantity}}</p>
             <p><strong>Price:</strong>  {{value.productprice}}</p>
             <p><strong>Purchased On:</strong> {{value.purchaseTime}}</p>
         </div>
     </div>
    {% endfor %}
+</div>
     {% else %}
         <p>No Purchase Done</p>
     {% endif %}
 
-{% include 'footer.html' %}
+{% include 'foots.html' %}
 </body>
 </html>

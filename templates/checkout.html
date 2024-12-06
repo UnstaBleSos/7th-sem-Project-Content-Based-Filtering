@@ -11,11 +11,32 @@
         }
           a{
             text-decoration:none
+            color:black;
+        }
+        .button-link {
+            position:absolute;
+            display:flex;
+            flex-direction:column;
+            width:80px;
+            margin-left:30px;
+            top:20vh;
+        }
+        .button-link button{
+            border-radius:8px;
+            margin-top:20px;
+        }
+        .button-link a{
+            color:black;
+        }
+         .button-link a:hover{
+            color:black;
+            text-decoration:none;
+
         }
     </style>
 </head>
 <body>
-    {% include 'header.html' %}
+    {% include 'heads.html' %}
         {% if info  %}
           <div class="purchase">
               <div class="purchase-img">
@@ -30,10 +51,17 @@
                </div>
 
           </div>
-            <div>
-                <a href="index" >Back to Products</a>
-                <a href="cart" >Cart</a>
-                <a href="detail" >View Details</a>
+            <div class="button-link">
+                <button>
+                    <a href="index" >Back to Products</a>
+                </button>
+                <button>
+                    <a href="cart" >Cart</a>
+                </button>
+
+                <button>
+                    <a href="detail" >View Details</a>
+                </button>
             </div>
         {% else %}
             <p>No purchase information available. Please try again.</p>
