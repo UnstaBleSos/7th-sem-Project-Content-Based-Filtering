@@ -740,6 +740,15 @@ def insert():
 
     return  render_template('admin/insert.html')
 
+@app.route("/category")
+def category():
+
+    query=text("Select * from category")
+    result= db.session.execute(query).fetchall()
+
+
+
+    return render_template('admin/category.html', result=result)
 
 @app.route("/heads")
 def heads():
