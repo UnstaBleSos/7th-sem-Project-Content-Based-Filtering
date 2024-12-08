@@ -155,20 +155,15 @@ def content_based_recommendations(train_data, item_name, top_n=10):
         print(f"Item '{item_name}' not found in the training data.")
         return pd.DataFrame()
 
-    # Compute TF-IDF matrix for all items
     tf_idf_matrix = compute_tf_idf(train_data)
-    # Find the index of the item in the dataset
     item_index = train_data[train_data['Name'] == item_name].index[0]
-    # Calculate cosine similarity
     similarities = []
     for i, tf_idf_vector in enumerate(tf_idf_matrix):
         similarity = cosine_similarity(tf_idf_matrix[item_index], tf_idf_vector)
         similarities.append((i, similarity))
-    # Sort by similarity scores in descending order
     similarities = sorted(similarities, key=lambda x: x[1], reverse=True)
-    # Get the indices of the top N most similar items
+    print(similarities)
     top_similar_indices = [idx for idx, _ in similarities[1:top_n + 1]]
-    # Retrieve details of the top similar items
     recommended_items_details = train_data.iloc[top_similar_indices][
         ['ID','Name', 'ReviewCount', 'Brand', 'ImageURL', 'Rating','Price','Description']]
     print(recommended_items_details['Description'])
@@ -242,7 +237,7 @@ def product_detail(pid):
             return "Product not found", 404
 
 
-    recommendations1 = content_based_recommendations(train_data, pname, top_n=5)
+    recommendations1 = content_based_recommendations(train_data, pname, top_n=10)
 
 
     if pname not in train_data['Name'].values:
@@ -365,7 +360,7 @@ def search():
     if query:
 
         results = Products.query.filter(Products.productname.ilike(f"%{query}%")).all()
-        recommendations1 = content_based_recommendations(train_data, query, top_n=5)
+        recommendations1 = content_based_recommendations(train_data, query, top_n=10)
 
         message=None
         if recommendations1.empty:
@@ -490,9 +485,6 @@ def detail():
 
 @app.route("/admin")
 def admin():
-
-
-
     selectcount = text("select count(purchaseid) from purchase ")
     count = db.session.execute(selectcount).fetchone()
     db.session.commit()
@@ -719,6 +711,7 @@ def insert():
         message="Value cannot be empty"
         return render_template('admin/addproduct.html',message=message)
 
+                
 
     if (id).isdigit() :
         query=text("""
@@ -744,9 +737,6 @@ def insert():
         if result:
             print("Hello333")
         print("Hello else nice  ")
-
-
-
 
     return  render_template('admin/insert.html')
 

@@ -5,40 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
     <style>
-<!--        .buttons{-->
-<!--            height:300px;-->
-<!--            border-radius:8px;-->
-<!--            margin:20px;-->
-<!--            display:flex;-->
-<!--            justify-content:center;-->
-<!--            align-item:center;-->
-<!--            position:fixed;-->
-<!--            top:10vh;-->
-<!--        }-->
-<!--        .buttons button{-->
-<!--              width:80px;-->
-<!--              border-radius:5px;-->
-<!--              margin-top:20px;-->
-<!--              text-align:left;-->
-<!--              padding:2px;-->
-<!--        }-->
            .categories {
     display: flex;
     padding: 20px;
 }
 
 .buttons {
-    flex: 0.5; /* Occupy the left part */
+    flex: 0.5;
     height: auto;
     border-radius: 8px;
-    margin-right: 20px; /* Add space between category and products */
+    margin-right: 20px;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align buttons to the top */
+    align-items: flex-start;
     position: sticky;
     top: 10vh;
 }
-
 .buttons button {
     width: 120px;
     border-radius: 5px;
@@ -46,33 +28,76 @@
     text-align: left;
     padding: 5px;
 }
-
         form ul li{
-<!--            width:300px;-->
             margin-bottom: 20px;
         }
+       .all {
+    background-color: #4CAF50; /* Primary Green */
+    color: #FFFFFF; /* White Text */
+}
+.all:hover {
+    background-color: #388E3C; /* Dark Green */
+    color: #FFFFFF;
+}
+
+.personal {
+    background-color: #8BC34A; /* Accent Yellow-Green */
+    color: #FFFFFF; /* White Text */
+}
+.personal:hover {
+    background-color: #4CAF50; /* Primary Green */
+    color: #FFFFFF;
+}
+
+.beauty {
+    background-color: #FFCDD2; /* Soft Pink */
+    color: #D32F2F; /* Dark Red */
+}
+.beauty:hover {
+    background-color: #E91E63; /* Vivid Pink */
+    color: #FFFFFF; /* White Text */
+}
+
+.care {
+    background-color: #81D4FA; /* Sky Blue */
+    color: #1565C0; /* Navy Blue */
+}
+.care:hover {
+    background-color: #0288D1; /* Deep Blue */
+    color: #FFFFFF; /* White Text */
+}
+
+.premium {
+    background-color: #FFC107; /* Gold */
+    color: #212121; /* Black Text */
+}
+.premium:hover {
+    background-color: #FFA000; /* Amber */
+    color: #FFFFFF; /* White Text */
+}
+
     </style>
 </head>
 <body>
 
 <div class="buttons">
-
         <form action="showinfo" method="Post">
+            <h5 >Category</h5>
             <ul style="list-style-type:none;">
                 <li>
-                    <button type="submit"  name="category" value="all">All</button>
+                    <button type="submit"  name="category" value="all" class="all">All</button>
                 </li>
                 <li>
-                    <button type="submit"  name="category" value="personal">Personal</button>
+                    <button type="submit"  name="category" value="personal" class="personal">Personal</button>
                 </li>
                 <li>
-                    <button type="submit"  name="category" value="beauty">Beauty</button>
+                    <button type="submit"  name="category" value="beauty" class="beauty">Beauty</button>
                 </li>
                 <li>
-                    <button type="submit"  name="category" value="care">Care</button>
+                    <button type="submit"  name="category" value="care" class="care">Care</button>
                 </li>
                 <li>
-                    <button type="submit"  name="category" value="premium">Premium</button>
+                    <button type="submit"  name="category" value="premium" class="premium">Premium</button>
                 </li>
             </ul>
 

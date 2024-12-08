@@ -41,6 +41,10 @@
 </head>
 <body>
    {% include 'admin/adminheader.html' %}
+
+  {% if message %}
+<h1 id="messages" style="color:red; margin-left:15%; margin-bottom:10px;" >{{message}}</h1>
+{% endif %}
     <div class="addproduct">
         {% include 'admin/adminsidebar.html' %}
         <div class="forms">
@@ -70,4 +74,14 @@
     </div>
 
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+             setTimeout(function() {
+            const messageElement = document.getElementById("messages");
+            if (messageElement) {
+                messageElement.style.display = "none";
+            }
+        }, 2000);
+    });
+</script>
 </html>

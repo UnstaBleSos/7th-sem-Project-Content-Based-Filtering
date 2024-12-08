@@ -23,28 +23,31 @@
     background: #fff;
     border-radius:8px;
 }
-
-
-<!--        .info{-->
-<!--             display: flex;-->
-<!--             flex-wrap:wrap;-->
-<!--             justify-content: space-evenly;-->
-<!--             border:1px solid black;-->
-
-<!--        }-->
-<!--        .products{-->
-<!--            display:flex;-->
-<!--             border: 1px solid black;-->
-<!--            height:500px;-->
-<!--            width:400px;-->
-<!--            margin-bottom:30px;-->
-<!--        }-->
         li{
             margin-top:10px;
         }
-        .product{
-
+       .detail-button{
+            border:1px solid green;
+            padding:8px;
+            border-radius:8px;
+            color:black;
+            margin-left:20%;
+            margin-top:20px;
         }
+        .detail-button:hover{
+            color:black;
+            text-decoration:none;
+        }
+         .cart-button{
+            margin-top: 15px;
+            padding: 6.8px;
+            border-radius:4px;
+            width:3vw;
+         }
+         .cart-button:hover{
+            background-color:#77DD77;
+            transition:0.3s;
+         }
     </style>
 </head>
 <body>
@@ -71,8 +74,8 @@
                                 <input type="hidden" name="pname" value="{{product['productname']}}">
                                 <input type="hidden" name="image" value="{{ product['imageurl'].split('|')[0].strip() }}">
                                 <input type="hidden" name="price" value="{{product['price']}}">
-                                <button type="submit">Add to Cart</button>
-                                <a href="{{ url_for('product_detail', pid=product['productId']) }}" >View Details</a>
+                                <a href="{{ url_for('product_detail', pid=product['productId']) }}" class="detail-button" >View Details</a>
+                                <button type="submit" class="cart-button"><i class="fas fa-shopping-cart fa-lg"></i></button>
                              </form>
                     </div>
                 </div>

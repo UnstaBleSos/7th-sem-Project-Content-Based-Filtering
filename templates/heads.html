@@ -1,64 +1,7 @@
-<!--<!doctype html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
-<!--    <title>Document</title>-->
-<!--&lt;!&ndash;    <link rel="stylesheet" href=".././static/css/headerstyle.css">&ndash;&gt;-->
-<!--    <style>-->
-<!--        *{-->
-<!--         margin:0;-->
-<!--         padding:0;-->
-<!--        }-->
-<!--    .header{-->
-<!--        display:flex;-->
-<!--        justify-content:space-between;-->
-<!--        border:1px solid black;-->
-<!--        height:5vh;-->
-<!--       align-items:center;-->
-<!--    }-->
-<!--     .header div{-->
-<!--        display:flex;-->
-<!--    }-->
-<!--    .threes{-->
-<!--            display:flex;-->
-<!--            justify-contents:space-between;-->
-<!--             background-color:red;-->
-<!--              width:250px;-->
-<!--    }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <nav class="header">-->
-<!--        <div >-->
-<!--            <div>Burger</div>-->
-<!--            <div>Logo</div>-->
-<!--        </div>-->
-<!--        <div  class="forms">-->
-<!--            <form action="">-->
-<!--                <input type="text">-->
-<!--                <button type="submit">Search</button>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--        <div  class="threes">-->
-<!--            <button style="flex:1">-->
-<!--                Cart</button>-->
-<!--            <button style="flex:1" class="signin">-->
-<!--                <a href="/signin" style="text-decoration:none">-->
-<!--                    Signin-->
-<!--                </a>-->
-<!--            </button>-->
-<!--            <button style="flex:1" class="signup" >-->
-<!--                <a href="/signup" style="text-decoration:none">-->
-<!--                    Signup-->
-<!--                </a>-->
-<!--            </button>-->
-<!--        </div>-->
-<!--    </nav>-->
-<!--</body>-->
-<!--</html>-->
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+<link rel="stylesheet" href="static/css/style.css">
 <style>
     *{
         margin:0;
@@ -68,6 +11,20 @@
         border-bottom:1px solid grey;
         margin-bottom:5vh;
     }
+     .navbar {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+         .logo-container {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+    }
+
+    .logo-container img {
+        height: 50px; /* Adjust height as needed */
+        width: auto; /* Maintain aspect ratio */
+    }
+
     .logo{
         font-size:1.3rem;
         color:black;
@@ -90,18 +47,25 @@
     .search-bar button{
         border-radius:5px;
         padding:5px;
+        background-color:#4CAF50;
+        color:#FFFFFF;
     }
     .search-bar button:hover{
-        background-color:#EDE7F6;
-        transition:0.5s;
-        color:#424242;
+        background-color:#388E3C;
+        transition:0.5s ease;
+        color:#FFFFFF ;
     }
     .cart {
         margin-right:1rem;
+
+    }
+    .cart i{
+        color:#4CAF50;
     }
     .cart i:hover{
         background-color:white;
         color:#FF5722;
+        transition:0.5s ease;
     }
     .nav-links{
         display:flex;
@@ -111,38 +75,44 @@
     .nav-links a{
         color:black;
         font-size:1.2rem;
-
     }
     .signin{
-        background-color: #EDE7F6;
-        color:#424242;
-    }
-    .signin:hover{
-        color:  #FF5722 ;
-    }
-    .signup:hover{
-        background-color:#6A1B9A;
-        color:#FDD835;
-        transition:0.5s;
-    }
-    .signup, .signin{
-         color:black;
+        background-color: #C8E6C9;
+        color:#388E3C;
         margin-left:20px;
          border-radius:5px;
          padding:5px;
         border:1px solid black
     }
+    .signin:hover{
+    background-color:#8BC34A;
+        color:  #FFFFFF ;
+        transition:0.5s ease;
+    }
+    .signup{
+        background-color:#8BC34A;
+        color:white;
+        margin-left:20px;
+         border-radius:5px;
+         padding:5px;
+        border:1px solid black
+    }
+    .signup:hover{
+        background-color:#4CAF50;
+        color:#FFFFFF;
+        transition:0.5s ease;
+    }
     .logout{
-
         border-radius:5px;
          padding:5px;
-        border:1px solid red;
-
+        border:1px solid green;
+        color:#FFFFFF;
+        background-color:#FF5722;
     }
     .logout:hover{
-        background-color:red;
-        color:white;
-        transition:0.5s;
+        background-color:#388E3C;
+        color:#FFFFFF;
+        transition:0.5s ease;
     }
 </style>
 
@@ -150,10 +120,11 @@
 {% include 'signup.html' %}
 
   <nav class="navbar">
-
-
-      <a class="logo" href="/index" style="text-decoration:none">HamroPasal</a>
-
+     <div class="logo-container">
+        <a href="/index">
+            <img src="static/img/logo.png" alt="Hamro Pasal">
+        </a>
+    </div>
         <div class="search-bar">
             <form action="/search" method="GET" style="display: flex; width: 100%;">
                 <input type="search" name="query" placeholder="Search" aria-label="Search">
@@ -175,8 +146,8 @@
             <div class="cart">
                     <a href="/cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
                 </div>
-                     <a class="signup login"  href="#" data-toggle="modal" data-target="#signupModal" style="text-decoration:none">Sign Up</a>
-                     <a class="signin login"  href="#" data-toggle="modal" data-target="#signinModal" style="text-decoration:none">Sign In</a>
+                     <a class="signup "  href="#" data-toggle="modal" data-target="#signupModal" style="text-decoration:none;   color:#FFFFFF;">Sign Up</a>
+                     <a class="signin "  href="#" data-toggle="modal" data-target="#signinModal" style="text-decoration:none">Sign In</a>
         </div>
                 {% endif %}
     </nav>

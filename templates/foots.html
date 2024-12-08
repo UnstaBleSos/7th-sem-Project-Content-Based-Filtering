@@ -3,52 +3,79 @@
         margin:0;
         padding:0;
     }
-    .footer{
-        background-color:#424242;
-        color:#F8F8F8;
+    .footer {
+    background-color: #424242;
+    color: #F8F8F8;
+    padding: 20px 0;
+    margin-top: 30px;
+    font-family: Arial, sans-serif;
+}
 
-        margin-top:30px;
+.elements {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px;
+    padding: 0 20px;
+}
 
-    }
-    .elements{
+.about, .links, .contact {
+    margin-top: 20px;
+    max-width: 300px;
+}
 
-        display:flex;
-       flex-wrap:wrap;
-       justify-content:space-evenly;
+.about h3, .links h3, .contact h3 {
+    color: #F8F8F8;
+    margin-bottom: 10px;
+}
 
-    }
-    .about, .links, .contact{
-        margin-top:4vh;
-    }
-    .about{
-        width:300px;
-    }
-    .links li{
-        list-style-type:none;
-    }
-    .links a{
-        text-decoration:none;
-        color:white;
-    }
-    .contact li{
-        list-style-type:none;
-    }
-    .rights{
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        margin-top:20px;
-        padding-bottom:20px;
-    }
-    .line{
-        width:75%;
-        height:3px;
-        background-color:white;
-        margin-inline:auto;
-    }
+.about p {
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.links ul, .contact ul {
+    padding: 0;
+}
+
+.links li, .contact li {
+    list-style-type: none;
+    margin: 5px 0;
+}
+
+.links a {
+    text-decoration: none;
+    color: #4CAF50;
+    transition: color 0.3s ease;
+}
+
+.links a:hover {
+    color: #81C784;
+}
+
+.contact li {
+    font-size: 14px;
+}
+
+.line {
+    width: 75%;
+    height: 3px;
+    background-color: #FFFFFF;
+    margin-inline: auto;
+}
+
+.rights {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    font-size: 14px;
+    color: #F8F8F8;
+}
 
 </style>
-
+<link rel="stylesheet" href="static/css/style.css">
 
 <footer class="footer">
     <div class="elements">
