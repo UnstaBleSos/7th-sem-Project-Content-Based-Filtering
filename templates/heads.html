@@ -37,6 +37,8 @@
     .search-bar{
         margin-top:5px;
          font-size:1.2rem;
+         position:relative;
+
     }
     .search-bar input{
         border-radius:5px;
@@ -55,6 +57,32 @@
         transition:0.5s ease;
         color:#FFFFFF ;
     }
+   #suggestions {
+    position: absolute;
+    top: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+}
+
+.suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #333;
+    transition: background-color 0.2s ease;
+}
+
+.suggestion-item:hover {
+    background-color: #f9f9f9;
+    color: #000;
+}
+
     .cart {
         margin-right:1rem;
 
@@ -76,6 +104,7 @@
         color:black;
         font-size:1.2rem;
     }
+
     .signin{
         background-color: #C8E6C9;
         color:#388E3C;
@@ -128,9 +157,10 @@
     </div>
         <div class="search-bar">
             <form action="/search" method="GET" style="display: flex; width: 100%;">
-                <input type="search" name="query" placeholder="Search" aria-label="Search">
+                <input type="search" name="query" placeholder="Search" aria-label="Search" id="searchBar" oninput="showSuggestions()">
                 <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
+                <div id="suggestions"></div>
         </div>
 
 
@@ -152,3 +182,42 @@
         </div>
                 {% endif %}
     </nav>
+
+
+<script>
+function showSuggestions() {
+    var query = document.getElementById('searchBar').value;
+    console.log("Value is: " ,query);
+    if (query.length >= 1) {  // Only show suggestions if query length is greater than or equal to 2
+        fetch(`/suggestions?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                let suggestionsDiv = document.getElementById('suggestions');
+                suggestionsDiv.innerHTML = '';  // Clear previous suggestions
+                if (data.suggestions.length > 0) {
+                    data.suggestions.forEach(function(suggestion) {
+                        var suggestionElement = document.createElement('div');
+                        suggestionElement.textContent = suggestion;
+                        suggestionElement.classList.add('suggestion-item');
+
+                        // Add click event to populate search bar with selected suggestion
+                        suggestionElement.addEventListener('click', function() {
+                            document.getElementById('searchBar').value = suggestion;
+                            suggestionsDiv.innerHTML = '';  // Clear suggestions after selection
+                            suggestionsDiv.style.display = 'none';  // Hide suggestions
+                        });
+
+                        suggestionsDiv.appendChild(suggestionElement);
+                    });
+                    suggestionsDiv.style.display = 'block'; // Show suggestions
+                } else {
+                    suggestionsDiv.style.display = 'none'; // Hide suggestions if no match
+                }
+            });
+    } else {
+        document.getElementById('suggestions').style.display = 'none';
+    }
+}
+
+
+</script>

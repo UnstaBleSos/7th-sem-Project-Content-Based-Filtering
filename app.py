@@ -333,11 +333,14 @@ def recommendations():
 def suggestions():
     query = request.args.get("query", "")
 
-    query = query.lower()
-    matches = train_data[train_data['Name'].str.lower().str.startswith(query, na=False)]
-    suggestions = matches['Name'].head(10).tolist()
-    return {"suggestions": suggestions}
+    if not query:
+        return {"suggestions": []}
 
+    query = query.lower()
+    # Query the database for products whose names start with the query string
+    matches = Products.query.filter(Products.productname.ilike(f"{query}%")).limit(10).all()
+    suggestions = [product.productname for product in matches]
+    return {"suggestions": suggestions}
 
 @app.route("/search", methods=['GET'])
 def search():
