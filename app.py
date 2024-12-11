@@ -2,11 +2,9 @@ from os import truncate
 from flask import Flask, request, render_template, session, url_for, redirect
 import random
 from flask_sqlalchemy import SQLAlchemy
-
 from sqlalchemy import text
 import pandas as pd
 import math
-
 
 
 
@@ -26,15 +24,14 @@ db = SQLAlchemy(app)
 class DisplayProduct(db.Model):
     __tablename__ = 'displayproduct'
 
-    pid = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Primary key with auto increment
-    pname = db.Column(db.String(255), nullable=False)  # Product name (varchar)
-    reviewcount = db.Column(db.Float, nullable=False)  # Review count (float)
-    brand = db.Column(db.String(255), nullable=False)  # Brand name (varchar)
-    imageurl = db.Column(db.Text, nullable=False)  # Image URL (text)
-    rating = db.Column(db.Float, nullable=False)  # Rating (float)
+    pid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    pname = db.Column(db.String(255), nullable=False)
+    reviewcount = db.Column(db.Float, nullable=False)
+    brand = db.Column(db.String(255), nullable=False)
+    imageurl = db.Column(db.Text, nullable=False)
+    rating = db.Column(db.Float, nullable=False)
     description=db.Column(db.Text,nullable=False)
-    price = db.Column(db.Integer, nullable=False)  # Price (integer)
-
+    price = db.Column(db.Integer, nullable=False) 
     def __repr__(self):
         return f'<DisplayProduct {self.pname}>'
 
@@ -120,9 +117,7 @@ def compute_tf_idf(train_data):
         term_count = {}
         for term in terms:
             term_count[term] = term_count.get(term, 0) + 1
-
         term_freqs.append(term_count)
-
         for term in term_count.keys():
             doc_freqs[term] = doc_freqs.get(term, 0) + 1
 
@@ -134,7 +129,6 @@ def compute_tf_idf(train_data):
             idf = math.log(num_documents / (1 + doc_freqs[term]))
             tf_idf_vector[term] = tf * idf
         tf_idf_matrix.append(tf_idf_vector)
-
     return tf_idf_matrix
 
 
@@ -143,16 +137,13 @@ def cosine_similarity(vector1, vector2):
     dot_product = sum(vector1.get(term, 0) * vector2.get(term, 0) for term in vector1)
     norm1 = math.sqrt(sum(v ** 2 for v in vector1.values()))
     norm2 = math.sqrt(sum(v ** 2 for v in vector2.values()))
-
     if norm1 == 0 or norm2 == 0:
         return 0.0
-
     return dot_product / (norm1 * norm2)
 
 
 def content_based_recommendations(train_data, item_name, top_n=10):
     if item_name not in train_data['Name'].values:
-        print(f"Item '{item_name}' not found in the training data.")
         return pd.DataFrame()
 
     tf_idf_matrix = compute_tf_idf(train_data)
@@ -162,13 +153,11 @@ def content_based_recommendations(train_data, item_name, top_n=10):
         similarity = cosine_similarity(tf_idf_matrix[item_index], tf_idf_vector)
         similarities.append((i, similarity))
     similarities = sorted(similarities, key=lambda x: x[1], reverse=True)
-    print(similarities)
+
     top_similar_indices = [idx for idx, _ in similarities[1:top_n + 1]]
     recommended_items_details = train_data.iloc[top_similar_indices][
         ['ID','Name', 'ReviewCount', 'Brand', 'ImageURL', 'Rating','Price','Description']]
-    print(recommended_items_details['Description'])
     return recommended_items_details
-
 
 
 
@@ -195,7 +184,6 @@ def indexredirect():
 @app.route("/fetch")
 def fetch():
     products = DisplayProduct.query.all()
-    print(products)
     return render_template('fetch.html', data=products)
 
 
@@ -216,7 +204,6 @@ def product_detail(pid):
             'Description': result[6] if len(result) > 7 else "No description available.",
             'Price': result[8] if len(result) > 6 else None,  # Adjust if Price column exists
         }
-        print(product_info['Price'])
     else:
         result_db = train_data[train_data['ID'] == pid]
         if not result_db.empty:
@@ -232,12 +219,10 @@ def product_detail(pid):
                 'Description': result['Description'],  # Default description
                 'Price': result['Price'] if 'Price' in result else None
             }
-            print(product_info['Price'])
         else:
             return "Product not found", 404
 
-
-    recommendations1 = content_based_recommendations(train_data, pname, top_n=10)
+    recommendations1 = content_based_recommendations(train_data, pname, top_n=5)
 
 
     if pname not in train_data['Name'].values:
@@ -347,7 +332,7 @@ def recommendations():
 @app.route("/suggestions")
 def suggestions():
     query = request.args.get("query", "")
-    print(f"Query received: {query}")
+
     query = query.lower()
     matches = train_data[train_data['Name'].str.lower().str.startswith(query, na=False)]
     suggestions = matches['Name'].head(10).tolist()
@@ -382,8 +367,7 @@ def cart():
     pname = request.form.get("pname")
     price = request.form.get("price")
     image = request.form.get("image")
-    print(price)
-    print("Hello")
+
     if pid and pname and price and image:
         check = text("Select * from carts where userid = :userid and productid = :productid ")
         checkresult = db.session.execute(check,{'userid':user,'productid':pid}).fetchone()
@@ -463,7 +447,7 @@ def removeitem():
     db.session.execute(query,{'userid':user,'productid':pid})
     db.session.commit()
 
-    print("item removed")
+
     return redirect(url_for('cart'))
 
 @app.route('/detail')
@@ -476,9 +460,6 @@ def detail():
     query= text("select * from purchase where userid=:userid")
     result=db.session.execute(query,{'userid':user}).fetchall()
     db.session.commit()
-
-    if result:
-        print("hello detail")
 
     return render_template('detail.html',result=result)
 
@@ -610,7 +591,7 @@ def changedata():
     db.session.commit()
 
     if result:
-        print("Hello")
+
         upquery = text(
             "Update displayproduct set pname=:pname, reviewcount=:reviewcount, brand=:brand, imageurl=:imageurl,"
             "rating=:rating, description=:description, category=:category, price=:price where pid=:pid")
@@ -626,11 +607,11 @@ def changedata():
                                     'price': price }
                            )
         db.session.commit()
-        print("Success")
+
 
 
     if result1:
-        print("Hellowww")
+
         upquery2 = text(
             "Update products set productname=:pname, reviewcount=:reviewcount, productbrand=:brand, imageurl=:imageurl,"
             "rating=:rating, description=:description, category=:category, price=:price where productId=:productId ")
@@ -640,7 +621,7 @@ def changedata():
                                         'rating': rating, 'description': description, 'category': category,
                                         'price': price })
         db.session.commit()
-        print("Great Successw")
+
 
 
 
@@ -654,14 +635,13 @@ def delete():
     name=request.form.get('productname')
 
     if id.isdigit():
-        print("eyaiii")
         query = text("Delete from displayproduct where pid=:id and pname=:name")
         result = db.session.execute(query, {'id': id, 'name': name})
         db.session.commit()
     else:
         query1 = text("Delete from products where productId=:id and productname=:name")
         result1 = db.session.execute(query1, {'id': id, 'name': name})
-        print("eyaihhhhdfdfdf")
+
         db.session.commit()
 
 
@@ -671,16 +651,12 @@ def delete():
 def purchase():
     query = text("Select * from purchase")
     result = db.session.execute(query).fetchall()
-    db.session.commit()
-
-    if result:
-        print("Hello purchase,")
 
     namelist=[]
     for name in result:
         userid=name.userid
         namelist.append(userid)
-        print(userid)
+
 
     if namelist:
         namequery = text("Select id, username from signup where id in :id")
@@ -723,7 +699,7 @@ def insert():
                                          'category':category,'price':price})
         db.session.commit()
         if result:
-            print("Hello")
+           value="Hello"
     else:
         query = text("""
                             INSERT INTO products 
@@ -734,9 +710,6 @@ def insert():
                                             'imageurl': imageurl, 'rating': rating, 'description': description,
                                             'category': category, 'price': price})
         db.session.commit()
-        if result:
-            print("Hello333")
-        print("Hello else nice  ")
 
     return  render_template('admin/insert.html')
 
@@ -749,6 +722,40 @@ def category():
 
 
     return render_template('admin/category.html', result=result)
+
+
+
+@app.route("/deletecategory",methods=['post'])
+def deletecategory():
+    pname= request.form.get('productname')
+    pid= request.form.get('productid')
+
+    query= text("Delete from category where id=:pid and Categories=:pname")
+    result=db.session.execute(query,{'pid':pid,'pname':pname})
+    db.session.commit()
+    if result:
+        print("Eyaihhh")
+
+    return render_template('admin/deletecategory.html')
+
+@app.route("/addcategory")
+def addcategory():
+
+    return render_template('admin/addcategory.html')
+
+@app.route("/insertcategory",methods=['post'])
+def insertcategory():
+
+    cname= request.form.get('name')
+
+    query=text("insert into category (Categories) values (:name)")
+    result=db.session.execute(query,{'name':cname})
+    db.session.commit()
+    if result:
+        print("Eyaihhhh")
+
+    return  render_template('admin/insertcategory.html')
+
 
 @app.route("/heads")
 def heads():
@@ -769,7 +776,7 @@ def categories():
 def showinfo():
 
     category=request.form.get('category')
-    print(category)
+
 
     if category=='all':
         query=text("select * from products ")

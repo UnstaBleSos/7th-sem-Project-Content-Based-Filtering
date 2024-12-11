@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <style>
+        .addcategory{
+            display:flex;
+
+        }
+        .forms form{
+            display:flex;
+            flex-direction:column;
+            border:1px solid black;
+            width:300px;
+            padding:30px;
+            border-radius:8px;
+            margin-top:  20px ;
+            margin-left:300px;
+        }
+
+         .each{
+            margin-top:15px;
+            margin-bottom:20px;
+            border-radius:4px;
+        }
+        .submit{
+            border-radius:8px;
+            padding:2px;
+            width: 80px !important;
+            margin-left:35%;
+        }
+        .submit:hover{
+            background-color:#77DD77;
+            transition:0.7s;
+        }
+    </style>
+</head>
+<body>
+ {% include 'admin/adminheader.html' %}
+ <div class="addcategory">
+        {% include 'admin/adminsidebar.html' %}
+        <div class="forms">
+             <form action="/insertcategory"  class="each" method="post">
+                 Category Name
+                <input type="text"  class="each" name="name">
+            <button type="submit" class="submit">ADD</button>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

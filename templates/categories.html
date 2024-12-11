@@ -11,8 +11,8 @@
         }
         .info {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Fixed 4 products per row */
-    gap: 20px; /* Space between the cards */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
     padding: 20px;
 }
 
@@ -45,7 +45,7 @@
             width:3vw;
          }
          .cart-button:hover{
-            background-color:#77DD77;
+            background-color:#FFC107;
             transition:0.3s;
          }
     </style>
@@ -68,7 +68,7 @@
                             </div>
                             <p>Rating: {{ product['rating'] }}</p>
                             <p>Category: {{ product['category'] }}</p>
-                            <p>Price: {{ product['price'] }}</p>
+                            <p>Price: Rs {{ product['price'] }}</p>
                             <form action="/cart" method="post" >
                                 <input type="hidden" name="pid" value="{{product['productId']}}">
                                 <input type="hidden" name="pname" value="{{product['productname']}}">

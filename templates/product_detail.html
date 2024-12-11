@@ -40,32 +40,40 @@
         .back-btn {
             margin-top: 20px;
             padding: 10px 15px;
-            color:black;
             border:1px solid ;
             text-decoration: none;
             border-radius: 4px;
+             background-color:#8BC34A;
+            color:#FFFFFF;
+            transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
         }
         .back-btn:hover {
-              color:black;
+              background-color:#4CAF50;
+            color:#FFFFFF;
               text-decoration:none;
+               transform: scale(1.05);
         }
         .cart-button{
             margin-top: 15px;
             padding: 8.2px;
             border-radius:4px;
             width:3vw;
+             background-color:#4CAF50;
+             color:#FFFFFF;
+             transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
          }
          .cart-button:hover{
-            background-color:#77DD77;
-            transition:0.3s;
+            background-color:#388E3C;
+             color:#FFC107;
+            transition:0.5s;
+             transform: scale(1.05);
          }
         .recommended-products{
             display:flex;
             flex-wrap:wrap;
             justify-content:space-evenly;
-           margin-left:3.2%;
-           gap:5px;
-
+            margin-left:3.2%;
+            gap:5px;
         }
         .recommend-info{
             display:flex;
@@ -80,18 +88,26 @@
             border:1px solid green;
             padding:8px;
             border-radius:8px;
-            color:black;
             margin-left:32%;
             margin-top:20px;
+             background-color:#FFC107;
+             color:#212121;
+             transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
         }
         .detail-button:hover{
-            color:black;
             text-decoration:none;
+              background-color:#FFA000;
+             color:#FFFFFF;
+              transform: scale(1.05);
         }
+
     </style>
 </head>
 <body>
+
    {% include 'heads.html' %}
+{% include 'signup.html' %}
+{% include 'signin.html' %}
     <div class="container">
         <div class="product-detail">
             <div class="product-img">
@@ -145,8 +161,7 @@
 {% endif %}
 
 
-    {% include 'signup.html' %}
-{% include 'signin.html' %}
+
 {% include 'foots.html' %}
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

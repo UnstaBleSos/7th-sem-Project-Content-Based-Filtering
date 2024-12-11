@@ -4,65 +4,84 @@
     <title>Search Results</title>
 </head>
 <style>
-    .product{
-        display:flex;
-    }
-    .product-info{
-        margin-left:20px;
-    }
-      .back-btn {
-            margin-top: 20px;
-            padding: 10px 15px;
-            color:black;
-            border:1px solid ;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-        .back-btn:hover {
-              color:black;
-              text-decoration:none;
-        }
-        .product-img{
-            width: 200px;
-            height: 300px;
-            border-radius: 8px;
-        }
-         .cart-button{
-            margin-top: 15px;
-            padding: 8.2px;
-            border-radius:4px;
-            width:3vw;
-         }
-         .cart-button:hover{
-            background-color:#77DD77;
-            transition:0.3s;
-         }
-    .recommended-products{
-            display:flex;
-            flex-wrap:wrap;
-            justify-content:space-evenly;
-           margin-left:3.2%;
-           gap:5px;
+   .product {
+    display: flex;
+}
 
-        }
-        .recommend-info{
-            display:flex;
-            flex-wrap:wrap;
-            width:20%;
-            margin-top:10px;
-        }
-         .detail-button{
-            border:1px solid green;
-            padding:8px;
-            border-radius:8px;
-            color:black;
-            margin-left:32%;
-            margin-top:20px;
-        }
-        .detail-button:hover{
-            color:black;
-            text-decoration:none;
-        }
+.product-info {
+    margin-left: 20px;
+}
+
+.back-btn {
+    margin-top: 20px;
+    padding: 10px 15px;
+    border: 1px solid;
+    text-decoration: none;
+    border-radius: 4px;
+    background-color: #8BC34A;
+    color: #FFFFFF;
+    transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
+}
+.back-btn:hover {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
+.product-img {
+    width: 200px;
+    height: 300px;
+    border-radius: 8px;
+}
+
+.cart-button {
+    margin-top: 15px;
+    padding: 8.2px;
+    border-radius: 4px;
+    width: 3vw;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
+}
+.cart-button:hover {
+    background-color: #388E3C;
+    color: #FFC107;
+    transform: scale(1.05);
+}
+
+.recommended-products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-left: 3.2%;
+    gap: 5px;
+}
+
+.recommend-info {
+    display: flex;
+    flex-wrap: wrap;
+    width: 20%;
+    margin-top: 10px;
+}
+
+.detail-button {
+    border: 1px solid green;
+    padding: 8px;
+    border-radius: 8px;
+    margin-left: 32%;
+    margin-top: 20px;
+    background-color: #FFC107;
+    color: #212121;
+    transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
+}
+.detail-button:hover {
+    text-decoration: none;
+    background-color: #FFA000;
+    color: #FFFFFF;
+    transform: scale(1.05);
+}
+
 </style>
 <body>
 {%include 'heads.html' %}
@@ -135,7 +154,7 @@
 
 
 
-{% include 'footer.html' %}
+{% include 'foots.html' %}
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
