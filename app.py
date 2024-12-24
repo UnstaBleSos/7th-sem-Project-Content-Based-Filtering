@@ -475,26 +475,31 @@ def detail():
 def admin():
     selectcount = text("select count(purchaseid) from purchase ")
     count = db.session.execute(selectcount).fetchone()
-    db.session.commit()
+
+    newpurchase= text("select * from purchase order by purchaseid DESC limit 2")
+    purchasecount = db.session.execute(newpurchase).fetchall()
+
+    newuser = text("select * from signup order by id DESC limit 2")
+    usercount = db.session.execute(newuser).fetchall()
 
     selectproduct = text("select count(ID) from products ")
     prodcount = db.session.execute(selectproduct).scalar()
-    db.session.commit()
+
 
     selectproduct1 = text("select count(pid) from displayproduct ")
     prodcount1 = db.session.execute(selectproduct1).scalar()
-    db.session.commit()
+
 
     value=prodcount1+prodcount
 
     price= text("select sum(productprice) from purchase")
     pricecount = db.session.execute(price).scalar()
-    db.session.commit()
+
 
     selectuser = text("select count(id) from signup ")
     user = db.session.execute(selectuser).fetchone()
-    db.session.commit()
-    return render_template('./admin/admin.html',totalcount=count,user=user,product=value,price= pricecount)
+
+    return render_template('./admin/admin.html',totalcount=count,user=user,product=value,price= pricecount,newuser=usercount,newpurchase=purchasecount)
 
 
 @app.route("/adminusers")

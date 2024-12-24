@@ -8,7 +8,7 @@
         .updates{
             border:1px solid black;
             border-radius:8px;
-            height:500px;
+            height:600px;
             width:400px;
             margin-left;
             display:flex;
@@ -16,6 +16,12 @@
             animation: redGlow 2s infinite;
             position: relative;
 
+        }
+        .new-purchases, .new-user{
+            margin:20px;
+        }
+        .purchase-history, .user-history{
+            padding:10px;
         }
 
       @keyframes redGlow {
@@ -40,11 +46,26 @@
 <body>
     <div class="updates">
         <div class="new-purchases">
-            New Purchases
+          <h2>  New Purchases</h2>
+            {% for x in newpurchase %}
+                <div class="purchase-history">
+                    <p><strong>PurchaseID:</strong>{{x.purchaseid}}</p>
+                    <p><strong>ProductName:</strong>{{x.productname}}</p>
+                    <p><strong>Quantity:</strong>{{x.quantity}}</p>
+                    <p><strong>Price:</strong>{{x.productprice}}</p>
+                    <p><strong>Purchased On:</strong>{{x.purchaseTime}}</p>
+                </div>
+            {% endfor %}
         </div>
-        <div class="new=user">
-            New Users
-
+        <div class="new-user">
+           <h2>New Users</h2>
+              {% for x in newuser %}
+                <div class="user-history">
+                    <p><strong>ID:</strong>{{x.id}}</p>
+                    <p><strong>User:</strong>{{x.username}}</p>
+                    <p><strong>Email:</strong>{{x.email}}</p>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </body>
