@@ -1,3 +1,4 @@
+import uuid
 from os import truncate
 from flask import Flask, request, render_template, session, url_for, redirect
 import random
@@ -5,6 +6,10 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import pandas as pd
 import math
+
+import hmac
+import hashlib
+import base64
 
 
 
@@ -97,7 +102,12 @@ class Admin(db.Model):
 trending_products = pd.read_csv("models/trending_products.csv")
 train_data = pd.read_csv("models/clean_dataset.csv")
 
-
+def gen_sha256(key, message):
+    key = key.encode('utf-8')
+    message = message.encode('utf-8')
+    hmac_sha256 = hmac.new(key, message, hashlib.sha256)
+    signature = base64.b64encode(hmac_sha256.digest()).decode('utf-8')
+    return signature
 
 
 def truncate(text, length):
@@ -435,16 +445,52 @@ def checkout():
     db.session.commit()
 
 
-    info={
-        'pid':pid,
+    # info={
+    #     'pid':pid,
+    #     'pname':pname,
+    #     'price':totalprice,
+    #     'quantity':quantity,
+    #     'image':image
+    # }
+    # return render_template('checkout.html',info=info)
+    esewa_info = {
+        'amount': totalprice,
+        'tax_amount': 0,
+        'total_amount': totalprice,
+        'transaction_uuid': f"{user}-{pid}-{uuid.uuid4()}",
+        'product_code': 'EPAYTEST',
+        'product_service_charge': 0,
+        'product_delivery_charge': 0,
+        'success_url': url_for('esewa_success', _external=True),
+        'failure_url': url_for('esewa_failure', _external=True),
+        'signed_field_names': 'total_amount,transaction_uuid,product_code',
+        'pid': pid,
         'pname':pname,
         'price':totalprice,
         'quantity':quantity,
         'image':image
     }
-    return render_template('checkout.html',info=info)
+
+    session['esewa_info'] = esewa_info
+    print(session['esewa_info'])
+    # Generate HMAC-SHA256 signature
+    secret_key = "8gBm/:&EnhH.1/q"
+    data_to_sign = f"total_amount={esewa_info['total_amount']},transaction_uuid={esewa_info['transaction_uuid']},product_code={esewa_info['product_code']}"
+    esewa_info['signature'] = gen_sha256(secret_key, data_to_sign)
+
+    return render_template('checkout.html', esewa_info=esewa_info)
 
 
+@app.route('/esewa_success', methods=['GET', 'POST'])
+def esewa_success():
+    esewa_info = session.pop('esewa_info', None)
+   
+
+    return render_template('success.html',message="Payment Successful. Thank you for your purchase!",esewa_info=esewa_info)
+
+@app.route('/esewa_failure', methods=['GET', 'POST'])
+def esewa_failure():
+    return "Payment Failed. Please try again."
 
 @app.route('/removeItem',methods=['POST'])
 def removeitem():

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <style>
+        .purchase{
+            margin-left:30%;
+            display:flex;
+        }
+        .purchase-img{
+            margin-right:30px;
+        }
+          a{
+            text-decoration:none
+            color:black;
+        }
+        .button-link {
+            position:absolute;
+            display:flex;
+            flex-direction:column;
+            width:80px;
+            margin-left:30px;
+            top:20vh;
+        }
+        .button-link button{
+            border-radius:8px;
+            margin-top:20px;
+        }
+        .button-link a{
+            color:black;
+        }
+         .button-link a:hover{
+            color:black;
+            text-decoration:none;
+
+        }
+    </style>
+</head>
+<body>
+    {% include 'heads.html' %}
+        {% if esewa_info  %}
+          <div class="purchase">
+              <div class="purchase-img">
+                  <img src="{{esewa_info.image}}" alt="{{esewa_info.pname}}" height="300px" width="200px">
+              </div>
+               <div class="purchase-info">
+                    <h1>Thank You For your purchase!!!</h1>
+                    <p><strong> Id:</strong>  {{esewa_info.pid}}</p>
+                    <p><strong> Name:</strong>  {{esewa_info.pname}}</p>
+                    <p><strong> Quantity:</strong>  {{esewa_info.quantity}}</p>
+                    <p><strong> Price:</strong>  {{esewa_info.price}}</p>
+               </div>
+
+          </div>
+            <div class="button-link">
+                <button>
+                    <a href="index" >Back to Products</a>
+                </button>
+                <button>
+                    <a href="cart" >Cart</a>
+                </button>
+
+                <button>
+                    <a href="detail" >View Details</a>
+                </button>
+            </div>
+        {% else %}
+            <p>No purchase information available. Please try again.</p>
+        {%endif%}
+    {% include 'foots.html' %}
+</body>
+</html>

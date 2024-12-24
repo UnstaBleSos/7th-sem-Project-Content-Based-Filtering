@@ -1,74 +1,105 @@
+<!--<!doctype html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <title>Document</title>-->
+<!--    <style>-->
+<!--        .purchase{-->
+<!--            margin-left:30%;-->
+<!--            display:flex;-->
+<!--        }-->
+<!--        .purchase-img{-->
+<!--            margin-right:30px;-->
+<!--        }-->
+<!--          a{-->
+<!--            text-decoration:none-->
+<!--            color:black;-->
+<!--        }-->
+<!--        .button-link {-->
+<!--            position:absolute;-->
+<!--            display:flex;-->
+<!--            flex-direction:column;-->
+<!--            width:80px;-->
+<!--            margin-left:30px;-->
+<!--            top:20vh;-->
+<!--        }-->
+<!--        .button-link button{-->
+<!--            border-radius:8px;-->
+<!--            margin-top:20px;-->
+<!--        }-->
+<!--        .button-link a{-->
+<!--            color:black;-->
+<!--        }-->
+<!--         .button-link a:hover{-->
+<!--            color:black;-->
+<!--            text-decoration:none;-->
+
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--        {% if info  %}-->
+<!--          <div class="purchase">-->
+<!--              <div class="purchase-img">-->
+<!--                  <img src="{{info.image}}" alt="{{info.pname}}" height="300px" width="200px">-->
+<!--              </div>-->
+<!--               <div class="purchase-info">-->
+<!--                    <h1>Thank You For your purchase!!!</h1>-->
+<!--                    <p><strong> Id:</strong>  {{info.pid}}</p>-->
+<!--                    <p><strong> Name:</strong>  {{info.pname}}</p>-->
+<!--                    <p><strong> Quantity:</strong>  {{info.quantity}}</p>-->
+<!--                    <p><strong> Price:</strong>  {{info.price}}</p>-->
+<!--               </div>-->
+
+<!--          </div>-->
+<!--            <div class="button-link">-->
+<!--                <button>-->
+<!--                    <a href="index" >Back to Products</a>-->
+<!--                </button>-->
+<!--                <button>-->
+<!--                    <a href="cart" >Cart</a>-->
+<!--                </button>-->
+
+<!--                <button>-->
+<!--                    <a href="detail" >View Details</a>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        {% else %}-->
+<!--            <p>No purchase information available. Please try again.</p>-->
+<!--        {%endif%}-->
+
+<!--</body>-->
+<!--</html>-->
+
+
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
-    <style>
-        .purchase{
-            margin-left:30%;
-            display:flex;
-        }
-        .purchase-img{
-            margin-right:30px;
-        }
-          a{
-            text-decoration:none
-            color:black;
-        }
-        .button-link {
-            position:absolute;
-            display:flex;
-            flex-direction:column;
-            width:80px;
-            margin-left:30px;
-            top:20vh;
-        }
-        .button-link button{
-            border-radius:8px;
-            margin-top:20px;
-        }
-        .button-link a{
-            color:black;
-        }
-         .button-link a:hover{
-            color:black;
-            text-decoration:none;
-
-        }
-    </style>
+    <title>Checkout</title>
 </head>
 <body>
-    {% include 'heads.html' %}
-        {% if info  %}
-          <div class="purchase">
-              <div class="purchase-img">
-                  <img src="{{info.image}}" alt="{{info.pname}}" height="300px" width="200px">
-              </div>
-               <div class="purchase-info">
-                    <h1>Thank You For your purchase!!!</h1>
-                    <p><strong> Id:</strong>  {{info.pid}}</p>
-                    <p><strong> Name:</strong>  {{info.pname}}</p>
-                    <p><strong> Quantity:</strong>  {{info.quantity}}</p>
-                    <p><strong> Price:</strong>  {{info.price}}</p>
-               </div>
+    <h1>Checkout</h1>
+    <p>Product Name: {{ esewa_info['pname'] }}</p>
+    <p>Quantity: {{ esewa_info['quantity'] }}</p>
+    <p>Total Price: {{ esewa_info['price'] }}</p>
 
-          </div>
-            <div class="button-link">
-                <button>
-                    <a href="index" >Back to Products</a>
-                </button>
-                <button>
-                    <a href="cart" >Cart</a>
-                </button>
-
-                <button>
-                    <a href="detail" >View Details</a>
-                </button>
-            </div>
-        {% else %}
-            <p>No purchase information available. Please try again.</p>
-        {%endif%}
-    {% include 'foots.html' %}
+    <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
+        <input type="hidden" name="amount" value="{{ esewa_info['amount'] }}">
+        <input type="hidden" name="tax_amount" value="0">
+        <input type="hidden" name="total_amount" value="{{ esewa_info['total_amount'] }}">
+        <input type="hidden" name="transaction_uuid" value="{{ esewa_info['transaction_uuid'] }}">
+        <input type="hidden" name="product_code" value="{{ esewa_info['product_code'] }}">
+        <input type="hidden" name="product_service_charge" value="0">
+        <input type="hidden" name="product_delivery_charge" value="0">
+        <input type="hidden" name="success_url" value="{{ esewa_info['success_url'] }}">
+        <input type="hidden" name="failure_url" value="{{ esewa_info['failure_url'] }}">
+        <input type="hidden" name="signed_field_names" value="{{ esewa_info['signed_field_names'] }}">
+        <input type="hidden" name="signature" value="{{ esewa_info['signature'] }}">
+        <button type="submit">Proceed to Payment</button>
+    </form>
 </body>
 </html>
