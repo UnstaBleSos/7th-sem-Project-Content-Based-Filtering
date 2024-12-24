@@ -96,13 +96,15 @@
     .nav-links{
         display:flex;
         align-items:center;
-
+        justify-content:space-evenly;
     }
     .nav-links a{
         color:black;
         font-size:1.2rem;
     }
+    .user{
 
+    }
     .signin{
 
         margin-left:20px;
@@ -162,8 +164,17 @@
 
             <div class="cart">
                     <a href="/cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
-                </div>
+            </div>
+            <div class="user">
+                 <i class="fa-solid fa-user fa-lg"></i>
+                <span style="position:relative;top:20px;right:40px;">
+                    {{ session['username']}}
+                </span>
+
+            </div>
+            <div>
                      <a class="logout" href="/logout" style="text-decoration:none;">Logout</a>
+            </div>
                </div>
                 {% else %}
        <div class="nav-links">

@@ -5,9 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import pandas as pd
 import math
-import hmac
-import hashlib
-import uuid
+
 
 
 #object of flask
@@ -283,11 +281,12 @@ def signin():
         user = Signup.query.filter_by(username=username, password=password,status=1,role="user").first()
         admins = Admin.query.filter_by(adminName=username,adminPassword=password,role="admin").first()
         if user:
-            userName=user.username
+
             session['userid']=user.id
+            session['username']=user.username
             session['logged_in']=True
             signin_message="Welcome"
-            print(userName)
+            print(session['username'])
         elif admins :
             session['adminlogin'] = admins.id
             session['adminlogin'] = True
@@ -298,7 +297,7 @@ def signin():
 
         products = DisplayProduct.query.all()
         return render_template('index.html',
-                               data=products,message=signin_message,userName=userName
+                               data=products,message=signin_message
                                )
     products = DisplayProduct.query.all()
     return render_template('index.html',data=products,message="Please log in")

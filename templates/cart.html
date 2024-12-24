@@ -8,11 +8,16 @@
         .cart-item{
             display:flex;
             margin-bottom:12px;
+            margin-left:2vw;
+            justify-content:space-evenly;
         }
         .cart-img{
             margin-left:20px;
             padding:20px;
 
+        }
+        .product-details{
+            width:25%;
         }
         .form-button{
             display:flex;
@@ -75,14 +80,14 @@
     {% endif %}
 
 
-    {% include 'footer.html' %}
+    {% include 'foots.html' %}
 </body>
 <script>
   function updateHiddenQuantity(inputField, pid) {
 
     const hiddenQuantityInput = document.querySelector(`#hidden-quantity-${pid}`);
 
-    if (hiddenQuantityInput) {
+                    if (hiddenQuantityInput) {
         hiddenQuantityInput.value = inputField.value;
     } else {
         console.error(`Hidden input for PID ${pid} not found.`);

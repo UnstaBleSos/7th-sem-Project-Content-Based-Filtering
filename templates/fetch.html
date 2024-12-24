@@ -92,7 +92,14 @@
                         <h5>{{ product.pname }}</h5>
                         <p> <strong>Brand:</strong>  {{ product.brand }} </p>
                         <p><strong>Price:</strong> Rs {{ product.price }}</p>
-                            <a href="/cart" id="cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
+
+                         <form action="/cart" method="post" >
+                                <input type="hidden" name="pid" value=" {{product.pid}}">
+                                <input type="hidden" name="pname" value="{{product.pname}}">
+                                <input type="hidden" name="image" value="{{ product.imageurl.split('|')[0].strip() }}">
+                                <input type="hidden" name="price" value="{{product.price}}">
+                                 <button type="submit" class="cart-button"><i class="fas fa-shopping-cart fa-lg"></i></button>
+                         </form>
                     </div>
                 </div>
             {% endfor %}

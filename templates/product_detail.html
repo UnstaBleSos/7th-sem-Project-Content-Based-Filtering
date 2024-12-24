@@ -154,7 +154,14 @@
                 <p><strong>Brand:</strong> {{ rec.Brand }}</p>
                 <p><strong>Rating:</strong> {{ rec.Rating }}</p>
                 <p><strong>Price:</strong> Rs {{ rec.Price }}</p>
-                 <a href="/cart" id="cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
+
+                 <form action="/cart" method="post" >
+                                <input type="hidden" name="pid" value=" {{rec.ID}}">
+                                <input type="hidden" name="pname" value="{{rec.Name}}">
+                                <input type="hidden" name="image" value="{{ rec.ImageURL.split('|')[0].strip() }}">
+                                <input type="hidden" name="price" value="{{rec.Price}}">
+                                 <button type="submit" class="cart-button"><i class="fas fa-shopping-cart fa-lg"></i></button>
+                 </form>
             </div>
 
         </div>
