@@ -9,6 +9,11 @@
     .admin{
         display:flex;
     }
+    .updates-view{
+       position:absolute;
+       top:10%;
+       left:75%;
+    }
 </style>
 <body>
 
@@ -20,6 +25,9 @@
        {% include './admin/adminsidebar.html' %}
         {%include './admin/adminbody.html' %}
    </div>
+    <div class="updates-view">
+         {%include './admin/viewupdate.html' %}
+    </div>
 </body>
 <script >
     document.addEventListener("DOMContentLoaded", function() {

@@ -23,9 +23,16 @@
     background: #fff;
     border-radius:8px;
 }
-        li{
-            margin-top:10px;
-        }
+.product{
+    cursor:pointer;
+}
+.product:hover{
+    transform:translateY(-5px);
+    transition: 0.5 ease;
+}
+li{
+     margin-top:10px;
+}
        .detail-button{
             border:1px solid green;
             padding:8px;
@@ -60,22 +67,21 @@
     <div class="info">
         {% if products1 %}
             {% for product in products1 %}
-                <div class="products" style="">
+                <div class="products" data-href="{{ url_for('product_detail', pid=product['productId']) }}" onclick="redirectToDetail(this)">
                      <div class="product">
                         <h3>{{ product['productname'] }}</h3>
                              <div>
                                  <img src="{{product['imageurl'].split('|')[0].strip()}}" alt="{{ product['name'] }}" height="200px" width="200px">
                             </div>
-                            <p>Rating: {{ product['rating'] }}</p>
-                            <p>Category: {{ product['category'] }}</p>
-                            <p>Price: Rs {{ product['price'] }}</p>
+                            <p> <strong>Rating:</strong>  {{ product['rating'] }}</p>
+                            <p> <strong>Category:</strong>  {{ product['category'] }}</p>
+                            <p><strong>Price:</strong> Rs {{ product['price'] }}</p>
                             <form action="/cart" method="post" >
                                 <input type="hidden" name="pid" value="{{product['productId']}}">
                                 <input type="hidden" name="pname" value="{{product['productname']}}">
                                 <input type="hidden" name="image" value="{{ product['imageurl'].split('|')[0].strip() }}">
                                 <input type="hidden" name="price" value="{{product['price']}}">
-                                <a href="{{ url_for('product_detail', pid=product['productId']) }}" class="detail-button" >View Details</a>
-                                <button type="submit" class="cart-button"><i class="fas fa-shopping-cart fa-lg"></i></button>
+                                 <button type="submit" class="cart-button"><i class="fas fa-shopping-cart fa-lg"></i></button>
                              </form>
                     </div>
                 </div>
@@ -86,6 +92,9 @@
 {%include 'foots.html' %}
 </body>
 <script>
-
+    function redirectToDetail(element) {
+        const url = element.getAttribute('data-href');
+        window.location.href = url;
+    }
 </script>
 </html>

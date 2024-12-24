@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <style>
+        .updates{
+            border:1px solid black;
+            border-radius:8px;
+            height:500px;
+            width:400px;
+            margin-left;
+            display:flex;
+            flex-direction:column;
+            animation: redGlow 2s infinite;
+            position: relative;
+
+        }
+
+      @keyframes redGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.5),
+                            0 0 20px rgba(255, 0, 0, 0.6),
+                            0 0 30px rgba(255, 0, 0, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.6),
+                            0 0 30px rgba(255, 0, 0, 0.7),
+                            0 0 40px rgba(255, 0, 0, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.5),
+                            0 0 20px rgba(255, 0, 0, 0.6),
+                            0 0 30px rgba(255, 0, 0, 0.7);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="updates">
+        <div class="new-purchases">
+            New Purchases
+        </div>
+        <div class="new=user">
+            New Users
+
+        </div>
+    </div>
+</body>
+</html>

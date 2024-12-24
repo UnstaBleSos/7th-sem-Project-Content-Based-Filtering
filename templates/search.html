@@ -18,13 +18,9 @@
     border: 1px solid;
     text-decoration: none;
     border-radius: 4px;
-    background-color: #8BC34A;
-    color: #FFFFFF;
     transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
 }
 .back-btn:hover {
-    background-color: #4CAF50;
-    color: #FFFFFF;
     text-decoration: none;
     transform: scale(1.05);
 }
@@ -40,13 +36,9 @@
     padding: 8.2px;
     border-radius: 4px;
     width: 3vw;
-    background-color: #4CAF50;
-    color: #FFFFFF;
     transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
 }
 .cart-button:hover {
-    background-color: #388E3C;
-    color: #FFC107;
     transform: scale(1.05);
 }
 
@@ -63,22 +55,22 @@
     flex-wrap: wrap;
     width: 20%;
     margin-top: 10px;
+    cursor:pointer;
 }
-
+.recommend-info:hover{
+     transform:translateY(-5px);
+            transition: 0.5 ease;
+}
 .detail-button {
     border: 1px solid green;
     padding: 8px;
     border-radius: 8px;
     margin-left: 32%;
     margin-top: 20px;
-    background-color: #FFC107;
-    color: #212121;
     transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
 }
 .detail-button:hover {
     text-decoration: none;
-    background-color: #FFA000;
-    color: #FFFFFF;
     transform: scale(1.05);
 }
 
@@ -104,7 +96,7 @@
                         <p> <strong>Rating: </strong> {{ product.rating }} stars</p>
                         <p><strong>Description:</strong> {{product.description.split('.')[0].strip()}}</p>
                         <p><strong>Price</strong>: Rs {{ product.price }}</p>
-                        <a href="{{ url_for('index', pid=product.pid) }} " class="back-btn">Back to Products</a>
+                        <a href="{{ url_for('index', pid=product.pid) }} " class="back-btn">Home</a>
                             <input type="hidden" name="pid" value="{{product.productid}}">
                             <input type="hidden" name="pname" value="{{product.productname}}">
                             <input type="hidden" name="image" value="{{ product['imageurl'].split('|')[0].strip() }}">
@@ -124,7 +116,7 @@
 <h4 style="margin-left:20px;margin-top:20px;">Recommended Products</h4>
     <div class="row recommended-products">
                {% for rec in recommendations1 %}
-                <div class="recommend-info">
+                <div class="recommend-info" data-href="{{ url_for('product_detail', pid=rec.ID) }}" onclick="redirectToDetail(this)">
                     <div class="card">
                         <img src="{{ rec.ImageURL.split('|')[0].strip() }}"
                              class="img-fluid"
@@ -137,7 +129,7 @@
                             <p><strong>Brand:</strong> {{ rec.Brand }}</p>
                             <p><strong>Rating:</strong> {{ rec.Rating }}</p>
                             <p><strong>Price:</strong> Rs {{ rec.Price }}</p>
-                            <a href="{{ url_for('product_detail', pid=rec.ID) }}" class="detail-button">View Details</a>
+                            <a href="/cart" id="cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
                         </div>
                     </div>
                 </div>
@@ -159,9 +151,11 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <script>
-
+    function redirectToDetail(element) {
+        const url = element.getAttribute('data-href');
+        window.location.href = url;
+    }
 </script>
 
 </html>

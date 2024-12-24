@@ -29,6 +29,11 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             margin:10px;
+            cursor:pointer;
+        }
+        .product:hover{
+            transform:translateY(-5px);
+            transition: 0.5 ease;
         }
         .product img {
             width: 100%;
@@ -53,18 +58,19 @@
             border:1px solid green;
             text-decoration: none;
             border-radius: 4px;
-            margin-left:50px;
-           background-color:#FFC107;
-             color:#212121;
+            margin-left:20px;
+            color:black;
              transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
 
         }
         .product-info a:hover {
-            background-color:#FFA000;
-             color:#FFFFFF;
+
               transform: scale(1.05);
             transition:0.7s;
         }
+         #cart{
+            margin-left:20px;
+         }
     </style>
 </head>
 <body>
@@ -73,7 +79,8 @@
    <div class="container">
         <div class="row">
             {% for product in data %}
-                <div class="product">
+
+                <div class="product" data-href="{{ url_for('product_detail', pid=product.pid) }}" onclick="redirectToDetail(this)">
 <!--                    <img src="{{ product.imageurl.split('|')[0] }}" alt="{{ product.pname }}">-->
                     <img src="{{ product['imageurl'].split('|')[0].strip() }}"
                        class="img-fluid"
@@ -83,10 +90,9 @@
 
                     <div class="product-info">
                         <h5>{{ product.pname }}</h5>
-                        <p>{{ product.brand }} </p>
-                        <p> <strong>{{ product.rating }}</strong> stars</p>
-                        <p>Price: Rs {{ product.price }}</p>
-                        <a href="{{ url_for('product_detail', pid=product.pid) }}">View Details</a>
+                        <p> <strong>Brand:</strong>  {{ product.brand }} </p>
+                        <p><strong>Price:</strong> Rs {{ product.price }}</p>
+                            <a href="/cart" id="cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
                     </div>
                 </div>
             {% endfor %}
@@ -95,6 +101,12 @@
 
 </div>
 </body>
+<script>
+    function redirectToDetail(element) {
+        const url = element.getAttribute('data-href');
+        window.location.href = url;
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

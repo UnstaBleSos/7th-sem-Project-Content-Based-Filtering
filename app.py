@@ -5,7 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import pandas as pd
 import math
-
+import hmac
+import hashlib
+import uuid
 
 
 #object of flask
@@ -155,6 +157,7 @@ def content_based_recommendations(train_data, item_name, top_n=10):
     similarities = sorted(similarities, key=lambda x: x[1], reverse=True)
 
     top_similar_indices = [idx for idx, _ in similarities[1:top_n + 1]]
+    print(top_similar_indices)
     recommended_items_details = train_data.iloc[top_similar_indices][
         ['ID','Name', 'ReviewCount', 'Brand', 'ImageURL', 'Rating','Price','Description']]
     return recommended_items_details
@@ -280,20 +283,22 @@ def signin():
         user = Signup.query.filter_by(username=username, password=password,status=1,role="user").first()
         admins = Admin.query.filter_by(adminName=username,adminPassword=password,role="admin").first()
         if user:
+            userName=user.username
             session['userid']=user.id
             session['logged_in']=True
-            signin_message="user signed in successfully"
+            signin_message="Welcome"
+            print(userName)
         elif admins :
             session['adminlogin'] = admins.id
             session['adminlogin'] = True
             signin_message="Welcome Admin"
-            return render_template('admin/admin.html',signin_message=signin_message)
+            return render_template('./admin/admin.html',signin_message=signin_message)
         else:
             signin_message = "invalid username or password or you are no longer able to login"
 
         products = DisplayProduct.query.all()
         return render_template('index.html',
-                               data=products,message=signin_message
+                               data=products,message=signin_message,userName=userName
                                )
     products = DisplayProduct.query.all()
     return render_template('index.html',data=products,message="Please log in")
@@ -490,7 +495,6 @@ def admin():
     selectuser = text("select count(id) from signup ")
     user = db.session.execute(selectuser).fetchone()
     db.session.commit()
-
     return render_template('./admin/admin.html',totalcount=count,user=user,product=value,price= pricecount)
 
 
