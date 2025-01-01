@@ -261,19 +261,24 @@ def signup():
         user = text("Select username from signup where username=:username")
         result= db.session.execute(user,{'username':username}).scalar()
 
+        print(password)
+        print(repassword)
+
+
         if result:
             products = DisplayProduct.query.all()
             return render_template('index.html', data=products, message="Username already exits try again")
 
 
-        if(password == repassword and len(password)>8):
+        if password == repassword and len(password)>8:
             new_signup = Signup(username=username, email=email, password=password,repassword= repassword,status=1,role='user')
             db.session.add(new_signup)
             db.session.commit()
             signup_message="User signed up successfully"
+        elif len(password)<8:
+            signup_message="Password length should be greater than 8"
         else:
-            signup_message="Password donot match or password length should be greater than 8"
-
+            signup_message = "Unable to Join"
         products = DisplayProduct.query.all()
         return render_template('index.html',data= products,message=signup_message)
 
@@ -296,7 +301,12 @@ def signin():
             session['username']=user.username
             session['logged_in']=True
             signin_message="Welcome"
-            print(session['username'])
+            value =  session['username']
+
+            products = DisplayProduct.query.all()
+            return render_template('index.html',
+                                   data=products, message=signin_message, value=value
+                                   )
         elif admins :
             session['adminlogin'] = admins.id
             session['adminlogin'] = True

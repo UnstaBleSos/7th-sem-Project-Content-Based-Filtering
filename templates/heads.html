@@ -94,15 +94,24 @@
         transition:0.4s ease;
     }
     .nav-links{
+       width:15%;
         display:flex;
         align-items:center;
-        justify-content:space-evenly;
+        justify-content:space-between;
+
+
     }
     .nav-links a{
         color:black;
         font-size:1.2rem;
     }
     .user{
+        display:flex;
+        flex-direction:column;
+        align-items: center;    /* Centers the icon and username horizontally */
+    text-align: center;     /* Ensures the username is centered under the icon */
+    gap: 5px;
+    margin-top:15px;
 
     }
     .signin{
@@ -167,7 +176,7 @@
             </div>
             <div class="user">
                  <i class="fa-solid fa-user fa-lg"></i>
-                <span style="position:relative;top:20px;right:40px;">
+                <span >
                     {{ session['username']}}
                 </span>
 
@@ -175,7 +184,7 @@
             <div>
                      <a class="logout" href="/logout" style="text-decoration:none;">Logout</a>
             </div>
-               </div>
+        </div>
                 {% else %}
        <div class="nav-links">
             <div class="cart">

@@ -3,14 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>About Us</title>
+
+    <style>
+        /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+
+}
+
+h1, h2 {
+
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+
+
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+ul li strong {
+    color: #0056b3;
+}
+
+a {
+
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+#contact ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+#contact ul li {
+    margin-bottom: 10px;
+}
+
+#contact ul li a {
+    font-weight: bold;
+}
+
+    </style>
 </head>
 <body>
 
+    {% include 'heads.html' %}
 
-    {% include'heads.html' %}
-    {% include'foots.html' %}
+    <main>
+        <section id="about">
+            <h1>About Our Project</h1>
+            <p>
+                Welcome to our eCommerce platform, a project designed to provide personalized product recommendations
+                using advanced content-based filtering techniques. This platform is created as part of a learning experience
+                to combine modern web technologies with effective recommendation systems.
+            </p>
+        </section>
 
+        <section id="team">
+            <h2>Our Team</h2>
+            <ul>
+                <li><strong>Sudhan Bhakta Shrestha</strong> - Frontend Developer. Focus on HTML, CSS, and JavaScript for a responsive user interface.</li>
+                <li><strong>David Dahal:</strong> - Data Analyst. Specialized in implementing content-based filtering using Python.</li>
+                <li><strong>Ashutosh Khanal</strong> - Backend Developer. </li>
+                <li><strong>Sumit Ghising:</strong> Guiding and mentoring the team to achieve project goals effectively.</li>
+            </ul>
+        </section>
+
+        <section id="tech-stack">
+            <h2>Technology Stack</h2>
+            <p>
+                Our project leverages the following technologies:
+            </p>
+            <ul>
+                <li><strong>Backend:</strong> Flask - A lightweight web framework for handling server-side logic.</li>
+                <li><strong>Frontend:</strong> HTML, CSS, JavaScript - For creating a user-friendly and responsive interface.</li>
+                <li><strong>Recommendation System:</strong> Content-based filtering implemented using Python and TF-IDF vectorization.</li>
+            </ul>
+        </section>
+
+        <section id="goals">
+            <h2>Project Goals</h2>
+            <p>
+                The primary goal of this project is to create an eCommerce platform that provides users with
+                accurate and personalized product recommendations based on the content they interact with.
+                The platform aims to deliver a seamless shopping experience while showcasing the practical applications of
+                content-based filtering in a real-world scenario.
+            </p>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>
+                For inquiries or collaborations, feel free to reach out to our team through the following channels:
+            </p>
+            <ul>
+                <li>Email: cr7sudhan@gmail.com</li>
+                <li>GitHub Repository: <a href="https://github.com/UnstaBleSos/7th-sem-Project-Content-Based-Filtering" target="_blank">Content Based Filtering</a></li>
+            </ul>
+        </section>
+    </main>
+
+    {% include 'foots.html' %}
 
 </body>
 </html>
