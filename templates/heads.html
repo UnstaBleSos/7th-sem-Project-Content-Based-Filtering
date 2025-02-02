@@ -1,8 +1,10 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<link rel="stylesheet" href="static/css/style.css">
 <style>
+    body{
+        font-family: Arial, sans-serif;
+    }
     *{
         margin:0;
         padding:0;
@@ -108,8 +110,8 @@
     .user{
         display:flex;
         flex-direction:column;
-        align-items: center;    /* Centers the icon and username horizontally */
-    text-align: center;     /* Ensures the username is centered under the icon */
+        align-items: center;
+    text-align: center;
     gap: 5px;
     margin-top:15px;
 
@@ -118,7 +120,7 @@
 
         margin-left:20px;
          border-radius:5px;
-         padding:5px;
+            padding:1px;
         border:1px solid black
     }
     .signin:hover{
@@ -130,7 +132,7 @@
         color:black !important;
         margin-left:20px;
          border-radius:5px;
-         padding:5px;
+            padding:2px;
         border:1px solid black
     }
     .signup:hover{
@@ -155,7 +157,6 @@
   <nav class="navbar">
      <div class="logo-container">
         <a href="/index" style="text-decoration:none; color:black;font-size:1.2rem;">
-<!--            <img src="static/img/logo.png" alt="Hamro Pasal">-->
             HamroPasal
         </a>
     </div>
@@ -174,8 +175,8 @@
             <div class="cart">
                     <a href="/cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
             </div>
-            <div class="user">
-                 <i class="fa-solid fa-user fa-lg"></i>
+            <div class="user" onclick="directUser()" style="cursor:pointer">
+                 <i class="fa-solid fa-user fa-lg" ></i>
                 <span >
                     {{ session['username']}}
                 </span>
@@ -232,5 +233,9 @@ function showSuggestions() {
     }
 }
 
+    function directUser(){
+        
+        window.location.href = 'detail'
+    }
 
 </script>

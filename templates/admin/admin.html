@@ -6,14 +6,18 @@
     <title>Document</title>
 </head>
 <style>
+    body{
+            font-family: Arial, sans-serif;
+            }
     .admin{
         display:flex;
     }
     .updates-view{
        position:absolute;
        top:10%;
-       left:75%;
+       left:73%;
     }
+
 </style>
 <body>
 
@@ -21,13 +25,16 @@
    {% if signin_message %}
 <h1 id="messages" style="color:red; margin-left:15%; margin-bottom:10px;" >{{signin_message}}</h1>
 {% endif %}
-   <div class="admin">
+   <div class="admin-body">
+       <div class="admin">
        {% include './admin/adminsidebar.html' %}
         {%include './admin/adminbody.html' %}
    </div>
     <div class="updates-view">
          {%include './admin/viewupdate.html' %}
     </div>
+   </div>
+
 </body>
 <script >
     document.addEventListener("DOMContentLoaded", function() {

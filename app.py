@@ -1,12 +1,10 @@
 import uuid
-from os import truncate
 from flask import Flask, request, render_template, session, url_for, redirect
 import random
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import pandas as pd
 import math
-
 import hmac
 import hashlib
 import base64
@@ -163,7 +161,7 @@ def content_based_recommendations(train_data, item_name, top_n=10):
         similarity = cosine_similarity(tf_idf_matrix[item_index], tf_idf_vector)
         similarities.append((i, similarity))
     similarities = sorted(similarities, key=lambda x: x[1], reverse=True)
-
+    print(similarities)
     top_similar_indices = [idx for idx, _ in similarities[1:top_n + 1]]
     print(top_similar_indices)
     recommended_items_details = train_data.iloc[top_similar_indices][
@@ -295,14 +293,14 @@ def signin():
 
         user = Signup.query.filter_by(username=username, password=password,status=1,role="user").first()
         admins = Admin.query.filter_by(adminName=username,adminPassword=password,role="admin").first()
-        if user:
 
+        if user:
+            print(user.username)
             session['userid']=user.id
             session['username']=user.username
             session['logged_in']=True
             signin_message="Welcome"
             value =  session['username']
-
             products = DisplayProduct.query.all()
             return render_template('index.html',
                                    data=products, message=signin_message, value=value
@@ -312,8 +310,12 @@ def signin():
             session['adminlogin'] = True
             signin_message="Welcome Admin"
             return render_template('./admin/admin.html',signin_message=signin_message)
+        elif not user:
+            signin_message="Invalid Username"
+        elif user and user.password != password:
+            signin_message = "Invalid Password"
         else:
-            signin_message = "invalid username or password or you are no longer able to login"
+            signin_message = " You are no longer able to login"
 
         products = DisplayProduct.query.all()
         return render_template('index.html',
@@ -483,7 +485,7 @@ def checkout():
 
     session['esewa_info'] = esewa_info
     print(session['esewa_info'])
-    # Generate HMAC-SHA256 signature
+
     secret_key = "8gBm/:&EnhH.1/q"
     data_to_sign = f"total_amount={esewa_info['total_amount']},transaction_uuid={esewa_info['transaction_uuid']},product_code={esewa_info['product_code']}"
     esewa_info['signature'] = gen_sha256(secret_key, data_to_sign)
@@ -500,7 +502,49 @@ def esewa_success():
 
 @app.route('/esewa_failure', methods=['GET', 'POST'])
 def esewa_failure():
-    return "Payment Failed. Please try again."
+    if 'logged_in' not in session:
+        return redirect(url_for('signin'))
+    else:
+        user = session['userid']
+
+    pid = request.form.get("pid")
+    pname = request.form.get("pname")
+    price = request.form.get("price")
+    image = request.form.get("image")
+
+    if pid and pname and price and image:
+        check = text("Select * from carts where userid = :userid and productid = :productid ")
+        checkresult = db.session.execute(check, {'userid': user, 'productid': pid}).fetchone()
+
+        if checkresult:
+            updata = text("Update carts set quantity = quantity+1 where userid = :userid and productid = :productid")
+            db.session.execute(updata, {'userid': user, 'productid': pid})
+            db.session.commit()
+
+        else:
+            adddata = text("""
+              INSERT INTO carts (userid, productid, productname, quantity, image, price) 
+              VALUES (:userid, :productid, :productname, 1, :image, :price)
+          """)
+            db.session.execute(adddata,
+                               {'userid': user, 'productid': pid, 'productname': pname, 'image': image, 'price': price})
+            db.session.commit()
+
+    query = text("Select * from carts where userid =  :userid")
+    result = db.session.execute(query, {'userid': user}).fetchall()
+
+    cart_items = []
+    if result:
+        for item in result:
+            cart_items.append({
+                'pid': item[2],
+                'pname': item[3],
+                'quantity': item[4],
+                'image': item[5],
+                'price': item[6]
+            })
+
+    return render_template('cart.html', cartdata=cart_items)
 
 @app.route('/removeItem',methods=['POST'])
 def removeitem():

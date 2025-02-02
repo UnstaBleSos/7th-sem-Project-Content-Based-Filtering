@@ -80,26 +80,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .checkout-info {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 900px;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 0 auto;
+        }
+
+        .checkout-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .checkout-image img {
+            height: 400px;
+            width: 400px;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+        .checkout-product {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .checkout-product p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .checkout-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .checkout-button {
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+    </style>
 </head>
 <body>
-    <h1>Checkout</h1>
-    <p>Product Name: {{ esewa_info['pname'] }}</p>
-    <p>Quantity: {{ esewa_info['quantity'] }}</p>
-    <p>Total Price: {{ esewa_info['price'] }}</p>
 
-    <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
-        <input type="hidden" name="amount" value="{{ esewa_info['amount'] }}">
-        <input type="hidden" name="tax_amount" value="0">
-        <input type="hidden" name="total_amount" value="{{ esewa_info['total_amount'] }}">
-        <input type="hidden" name="transaction_uuid" value="{{ esewa_info['transaction_uuid'] }}">
-        <input type="hidden" name="product_code" value="{{ esewa_info['product_code'] }}">
-        <input type="hidden" name="product_service_charge" value="0">
-        <input type="hidden" name="product_delivery_charge" value="0">
-        <input type="hidden" name="success_url" value="{{ esewa_info['success_url'] }}">
-        <input type="hidden" name="failure_url" value="{{ esewa_info['failure_url'] }}">
-        <input type="hidden" name="signed_field_names" value="{{ esewa_info['signed_field_names'] }}">
-        <input type="hidden" name="signature" value="{{ esewa_info['signature'] }}">
-        <button type="submit">Proceed to Payment</button>
-    </form>
+<h1>Checkout</h1>
+
+<div class="checkout-info">
+    <div class="checkout-image">
+        <img src="{{ esewa_info['image'] }}" alt="{{ esewa_info['pname'] }}">
+    </div>
+
+    <div class="checkout-product">
+        <p><strong>Product Name:</strong> {{ esewa_info['pname'] }}</p>
+        <p><strong>Quantity:</strong> {{ esewa_info['quantity'] }}</p>
+        <p><strong>Total Price:</strong> {{ esewa_info['price'] }}</p>
+    </div>
+</div>
+
+<form class="checkout-form" action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
+    <input type="hidden" name="amount" value="{{ esewa_info['amount'] }}">
+    <input type="hidden" name="tax_amount" value="0">
+    <input type="hidden" name="total_amount" value="{{ esewa_info['total_amount'] }}">
+    <input type="hidden" name="transaction_uuid" value="{{ esewa_info['transaction_uuid'] }}">
+    <input type="hidden" name="product_code" value="{{ esewa_info['product_code'] }}">
+    <input type="hidden" name="product_service_charge" value="0">
+    <input type="hidden" name="product_delivery_charge" value="0">
+    <input type="hidden" name="success_url" value="{{ esewa_info['success_url'] }}">
+    <input type="hidden" name="failure_url" value="{{ esewa_info['failure_url'] }}">
+    <input type="hidden" name="signed_field_names" value="{{ esewa_info['signed_field_names'] }}">
+    <input type="hidden" name="signature" value="{{ esewa_info['signature'] }}">
+
+    <button class="checkout-button" type="submit">
+        Proceed to Payment
+    </button>
+</form>
+
 </body>
+
 </html>
