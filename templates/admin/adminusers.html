@@ -59,9 +59,14 @@ body{
         {%include './admin/adminsidebar.html' %}
     <div style="margin-left:300px;
         border:1px solid black;
-        border-radius:8px;width:500px;text-align:center;margin-top:10px;">
+        border-radius:8px;width:500px;text-align:center;margin-top:10px;
+        height:70vh; display:flex;
+        flex-direction:column;
+        justify-content: space-between;
+">
 
-                  <h2 style="margin:20px;">USERS</h2>
+                  <h2 style="margin-top:10px;">USERS &nbsp <i class="fa-solid fa-people-group"></i></h2>
+            <div style="height:2px; background-color:black;width:80%;margin: 0 auto;"></div>
          {% if users %}
             {% for user in users %}
               <div class="form-item" >

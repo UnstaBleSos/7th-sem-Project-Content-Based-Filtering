@@ -2,9 +2,12 @@
     .sidebar {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 200px;
+    gap: 25px;
+    width: 203px;
     padding: 10px;
+    box-shadow: 1px 2px gray;
+
+    height:92vh;
 }
 .sidebar a {
     color: black;
@@ -16,13 +19,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <div class="sidebar">
-            <a href="admin">Dashboard</a>
+            <a href="admin">Dashboard <i class="fa-solid fa-grip"></i></a>
             <a href="products">Edit   <i class="fa-solid fa-pen fa-sm"></i></a>
-            <a href="/purchase">Purchases </a>
-            <a href="/adminusers">Deactivate User </a>
-            <a href="/adminusersdeactive">Activate User </a>
-            <a href="/addproduct">Add Products</a>
-            <a href="/category">Categories</a>
-            <a href="/addcategory">Add Category</a>
-            <a href="/adminlogout">Logout</a>
+            <a href="/purchase">Purchases <i class="fa-solid fa-money-bills fa-sm"></i></a>
+            <a href="/adminusers">Deactivate User <i class="fa-regular fa-user fa-sm"></i></a>
+            <a href="/adminusersdeactive">Activate User <i class="fa-solid fa-user fa-sm"></i></a>
+            <a href="/addproduct">Add Products <i class="fa-solid fa-cart-plus fa-sm"></i></a>
+            <a href="/category">Categories <i class="fa-solid fa-folder fa-sm"></i></a>
+            <a href="/addcategory">Add Category <i class="fa-solid fa-folder-plus fa-sm"></i></a>
+            <a href="/adminlogout">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
 </div>

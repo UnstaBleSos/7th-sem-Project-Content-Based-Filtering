@@ -6,7 +6,9 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-
+body{
+            font-family: Arial, sans-serif;
+            }
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -32,11 +34,14 @@
             transition: transform 0.4s, box-shadow 0.4s;
             display:flex;
             flex-direction:column;
-            justify-content:space-between;;
+            justify-content:space-between;
+            margin-left:5vw;
+            height:35vh;
         }
-        .category:hover {
+        .delete:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+
         }
 
         .category-button {
@@ -46,7 +51,9 @@
         }
 
         .delete {
+            transition: transform 0.4s, box-shadow 0.4s;
             padding: 8px;
+            font-size:1.2rem;
         }
     </style>
 </head>
@@ -59,7 +66,7 @@
         <div class="categories">
             {% for category in result %}
                 <div class="category">
-                    <span>{{ category.Categories }}</span>
+                    <span style="margin: 0 auto;"><h2>{{ category.Categories }}</h2></span>
                     <div class="category-button">
                         <form action="deletecategory" method="post">
                             <input type="hidden" name="productname" value="{{ category.Categories }}">

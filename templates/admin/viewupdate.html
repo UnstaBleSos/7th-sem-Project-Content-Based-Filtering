@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
     <style>
+        .admin-border{
+        background-color:black;
+        width:90%;
+        margin: 0 auto;
+        height:5px;
+    }
         .updates{
             border:1px solid black;
             border-radius:8px;
@@ -45,6 +51,7 @@
         <div class="new-purchases">
           <h2>  New Purchases</h2>
             {% for x in newpurchase %}
+
                 <div class="purchase-history">
                     <p><strong>PurchaseID:</strong>{{x.purchaseid}}</p>
                     <p><strong>ProductName:</strong>{{x.productname}}</p>
@@ -52,8 +59,11 @@
                     <p><strong>Price:</strong>{{x.productprice}}</p>
                     <p><strong>Purchased On:</strong>{{x.purchaseTime}}</p>
                 </div>
+
             {% endfor %}
+
         </div>
+         <div class="admin-border"></div>
         <div class="new-user">
            <h2>New Users</h2>
               {% for x in newuser %}

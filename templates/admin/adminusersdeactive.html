@@ -10,18 +10,23 @@
             }
         .adminuser-container{
              display:flex;
+              flex-wrap:wrap;
+
+                align-item:center;
         }
         .form-item{
             display:flex;
+            flex-wrap:wrap;
             flex-direction:column;
             justify-content:space-evenly;
-            align-item:center;
-            margin-left:300px;
+            margin:0 auto;
+
             margin-top:15px;
             border:1px solid black;
             border-radius:8px;
-            width:250px;
+            width:20vw;
             text-align:center;
+            height:50vh;
         }
         .submit{
             margin-bottom:30px;
@@ -65,8 +70,8 @@
    {% endfor %}
         {% else %}
             <h1 style="margin-left:300px;">User not present!!</h1>
- </div>
        {% endif %}
+ </div>
 
 </body>
 </html>

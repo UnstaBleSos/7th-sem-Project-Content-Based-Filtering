@@ -453,7 +453,7 @@ def checkout():
         INSERT INTO purchase (productid, productname, quantity, productprice, userid)
         VALUES (:productid, :productname, :quantity, :productprice, :userid)
     """)
-    db.session.execute(insertquery,{'productid':pid,'productname':pname,'quantity':quantity,'productprice':price,'userid':user})
+    db.session.execute(insertquery,{'productid':pid,'productname':pname,'quantity':quantity,'productprice':totalprice,'userid':user})
     db.session.commit()
 
 
@@ -506,7 +506,6 @@ def esewa_failure():
         return redirect(url_for('signin'))
     else:
         user = session['userid']
-
     pid = request.form.get("pid")
     pname = request.form.get("pname")
     price = request.form.get("price")
