@@ -7,6 +7,8 @@
     <style>
 body{
             font-family: Arial, sans-serif;
+            background-color: #1e1e2f;
+    color: white;
             }
          .sidebar{
 
@@ -28,14 +30,26 @@ body{
         flex-direction:column;
         margin-left:100px;
         }
-
+        .user-display{
+            margin-left:300px;
+            border:1px solid black;
+            border-radius:8px;
+            width:500px;
+            text-align:center;
+            margin-top:10px;
+            height:70vh;
+            display:flex;
+            flex-direction:column;
+            justify-content: space-between;
+             box-shadow: 0 4px 8px rgba(139, 92, 246, 0.5);
+        }
 
         form  input{
             margin: 20px;
         }
 
         .adminuser-container{
-        display:flex;
+          display:flex;
         }
         .each{
         width:250px;
@@ -45,9 +59,10 @@ body{
         .deactivate{
             padding:4px;
             border-radius:4px;
+            background-color: #e57373;
         }
         .deactivate:hover{
-            background-color:#FF7F7F;
+            background-color: #ff7f7f;
             transition:0.2s;
         }
     </style>
@@ -57,16 +72,10 @@ body{
    {% include './admin/adminheader.html' %}
 <div class="adminuser-container">
         {%include './admin/adminsidebar.html' %}
-    <div style="margin-left:300px;
-        border:1px solid black;
-        border-radius:8px;width:500px;text-align:center;margin-top:10px;
-        height:70vh; display:flex;
-        flex-direction:column;
-        justify-content: space-between;
-">
+    <div class="user-display">
 
                   <h2 style="margin-top:10px;">USERS &nbsp <i class="fa-solid fa-people-group"></i></h2>
-            <div style="height:2px; background-color:black;width:80%;margin: 0 auto;"></div>
+            <div style="height:2px;  background-color: #8b5cf6;width:80%;margin: 0 auto;"></div>
          {% if users %}
             {% for user in users %}
               <div class="form-item" >

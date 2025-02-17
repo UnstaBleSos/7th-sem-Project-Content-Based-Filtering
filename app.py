@@ -439,12 +439,13 @@ def checkout():
     quantity= request.form.get('quantity')
     image = request.form.get('image')
     user=session['userid']
-
+    print(price)
+    print(quantity)
     query = text("Update carts set quantity=:quantity where userid=:userid and productid=:productid  ")
     db.session.execute(query,{'quantity':quantity, 'userid':user,'productid':pid})
     db.session.commit()
     totalprice = int(quantity)*float(price)
-
+    print(totalprice)
     delquery = text("Delete from carts where userid=:userid and productid=:productid")
     db.session.execute(delquery,{'userid':user,'productid':pid})
     db.session.commit()
@@ -485,7 +486,7 @@ def checkout():
 
     session['esewa_info'] = esewa_info
     print(session['esewa_info'])
-
+    print(esewa_info['price'])
     secret_key = "8gBm/:&EnhH.1/q"
     data_to_sign = f"total_amount={esewa_info['total_amount']},transaction_uuid={esewa_info['transaction_uuid']},product_code={esewa_info['product_code']}"
     esewa_info['signature'] = gen_sha256(secret_key, data_to_sign)

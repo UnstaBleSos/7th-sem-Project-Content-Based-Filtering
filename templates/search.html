@@ -14,36 +14,48 @@
 .product-info {
     margin-left: 20px;
 }
-
+.container{
+    margin-top:20px;
+}
 .back-btn {
     margin-top: 20px;
     padding: 10px 15px;
-    border: 1px solid black;
+    border: 1px solid #8b5cf6;
     text-decoration: none;
     border-radius: 4px;
-    color:black;
+    background-color: #8b5cf6;
+    color: white;
     transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
 }
+
 .back-btn:hover {
-color:black;
+    color: #8b5cf6;
+    background-color: white;
     text-decoration: none;
     transform: scale(1.05);
 }
 
-.product-img {
-    width: 200px;
-    height: 300px;
+
+.product-img img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
     border-radius: 8px;
 }
 
 .cart-button {
     margin-top: 15px;
-    padding: 8.2px;
+    padding: 10px 15px;
     border-radius: 4px;
-    width: 3vw;
+    background-color: #ff4081;
+    color: white;
+    border: none;
     transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
 }
+
 .cart-button:hover {
+    background-color: #ff80b2;
+    color: black;
     transform: scale(1.05);
 }
 
@@ -52,7 +64,10 @@ color:black;
     flex-wrap: wrap;
     justify-content: space-evenly;
     margin-left: 3.2%;
-    gap: 5px;
+    gap: 10px;
+}
+.card-body {
+    padding: 10px;
 }
 
 .recommend-info {
@@ -60,11 +75,12 @@ color:black;
     flex-wrap: wrap;
     width: 20%;
     margin-top: 10px;
-    cursor:pointer;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
-.recommend-info:hover{
-     transform:translateY(-5px);
-            transition: 0.5 ease;
+
+.recommend-info:hover {
+    transform: translateY(-5px);
 }
 .detail-button {
     border: 1px solid green;
@@ -78,7 +94,17 @@ color:black;
     text-decoration: none;
     transform: scale(1.05);
 }
+@media (max-width: 768px) {
+    .recommend-info {
+        width: 48%;
+    }
+}
 
+@media (max-width: 480px) {
+    .recommend-info {
+        width: 100%;
+    }
+}
 </style>
 <body>
 {%include 'heads.html' %}

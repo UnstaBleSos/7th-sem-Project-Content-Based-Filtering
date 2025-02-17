@@ -1,39 +1,50 @@
 
     <style>
-    * {
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    }
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    width: 80vw;
+}
 
-    .body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.2rem;
-        width:80vw;
-    }
+.information {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 150px;
+    max-width: 80%;
+    margin-right: 300px;
+}
 
-    .information {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center; /* Centers items in the row */
-        gap: 150px; /* Adds spacing between items */
-        max-width: 80%; /* Limits the total width of the content */
+.users, .products, .purchases, .spent {
+    border-radius: 8px;
+    padding: 20px;
+    width: 30%;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    background-color: #1e1e2f;
+    color: white;
+    border: 1px solid #8b5cf6;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
 
-        margin-right:300px;
-    }
+.users:hover, .products:hover, .purchases:hover, .spent:hover {
+    transform: translateY(-5px);
+    background-color: #3b82f6;
+}
 
-    .users, .products, .purchases, .spent {
-        border: 1px solid black;
-        border-radius: 8px;
-        padding: 20px; /* Adds spacing inside each card */
-        width: 30%; /* Ensures three items fit in one row */
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
-        background-color: #f9f9f9; /* Light background for better visibility */
-    }
-        .font-info{
-            margin-top:20px;
-        }
+.font-info {
+    margin-top: 20px;
+    font-size: 1.5rem;
+}
+
 </style>
 
 

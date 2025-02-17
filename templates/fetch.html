@@ -6,79 +6,97 @@
     <title>Document</title>
      <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f3ff;
+}
 
-        }
-        .container {
-            margin: 0 auto;
-            display:flex;
+.container {
+    margin: 0 auto;
+    display: flex;
+}
 
-        }
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-<!--            gap: 20px;-->
-        }
-        .product {
-            width: calc(25% - 20px);
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            margin:10px;
-            cursor:pointer;
-        }
-        .product:hover{
-            transform:translateY(-5px);
-            transition: 0.5 ease;
-        }
-        .product img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .product-info {
-            padding: 15px;
-        }
-        .product-info h5 {
-            margin: 0;
-            font-size: 16px;
-        }
-        .product-info p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-        .product-info a {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 12px;
-            border:1px solid green;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-left:20px;
-            color:black;
-             transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
 
-        }
-        .product-info a:hover {
+.product {
+    width: calc(25% - 20px);
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-              transform: scale(1.05);
-            transition:0.7s;
-        }
-           .cart-button{
-            margin-top: 15px;
-            padding: 6.8px;
-            border-radius:4px;
-            width:3vw;
-            margin-left:80px;
-         }
-         .cart-button:hover{
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
 
+.product img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #8b5cf6;
+}
 
-         }
+.product-info {
+    padding: 15px;
+}
+
+.product-info h5 {
+    margin: 0;
+    font-size: 16px;
+    color: #4a0072;
+}
+
+.product-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.product-info a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: 1px solid #8b5cf6;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-left: 20px;
+    color: #8b5cf6;
+    transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease;
+}
+
+.product-info a:hover {
+    background-color: #8b5cf6;
+    color: white;
+    transform: scale(1.05);
+}
+
+.cart-button {
+    margin-top: 15px;
+    padding: 6.8px;
+    border-radius: 4px;
+    width: 3vw;
+    margin-left: 80px;
+    background-color: #ff4081;
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cart-button:hover {
+    background-color: #d81b60;
+    transform: scale(1.1);
+}
+
     </style>
 </head>
 <body>

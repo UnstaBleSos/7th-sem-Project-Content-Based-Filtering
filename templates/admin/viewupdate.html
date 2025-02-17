@@ -5,45 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
     <style>
-        .admin-border{
-        background-color:black;
-        width:90%;
-        margin: 0 auto;
-        height:5px;
-    }
-        .updates{
-            border:1px solid black;
-            border-radius:8px;
-            height:600px;
-            width:400px;
-            display:flex;
-            flex-direction:column;
-            animation: redGlow 2s infinite;
-        }
-        .new-purchases, .new-user{
-            margin:20px;
-        }
-        .purchase-history, .user-history{
-            padding:10px;
-        }
+       .admin-border {
+    background-color: #8b5cf6;
+    width: 90%;
+    margin: 0 auto;
+    height: 5px;
+    border-radius: 2px;
+}
 
-      @keyframes redGlow {
-            0% {
-                box-shadow: 0 0 10px rgba(255, 0, 0, 0.5),
-                            0 0 20px rgba(255, 0, 0, 0.6),
-                            0 0 30px rgba(255, 0, 0, 0.7);
-            }
-            50% {
-                box-shadow: 0 0 20px rgba(255, 0, 0, 0.6),
-                            0 0 30px rgba(255, 0, 0, 0.7),
-                            0 0 40px rgba(255, 0, 0, 0.8);
-            }
-            100% {
-                box-shadow: 0 0 10px rgba(255, 0, 0, 0.5),
-                            0 0 20px rgba(255, 0, 0, 0.6),
-                            0 0 30px rgba(255, 0, 0, 0.7);
-            }
-        }
+.updates {
+    border: 1px solid #8b5cf6;
+    border-radius: 8px;
+    height: 600px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    background-color: #1e1e2f;
+    color: white;
+    animation: purpleGlow 2s infinite;
+    padding: 20px;
+}
+
+.new-purchases, .new-user {
+    margin: 20px;
+}
+
+.purchase-history, .user-history {
+    padding: 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 8px;
+    background-color: #282843;
+    box-shadow: 0 4px 6px rgba(139, 92, 246, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom:5px;
+}
+
+.purchase-history:hover, .user-history:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(139, 92, 246, 0.7);
+}
+
+@keyframes purpleGlow {
+    0% {
+        box-shadow: 0 0 10px rgba(139, 92, 246, 0.5),
+                    0 0 20px rgba(139, 92, 246, 0.6),
+                    0 0 30px rgba(139, 92, 246, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.6),
+                    0 0 30px rgba(139, 92, 246, 0.7),
+                    0 0 40px rgba(139, 92, 246, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(139, 92, 246, 0.5),
+                    0 0 20px rgba(139, 92, 246, 0.6),
+                    0 0 30px rgba(139, 92, 246, 0.7);
+    }
+}
+
     </style>
 </head>
 <body>

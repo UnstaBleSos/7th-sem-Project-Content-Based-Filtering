@@ -1,231 +1,218 @@
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
-    body{
+    body {
         font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
     }
-    *{
-        margin:0;
-        padding:0;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
-    .navbar{
-        border-bottom:1px solid grey;
-        margin-bottom:5vh;
-    }
-     .navbar {
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-         .logo-container {
+
+    .navbar {
+        background-color: #8b5cf6;
+        color: white;
+        padding: 10px 20px;
         display: flex;
         align-items: center;
-        padding: 0.5rem;
+        justify-content: space-between;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     }
-
-    .logo-container img {
-        height: 50px;
-        width: auto;
-    }
-
-    .logo{
-        font-size:1.3rem;
-        color:black;
-        text-decoration:none;
+    .logo-container a {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
 
     }
-    .logo:hover{
-        color:black;
-    }
-    .search-bar{
-        margin-top:5px;
-         font-size:1.2rem;
-         position:relative;
+.logo-container a:hover{
+     text-decoration: none;
+     color:white;
 
-    }
-    .search-bar input{
-        border-radius:5px;
-        padding:5px;
-        width:50vh;
-        margin-right:4px;
-    }
-    .search-bar button{
-        border-radius:5px;
-        padding:5px;
-
-    }
-    .search-bar button:hover{
-
-        transition:0.5s ease;
-
-    }
-   #suggestions {
-    position: absolute;
-    top: 100%;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    max-height: 300px;
-    overflow-y: auto;
-    display: none;
 }
-
-.suggestion-item {
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 1rem;
-    color: #333;
-    transition: background-color 0.2s ease;
-}
-
-.suggestion-item:hover {
-    background-color: #f9f9f9;
-    color: #000;
-}
-
-    .cart {
-        margin-right:1rem;
-
-    }
-    .cart i{
-
-    }
-    .cart i:hover{
-
-        transition:0.4s ease;
-    }
-    .nav-links{
-       width:15%;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-
-
-    }
-    .nav-links a{
-        color:black;
-        font-size:1.2rem;
-    }
-    .user{
-        display:flex;
-        flex-direction:column;
+    .search-bar {
+        display: flex;
         align-items: center;
+        position: relative;
+    }
+    .search-bar input {
+        width: 50vh;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+    .search-bar button {
+        background-color: #ff4081;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .search-bar button:hover {
+        background-color: #d1366d;
+    }
+
+    #suggestions {
+        position: absolute;
+        top: 100%;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        max-height: 300px;
+        overflow-y: auto;
+        display: none;
+        width: 100%;
+    }
+    .suggestion-item {
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 1rem;
+        color: #333;
+        transition: background-color 0.2s ease;
+    }
+    .suggestion-item:hover {
+        background-color: #f9f9f9;
+    }
+
+    .cart, .user {
+        cursor: pointer;
+    }
+    .cart i, .user i {
+        font-size: 1.5rem;
+        color: white;
+        transition: transform 0.3s ease;
+    }
+    .cart i:hover, .user i:hover {
+        transform: scale(1.1);
+    }
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .nav-links a {
+        color: white;
+        font-size: 1rem;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 8px 12px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    .signup {
+        background-color: #ff4081;
+    }
+    .signup:hover {
+        background-color: #d1366d;
+        text-decoration:none;
+        color:white;
+    }
+    .signin {
+        background-color: white;
+        color: #8b5cf6 !important;
+    }
+    .signin:hover {
+        background-color: #e0d7fc;
+         text-decoration:none;
+    }
+    .logout {
+        background-color: white;
+        color: #ff4081 !important;
+        border: 1px solid #ff4081;
+    }
+    .logout:hover {
+        background-color: #d1366d;
+        color: white !important;
+        text-decoration:none;
+    }
+   .user {
+    position: relative;
     text-align: center;
-    gap: 5px;
-    margin-top:15px;
-
-    }
-    .signin{
-
-        margin-left:20px;
-         border-radius:5px;
-            padding:1px;
-        border:1px solid black
-    }
-    .signin:hover{
-
-        transition:0.5s ease;
-    }
-    .signup{
-
-        color:black !important;
-        margin-left:20px;
-         border-radius:5px;
-            padding:2px;
-        border:1px solid black
-    }
-    .signup:hover{
-
-        transition:0.5s ease;
-    }
-    .logout{
-        border-radius:5px;
-         padding:5px;
-        border:1px solid green;
-
-    }
-    .logout:hover{
-
-        transition:0.5s ease;
-    }
+}
+    .user i {
+    font-size: 1.5rem;
+}
+    .user span {
+    position: absolute;
+    top: 68%;
+    left: 45%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    color: black;
+    margin-top: 5px;
+}
 </style>
 
 {% include 'signin.html' %}
 {% include 'signup.html' %}
 
-  <nav class="navbar">
-     <div class="logo-container">
-        <a href="/index" style="text-decoration:none; color:black;font-size:1.2rem;">
-            HamroPasal
-        </a>
+<nav class="navbar">
+    <div class="logo-container">
+        <a href="/index">HamroPasal</a>
     </div>
-        <div class="search-bar">
-            <form action="/search" method="GET" style="display: flex; width: 100%;">
-                <input type="search" name="query" placeholder="Search" aria-label="Search" id="searchBar" oninput="showSuggestions()">
-                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form>
-                <div id="suggestions"></div>
+
+    <div class="search-bar">
+        <form action="/search" method="GET">
+            <input type="search" name="query" placeholder="Search" id="searchBar" oninput="showSuggestions()">
+            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+        <div id="suggestions"></div>
+    </div>
+
+    {% if session.get('logged_in') %}
+    <div class="nav-links">
+        <div class="cart">
+            <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
         </div>
-
-
-               {% if session.get('logged_in') %}
-        <div class="nav-links">
-
-            <div class="cart">
-                    <a href="/cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
-            </div>
-            <div class="user" onclick="directUser()" style="cursor:pointer">
-                 <i class="fa-solid fa-user fa-lg" ></i>
-                <span >
-                    {{ session['username']}}
-                </span>
-
-            </div>
-            <div>
-                     <a class="logout" href="/logout" style="text-decoration:none;">Logout</a>
-            </div>
+        <div class="user" onclick="directUser()">
+            <i class="fa-solid fa-user"></i>
+            <span >{{ session['username'] }}</span>
         </div>
-                {% else %}
-       <div class="nav-links">
-            <div class="cart">
-                    <a href="/cart"><i class="fas fa-shopping-cart fa-lg"></i></a>
-                </div>
-                     <a class="signup "  href="#" data-toggle="modal" data-target="#signupModal" style="text-decoration:none;   color:#FFFFFF;">Sign Up</a>
-                     <a class="signin "  href="#" data-toggle="modal" data-target="#signinModal" style="text-decoration:none">Sign In</a>
+        <a class="logout" href="/logout">Logout</a>
+    </div>
+    {% else %}
+    <div class="nav-links">
+        <div class="cart">
+            <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
         </div>
-                {% endif %}
-    </nav>
-
+        <a class="signup" href="#" data-toggle="modal" data-target="#signupModal">Sign Up</a>
+        <a class="signin" href="#" data-toggle="modal" data-target="#signinModal">Sign In</a>
+    </div>
+    {% endif %}
+</nav>
 
 <script>
 function showSuggestions() {
     var query = document.getElementById('searchBar').value;
-    console.log("Value is: " ,query);
-    if (query.length >= 1) {  // Only show suggestions if query length is greater than or equal to 2
+    console.log("Value is: ", query);
+    if (query.length >= 1) {
         fetch(`/suggestions?query=${query}`)
             .then(response => response.json())
             .then(data => {
                 let suggestionsDiv = document.getElementById('suggestions');
-                suggestionsDiv.innerHTML = '';  // Clear previous suggestions
+                suggestionsDiv.innerHTML = '';
                 if (data.suggestions.length > 0) {
                     data.suggestions.forEach(function(suggestion) {
                         var suggestionElement = document.createElement('div');
                         suggestionElement.textContent = suggestion;
                         suggestionElement.classList.add('suggestion-item');
-
-                        // Add click event to populate search bar with selected suggestion
                         suggestionElement.addEventListener('click', function() {
                             document.getElementById('searchBar').value = suggestion;
-                            suggestionsDiv.innerHTML = '';  // Clear suggestions after selection
-                            suggestionsDiv.style.display = 'none';  // Hide suggestions
+                            suggestionsDiv.innerHTML = '';
+                            suggestionsDiv.style.display = 'none';
                         });
-
                         suggestionsDiv.appendChild(suggestionElement);
                     });
-                    suggestionsDiv.style.display = 'block'; // Show suggestions
+                    suggestionsDiv.style.display = 'block';
                 } else {
-                    suggestionsDiv.style.display = 'none'; // Hide suggestions if no match
+                    suggestionsDiv.style.display = 'none';
                 }
             });
     } else {
@@ -233,9 +220,7 @@ function showSuggestions() {
     }
 }
 
-    function directUser(){
-        
-        window.location.href = 'detail'
-    }
-
+function directUser() {
+    window.location.href = 'detail';
+}
 </script>
