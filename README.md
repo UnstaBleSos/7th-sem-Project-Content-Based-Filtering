@@ -1,6 +1,7 @@
 First Install pycharm community edition as the code editor 
 
 Install and import  all the dependencies : 
+
 import uuid
 from flask import Flask, request, render_template, session, url_for, redirect
 import random
