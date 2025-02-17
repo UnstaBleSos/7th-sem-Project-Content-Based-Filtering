@@ -330,44 +330,6 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
-
-@app.route("/recommendations", methods=['POST','GET'])
-def recommendations():
-    if request.method == 'POST':
-        prod = request.form.get('prod')
-        nbr = int(request.form.get('nbr'))
-        content_based_rec = content_based_recommendations(train_data, prod, top_n=nbr)
-        if prod not in train_data['Name'].values:
-            message = f"No recommendations available for the product '{prod}' as it is not found in the dataset."
-            return render_template('main.html', content_based_rec=pd.DataFrame(), message=message)
-        if content_based_rec.empty:
-            message = "No recommendations available for this product."
-            return render_template('main.html', message=message)
-        else:
-            # Create a list of random image URLs for each recommended product
-            # random_product_image_urls = [random.choice(random_image_urls) for _ in range(len(trending_products))]
-            price = [40, 50, 60, 70, 100, 122, 106, 50, 30, 50]
-
-
-            image_urls = content_based_rec['ImageURL'].tolist()
-
-        return render_template('main.html', content_based_rec=content_based_rec, truncate=truncate,
-                                   random_product_image_urls=image_urls,
-                                   random_price=random.choice(price))
-
-@app.route("/suggestions")
-def suggestions():
-    query = request.args.get("query", "")
-
-    if not query:
-        return {"suggestions": []}
-
-    query = query.lower()
-    # Query the database for products whose names start with the query string
-    matches = Products.query.filter(Products.productname.ilike(f"{query}%")).limit(10).all()
-    suggestions = [product.productname for product in matches]
-    return {"suggestions": suggestions}
-
 @app.route("/search", methods=['GET'])
 def search():
     query = request.args.get('query')
