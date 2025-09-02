@@ -1,5 +1,5 @@
 import uuid
-from flask import Flask, request, render_template, session, url_for, redirect
+from flask import Flask, request, render_template, session, url_for, redirect, jsonify
 import random
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
@@ -329,6 +329,18 @@ def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     return redirect(url_for('index'))
+
+@app.route("/suggestions", methods=["GET"])
+def suggestions():
+    query = request.args.get("query", "").strip()
+    if not query:
+        return jsonify({"suggestions": []})
+    results = Products.query.filter(
+        Products.productname.ilike(f"%{query}%")
+    ).limit(10).all()
+    return jsonify({"suggestions": [product.productname for product in results]})
+
+#comment
 
 @app.route("/search", methods=['GET'])
 def search():
